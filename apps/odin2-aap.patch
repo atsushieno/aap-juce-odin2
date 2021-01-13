@@ -8,44 +8,30 @@ Only in ../../apps/odin2: JuceLibraryCode
 Only in ../../apps/odin2: juce-modules
 Only in ../../apps/odin2: modules
 Only in ../../apps/odin2: Odin2.jucer
-Only in ../../apps/odin2/Source: GitCommitId.h
-diff -ur ./Source/gui/BrowserEntry.cpp ../../apps/odin2/Source/gui/BrowserEntry.cpp
---- ./Source/gui/BrowserEntry.cpp	2021-01-13 18:40:10.925862117 +0900
-+++ ../../apps/odin2/Source/gui/BrowserEntry.cpp	2021-01-14 00:01:16.443337283 +0900
-@@ -1,18 +1,18 @@
--/*
--** Odin 2 Synthesizer Plugin
--** Copyright (C) 2020 TheWaveWarden
--**
--** Odin 2 is free software: you can redistribute it and/or modify
--** it under the terms of the GNU General Public License as published by
--** the Free Software Foundation, either version 3 of the License, or
--** (at your option) any later version.
--**
--** Odin 2 is distributed in the hope that it will be useful,
--** but WITHOUT ANY WARRANTY; without even the implied warranty of
--** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--** GNU General Public License for more details.
--*/
--
-+/*
-+** Odin 2 Synthesizer Plugin
-+** Copyright (C) 2020 TheWaveWarden
-+**
-+** Odin 2 is free software: you can redistribute it and/or modify
-+** it under the terms of the GNU General Public License as published by
-+** the Free Software Foundation, either version 3 of the License, or
-+** (at your option) any later version.
-+**
-+** Odin 2 is distributed in the hope that it will be useful,
-+** but WITHOUT ANY WARRANTY; without even the implied warranty of
-+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+** GNU General Public License for more details.
-+*/
-+
- #include "BrowserEntry.h"
- #include <JuceHeader.h>
+diff -urZ ./Source/audio/Oscillators/Wavetables/Tables/WavetableData.cpp ../../apps/odin2/Source/audio/Oscillators/Wavetables/Tables/WavetableData.cpp
+--- ./Source/audio/Oscillators/Wavetables/Tables/WavetableData.cpp	2021-01-13 18:40:10.913862291 +0900
++++ ../../apps/odin2/Source/audio/Oscillators/Wavetables/Tables/WavetableData.cpp	2021-01-14 02:24:09.900856072 +0900
+@@ -15,6 +15,9 @@
  
+ #include "WavetableData.h"
+ 
++#pragma clang diagnostic push
++#pragma clang diagnostic ignored "-Wimplicit-float-conversion"
++
+ const float wavetable_data[NUMBER_OF_WAVETABLES][SUBTABLES_PER_WAVETABLE][WAVETABLE_LENGTH] = {
+     {{0,          0.0122715,  0.0245412,  0.0368072,  0.0490677,   0.0613207,  0.0735646,  0.0857973,  0.0980171,
+       0.110222,   0.122411,   0.134581,   0.14673,    0.158858,    0.170962,   0.18304,    0.19509,    0.207111,
+@@ -409997,3 +410000,5 @@
+ const float *getOneSubTable(int p_wavetable, int p_subtable) {
+ 	return wavetable_data[p_wavetable][p_subtable];
+ }
+\ No newline at end of file
++
++#pragma clang diagnostic pop
+Only in ../../apps/odin2/Source: GitCommitId.h
+diff -urZ ./Source/gui/BrowserEntry.cpp ../../apps/odin2/Source/gui/BrowserEntry.cpp
+--- ./Source/gui/BrowserEntry.cpp	2021-01-13 18:40:10.925862117 +0900
++++ ../../apps/odin2/Source/gui/BrowserEntry.cpp	2021-01-14 02:06:10.132608067 +0900
 @@ -33,7 +33,7 @@
  	}
  	m_rename_editor.onReturnKey = [&]() {
@@ -55,9 +41,9 @@ diff -ur ./Source/gui/BrowserEntry.cpp ../../apps/odin2/Source/gui/BrowserEntry.
  			    AlertWindow::AlertIconType::WarningIcon, "Empty Name", "Please input a valid name!", "Ok");
  			return;
  		}
-diff -ur ./Source/gui/DrawableSlider.cpp ../../apps/odin2/Source/gui/DrawableSlider.cpp
+diff -urZ ./Source/gui/DrawableSlider.cpp ../../apps/odin2/Source/gui/DrawableSlider.cpp
 --- ./Source/gui/DrawableSlider.cpp	2021-01-13 18:40:10.925862117 +0900
-+++ ../../apps/odin2/Source/gui/DrawableSlider.cpp	2021-01-14 00:01:16.383337423 +0900
++++ ../../apps/odin2/Source/gui/DrawableSlider.cpp	2021-01-14 02:06:10.132608067 +0900
 @@ -68,6 +68,8 @@
  	if (event.mods.isRightButtonDown() && m_midi_learn_possible) {
  		//DBG("RIGHT");
@@ -75,43 +61,9 @@ diff -ur ./Source/gui/DrawableSlider.cpp ../../apps/odin2/Source/gui/DrawableSli
  		return;
  	}
  	Slider::mouseDown(event);
-diff -ur ./Source/gui/Knob.cpp ../../apps/odin2/Source/gui/Knob.cpp
+diff -urZ ./Source/gui/Knob.cpp ../../apps/odin2/Source/gui/Knob.cpp
 --- ./Source/gui/Knob.cpp	2021-01-13 18:40:10.929862060 +0900
-+++ ../../apps/odin2/Source/gui/Knob.cpp	2021-01-14 00:01:45.175275711 +0900
-@@ -1,18 +1,18 @@
--/*
--** Odin 2 Synthesizer Plugin
--** Copyright (C) 2020 TheWaveWarden
--**
--** Odin 2 is free software: you can redistribute it and/or modify
--** it under the terms of the GNU General Public License as published by
--** the Free Software Foundation, either version 3 of the License, or
--** (at your option) any later version.
--**
--** Odin 2 is distributed in the hope that it will be useful,
--** but WITHOUT ANY WARRANTY; without even the implied warranty of
--** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--** GNU General Public License for more details.
--*/
--
-+/*
-+** Odin 2 Synthesizer Plugin
-+** Copyright (C) 2020 TheWaveWarden
-+**
-+** Odin 2 is free software: you can redistribute it and/or modify
-+** it under the terms of the GNU General Public License as published by
-+** the Free Software Foundation, either version 3 of the License, or
-+** (at your option) any later version.
-+**
-+** Odin 2 is distributed in the hope that it will be useful,
-+** but WITHOUT ANY WARRANTY; without even the implied warranty of
-+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+** GNU General Public License for more details.
-+*/
-+
- #include <iomanip> // setprecision
- #include <sstream> // stringstream
- 
++++ ../../apps/odin2/Source/gui/Knob.cpp	2021-01-14 02:06:10.132608067 +0900
 @@ -25,6 +25,8 @@
  	if (event.mods.isRightButtonDown() && m_midi_learn_possible) {
  		//DBG("RIGHT");
@@ -129,9 +81,9 @@ diff -ur ./Source/gui/Knob.cpp ../../apps/odin2/Source/gui/Knob.cpp
  		return;
  	}
  	Slider::mouseDown(event);
-diff -ur ./Source/gui/LeftRightButton.cpp ../../apps/odin2/Source/gui/LeftRightButton.cpp
+diff -urZ ./Source/gui/LeftRightButton.cpp ../../apps/odin2/Source/gui/LeftRightButton.cpp
 --- ./Source/gui/LeftRightButton.cpp	2021-01-13 18:40:10.933862002 +0900
-+++ ../../apps/odin2/Source/gui/LeftRightButton.cpp	2021-01-14 00:02:12.911225786 +0900
++++ ../../apps/odin2/Source/gui/LeftRightButton.cpp	2021-01-14 02:06:10.132608067 +0900
 @@ -60,6 +60,8 @@
  
  		//DBG("RIGHT");
@@ -149,43 +101,9 @@ diff -ur ./Source/gui/LeftRightButton.cpp ../../apps/odin2/Source/gui/LeftRightB
  		return;
  	}
  	juce::Point<int> mouse_position = getMouseXYRelative();
-diff -ur ./Source/gui/NumberSelectorWithText.cpp ../../apps/odin2/Source/gui/NumberSelectorWithText.cpp
+diff -urZ ./Source/gui/NumberSelectorWithText.cpp ../../apps/odin2/Source/gui/NumberSelectorWithText.cpp
 --- ./Source/gui/NumberSelectorWithText.cpp	2021-01-13 18:40:10.937861944 +0900
-+++ ../../apps/odin2/Source/gui/NumberSelectorWithText.cpp	2021-01-14 00:32:36.985744347 +0900
-@@ -1,18 +1,18 @@
--/*
--** Odin 2 Synthesizer Plugin
--** Copyright (C) 2020 TheWaveWarden
--**
--** Odin 2 is free software: you can redistribute it and/or modify
--** it under the terms of the GNU General Public License as published by
--** the Free Software Foundation, either version 3 of the License, or
--** (at your option) any later version.
--**
--** Odin 2 is distributed in the hope that it will be useful,
--** but WITHOUT ANY WARRANTY; without even the implied warranty of
--** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--** GNU General Public License for more details.
--*/
--
-+/*
-+** Odin 2 Synthesizer Plugin
-+** Copyright (C) 2020 TheWaveWarden
-+**
-+** Odin 2 is free software: you can redistribute it and/or modify
-+** it under the terms of the GNU General Public License as published by
-+** the Free Software Foundation, either version 3 of the License, or
-+** (at your option) any later version.
-+**
-+** Odin 2 is distributed in the hope that it will be useful,
-+** but WITHOUT ANY WARRANTY; without even the implied warranty of
-+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+** GNU General Public License for more details.
-+*/
-+
- #include "NumberSelectorWithText.h"
- #include <JuceHeader.h>
- 
++++ ../../apps/odin2/Source/gui/NumberSelectorWithText.cpp	2021-01-14 02:06:10.132608067 +0900
 @@ -49,11 +49,15 @@
  			// b) make ordering inside menu the same as up/down buttons
  			m_dropdown.addItem(9999 - m_legal_values[index], valueToText(m_legal_values[index]));
@@ -207,43 +125,9 @@ diff -ur ./Source/gui/NumberSelectorWithText.cpp ../../apps/odin2/Source/gui/Num
  	};
  
  	addAndMakeVisible(m_display);
-diff -ur ./Source/gui/OdinButton.cpp ../../apps/odin2/Source/gui/OdinButton.cpp
+diff -urZ ./Source/gui/OdinButton.cpp ../../apps/odin2/Source/gui/OdinButton.cpp
 --- ./Source/gui/OdinButton.cpp	2021-01-13 18:40:10.937861944 +0900
-+++ ../../apps/odin2/Source/gui/OdinButton.cpp	2021-01-14 00:19:41.199454781 +0900
-@@ -1,18 +1,18 @@
--/*
--** Odin 2 Synthesizer Plugin
--** Copyright (C) 2020 TheWaveWarden
--**
--** Odin 2 is free software: you can redistribute it and/or modify
--** it under the terms of the GNU General Public License as published by
--** the Free Software Foundation, either version 3 of the License, or
--** (at your option) any later version.
--**
--** Odin 2 is distributed in the hope that it will be useful,
--** but WITHOUT ANY WARRANTY; without even the implied warranty of
--** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--** GNU General Public License for more details.
--*/
--
-+/*
-+** Odin 2 Synthesizer Plugin
-+** Copyright (C) 2020 TheWaveWarden
-+**
-+** Odin 2 is free software: you can redistribute it and/or modify
-+** it under the terms of the GNU General Public License as published by
-+** the Free Software Foundation, either version 3 of the License, or
-+** (at your option) any later version.
-+**
-+** Odin 2 is distributed in the hope that it will be useful,
-+** but WITHOUT ANY WARRANTY; without even the implied warranty of
-+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+** GNU General Public License for more details.
-+*/
-+
- #include "OdinButton.h"
- #include "../PluginProcessor.h"
- 
++++ ../../apps/odin2/Source/gui/OdinButton.cpp	2021-01-14 02:06:10.132608067 +0900
 @@ -21,6 +21,8 @@
  void OdinButton::mouseDown(const MouseEvent &event) {
  	if (event.mods.isRightButtonDown() && m_midi_learn_possible) {
@@ -261,9 +145,9 @@ diff -ur ./Source/gui/OdinButton.cpp ../../apps/odin2/Source/gui/OdinButton.cpp
  		return;
  	}
  	DrawableButton::mouseDown(event);
-diff -ur ./Source/gui/PatchBrowser.cpp ../../apps/odin2/Source/gui/PatchBrowser.cpp
+diff -urZ ./Source/gui/PatchBrowser.cpp ../../apps/odin2/Source/gui/PatchBrowser.cpp
 --- ./Source/gui/PatchBrowser.cpp	2021-01-13 23:20:18.334854101 +0900
-+++ ../../apps/odin2/Source/gui/PatchBrowser.cpp	2021-01-14 00:22:49.904078819 +0900
++++ ../../apps/odin2/Source/gui/PatchBrowser.cpp	2021-01-14 02:06:10.132608067 +0900
 @@ -71,13 +71,13 @@
  		DBG("DELETE directory: " + m_soundbank_selector.getDirectory() + File::getSeparatorString() + p_string);
  		String absolute_path = m_soundbank_selector.getDirectory() + File::getSeparatorString() + p_string;
@@ -464,43 +348,9 @@ diff -ur ./Source/gui/PatchBrowser.cpp ../../apps/odin2/Source/gui/PatchBrowser.
  					        AlertWindow::AlertIconType::WarningIcon,
  					        "Preset already exists!",
  					        "The preset you're trying to import already exists in this category, "
-diff -ur ./Source/gui/PatchBrowserSelector.cpp ../../apps/odin2/Source/gui/PatchBrowserSelector.cpp
+diff -urZ ./Source/gui/PatchBrowserSelector.cpp ../../apps/odin2/Source/gui/PatchBrowserSelector.cpp
 --- ./Source/gui/PatchBrowserSelector.cpp	2021-01-13 18:40:10.941861886 +0900
-+++ ../../apps/odin2/Source/gui/PatchBrowserSelector.cpp	2021-01-14 00:37:27.135876766 +0900
-@@ -1,18 +1,18 @@
--/*
--** Odin 2 Synthesizer Plugin
--** Copyright (C) 2020 TheWaveWarden
--**
--** Odin 2 is free software: you can redistribute it and/or modify
--** it under the terms of the GNU General Public License as published by
--** the Free Software Foundation, either version 3 of the License, or
--** (at your option) any later version.
--**
--** Odin 2 is distributed in the hope that it will be useful,
--** but WITHOUT ANY WARRANTY; without even the implied warranty of
--** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--** GNU General Public License for more details.
--*/
--
-+/*
-+** Odin 2 Synthesizer Plugin
-+** Copyright (C) 2020 TheWaveWarden
-+**
-+** Odin 2 is free software: you can redistribute it and/or modify
-+** it under the terms of the GNU General Public License as published by
-+** the Free Software Foundation, either version 3 of the License, or
-+** (at your option) any later version.
-+**
-+** Odin 2 is distributed in the hope that it will be useful,
-+** but WITHOUT ANY WARRANTY; without even the implied warranty of
-+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+** GNU General Public License for more details.
-+*/
-+
- #include "PatchBrowserSelector.h"
- #include <JuceHeader.h>
- 
++++ ../../apps/odin2/Source/gui/PatchBrowserSelector.cpp	2021-01-14 02:06:10.132608067 +0900
 @@ -118,7 +118,7 @@
  void PatchBrowserSelector::applyInputField() {
  
@@ -543,43 +393,9 @@ diff -ur ./Source/gui/PatchBrowserSelector.cpp ../../apps/odin2/Source/gui/Patch
  				};
  				m_entries[file_index]->applyRenaming = [&](String p_old_name, String p_new_name) {
  					applyRenamingSelector(getDirectory(), p_old_name, p_new_name);
-diff -ur ./Source/gui/SaveLoadComponent.cpp ../../apps/odin2/Source/gui/SaveLoadComponent.cpp
+diff -urZ ./Source/gui/SaveLoadComponent.cpp ../../apps/odin2/Source/gui/SaveLoadComponent.cpp
 --- ./Source/gui/SaveLoadComponent.cpp	2021-01-13 18:40:10.945861828 +0900
-+++ ../../apps/odin2/Source/gui/SaveLoadComponent.cpp	2021-01-14 00:38:37.189225671 +0900
-@@ -1,18 +1,18 @@
--/*
--** Odin 2 Synthesizer Plugin
--** Copyright (C) 2020 TheWaveWarden
--**
--** Odin 2 is free software: you can redistribute it and/or modify
--** it under the terms of the GNU General Public License as published by
--** the Free Software Foundation, either version 3 of the License, or
--** (at your option) any later version.
--**
--** Odin 2 is distributed in the hope that it will be useful,
--** but WITHOUT ANY WARRANTY; without even the implied warranty of
--** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--** GNU General Public License for more details.
--*/
--
-+/*
-+** Odin 2 Synthesizer Plugin
-+** Copyright (C) 2020 TheWaveWarden
-+**
-+** Odin 2 is free software: you can redistribute it and/or modify
-+** it under the terms of the GNU General Public License as published by
-+** the Free Software Foundation, either version 3 of the License, or
-+** (at your option) any later version.
-+**
-+** Odin 2 is distributed in the hope that it will be useful,
-+** but WITHOUT ANY WARRANTY; without even the implied warranty of
-+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+** GNU General Public License for more details.
-+*/
-+
- #include "SaveLoadComponent.h"
- #include "../JuceLibraryCode/BinaryData.h"
- #include "../JuceLibraryCode/JuceHeader.h"
++++ ../../apps/odin2/Source/gui/SaveLoadComponent.cpp	2021-01-14 02:06:10.132608067 +0900
 @@ -171,12 +171,12 @@
  
  				    //check whether file already exists
@@ -657,9 +473,9 @@ diff -ur ./Source/gui/SaveLoadComponent.cpp ../../apps/odin2/Source/gui/SaveLoad
  		    AlertWindow::AlertIconType::WarningIcon,
  		    "Cannot load patch!",
  		    "The bad news: You cannot load this patch, because you are on version " + ODIN_VERSION_STRING +
-diff -ur ./Source/gui/SyncTimeSelector.cpp ../../apps/odin2/Source/gui/SyncTimeSelector.cpp
+diff -urZ ./Source/gui/SyncTimeSelector.cpp ../../apps/odin2/Source/gui/SyncTimeSelector.cpp
 --- ./Source/gui/SyncTimeSelector.cpp	2021-01-13 18:40:10.949861771 +0900
-+++ ../../apps/odin2/Source/gui/SyncTimeSelector.cpp	2021-01-14 00:28:04.590763411 +0900
++++ ../../apps/odin2/Source/gui/SyncTimeSelector.cpp	2021-01-14 02:06:10.132608067 +0900
 @@ -37,7 +37,8 @@
  	m_dropdown.addItem(120, "1 / 32");
  	m_dropdown.addItem(130, "1 / 32T");
@@ -670,9 +486,9 @@ diff -ur ./Source/gui/SyncTimeSelector.cpp ../../apps/odin2/Source/gui/SyncTimeS
  
  	m_dropdown.setLookAndFeel(&m_menu_feels);
  
-diff -ur ./Source/gui/WaveformSelectorComponent.cpp ../../apps/odin2/Source/gui/WaveformSelectorComponent.cpp
+diff -urZ ./Source/gui/WaveformSelectorComponent.cpp ../../apps/odin2/Source/gui/WaveformSelectorComponent.cpp
 --- ./Source/gui/WaveformSelectorComponent.cpp	2021-01-13 18:40:10.949861771 +0900
-+++ ../../apps/odin2/Source/gui/WaveformSelectorComponent.cpp	2021-01-14 00:07:39.219191662 +0900
++++ ../../apps/odin2/Source/gui/WaveformSelectorComponent.cpp	2021-01-14 02:06:10.132608067 +0900
 @@ -36,7 +36,8 @@
  	m_down.setColour(juce::DrawableButton::ColourIds::backgroundOnColourId, juce::Colour());
  	m_down.onClick = [&]() { increment(); };
@@ -683,9 +499,9 @@ diff -ur ./Source/gui/WaveformSelectorComponent.cpp ../../apps/odin2/Source/gui/
  
  	m_buttons_right = p_buttons_right;
  
-diff -ur ./Source/PluginEditor.cpp ../../apps/odin2/Source/PluginEditor.cpp
+diff -urZ ./Source/PluginEditor.cpp ../../apps/odin2/Source/PluginEditor.cpp
 --- ./Source/PluginEditor.cpp	2021-01-13 23:20:18.326853908 +0900
-+++ ../../apps/odin2/Source/PluginEditor.cpp	2021-01-14 00:38:37.133224608 +0900
++++ ../../apps/odin2/Source/PluginEditor.cpp	2021-01-14 02:06:10.132608067 +0900
 @@ -118,13 +118,13 @@
  	m_patch_browser.forceValueTreeLambda = [&]() { forceValueTreeOntoComponents(true); };
  
@@ -756,43 +572,18 @@ diff -ur ./Source/PluginEditor.cpp ../../apps/odin2/Source/PluginEditor.cpp
  	};
  	m_filter3_dropdown.setTooltip("Select the module to\nbe used for filter 3");
  	addAndMakeVisible(m_filter3_dropdown);
-diff -ur ./Source/PluginProcessor.cpp ../../apps/odin2/Source/PluginProcessor.cpp
+diff -urZ ./Source/PluginProcessor.cpp ../../apps/odin2/Source/PluginProcessor.cpp
 --- ./Source/PluginProcessor.cpp	2021-01-13 23:20:18.330854004 +0900
-+++ ../../apps/odin2/Source/PluginProcessor.cpp	2021-01-14 00:38:37.185225595 +0900
-@@ -1,18 +1,18 @@
--/*
--** Odin 2 Synthesizer Plugin
--** Copyright (C) 2020 TheWaveWarden
--**
--** Odin 2 is free software: you can redistribute it and/or modify
--** it under the terms of the GNU General Public License as published by
--** the Free Software Foundation, either version 3 of the License, or
--** (at your option) any later version.
--**
--** Odin 2 is distributed in the hope that it will be useful,
--** but WITHOUT ANY WARRANTY; without even the implied warranty of
--** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--** GNU General Public License for more details.
--*/
--
-+/*
-+** Odin 2 Synthesizer Plugin
-+** Copyright (C) 2020 TheWaveWarden
-+**
-+** Odin 2 is free software: you can redistribute it and/or modify
-+** it under the terms of the GNU General Public License as published by
-+** the Free Software Foundation, either version 3 of the License, or
-+** (at your option) any later version.
-+**
-+** Odin 2 is distributed in the hope that it will be useful,
-+** but WITHOUT ANY WARRANTY; without even the implied warranty of
-+** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+** GNU General Public License for more details.
-+*/
-+
- #include <typeinfo>
++++ ../../apps/odin2/Source/PluginProcessor.cpp	2021-01-14 02:39:31.577172830 +0900
+@@ -339,7 +339,7 @@
+ void OdinAudioProcessor::processBlock(AudioBuffer<float> &buffer, MidiBuffer &midiMessages) {
  
- #include "PluginEditor.h"
+ 	//avoid denormals
+-	denormals::ScopedNoDenormals snd;
++	//denormals::ScopedNoDenormals snd;
+ 
+ 	// get BPM info from host
+ 	if (AudioPlayHead *playhead = getPlayHead()) {
 @@ -855,7 +855,7 @@
  			int patch_migration_version_read =
  			    xmlState->getChildByName("misc")->getIntAttribute("patch_migration_version");
@@ -802,4 +593,23 @@ diff -ur ./Source/PluginProcessor.cpp ../../apps/odin2/Source/PluginProcessor.cp
  				    AlertWindow::AlertIconType::WarningIcon,
  				    "You are trying to load a project which was saved with a newer Version of Odin2. Please go to "
  				    "www.thewavewarden.com and download the newest version to properly use this project!",
+diff -urZ ./Source/ScopedNoDenormals.h ../../apps/odin2/Source/ScopedNoDenormals.h
+--- ./Source/ScopedNoDenormals.h	2021-01-13 18:40:10.209872458 +0900
++++ ../../apps/odin2/Source/ScopedNoDenormals.h	2021-01-14 02:39:31.633174244 +0900
+@@ -13,6 +13,8 @@
+ ** GNU General Public License for more details.
+ */
+ 
++#if false
++
+ #include "xmmintrin.h"
+ 
+ namespace denormals {
+@@ -34,3 +36,5 @@
+ 	int oldMXCSR;
+ };
+ } // namespace denormals
+\ No newline at end of file
++
++#endif
 Only in ../../apps/odin2: .stamp
