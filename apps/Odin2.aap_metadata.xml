@@ -1,470 +1,475 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<plugins>
+<plugins xmlns="urn:org.androidaudioplugin.core" xmlns:pp="urn:org.androidaudioplugin.port">
   <plugin name="Odin2" category="Synth" author="TheWaveWarden" manufacturer="www.thewavewarden.com"
           unique-id="juceaap:4f44494e" library="libjuce_jni.so" entrypoint="GetJuceAAPFactory"
           assets="">
     <ports>
-      <port name="Osc1 Octave" direction="input" minimum="-4.0" maximum="4.0"
+      <port name="Osc1 Octave" direction="input" pp:minimum="-4.0" pp:maximum="4.0"
             content="other"/>
-      <port name="Osc1 Semitones" direction="input" minimum="-7.0" maximum="7.0"
+      <port name="Osc1 Semitones" direction="input" pp:minimum="-7.0" pp:maximum="7.0"
             content="other"/>
-      <port name="Osc1 Finetune" direction="input" minimum="-50.0" maximum="50.0"
+      <port name="Osc1 Finetune" direction="input" pp:minimum="-50.0" pp:maximum="50.0"
             content="other"/>
-      <port name="Osc1 Volume" direction="input" minimum="-60.0" maximum="12.0"
+      <port name="Osc1 Volume" direction="input" pp:minimum="-60.0" pp:maximum="12.0"
             content="other"/>
-      <port name="Osc1 Reset" direction="input" default="0.0" maximum="1.0"
+      <port name="Osc1 Reset" direction="input" pp:default="0.0" pp:maximum="1.0"
             content="other"/>
-      <port name="Osc1 Wavetble Position" direction="input" default="0.0"
-            maximum="1.0" content="other"/>
-      <port name="Osc1 Detune" direction="input" maximum="1.0" content="other"/>
-      <port name="Osc1 Position Modulation" direction="input" minimum="-1.0"
-            maximum="1.0" content="other"/>
-      <port name="Osc1 Multi Position" direction="input" default="0.0" maximum="1.0"
+      <port name="Osc1 Wavetble Position" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Osc1 Detune" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Osc1 Position Modulation" direction="input" pp:minimum="-1.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Osc1 Multi Position" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Osc1 Wavetable Spread" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Osc1 PulseWidth" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Osc1 Drift" direction="input" pp:default="0.0" pp:maximum="1.0"
             content="other"/>
-      <port name="Osc1 Wavetable Spread" direction="input" default="0.0"
-            maximum="1.0" content="other"/>
-      <port name="Osc1 PulseWidth" direction="input" maximum="1.0" content="other"/>
-      <port name="Osc1 Drift" direction="input" default="0.0" maximum="1.0"
+      <port name="Osc1 Vector X" direction="input" pp:default="0.0" pp:maximum="1.0"
             content="other"/>
-      <port name="Osc1 Vector X" direction="input" default="0.0" maximum="1.0"
+      <port name="Osc1 Vector Y" direction="input" pp:default="0.0" pp:maximum="1.0"
             content="other"/>
-      <port name="Osc1 Vector Y" direction="input" default="0.0" maximum="1.0"
+      <port name="Osc1 Arpeggiator Speed" direction="input" pp:minimum="1.0"
+            pp:maximum="100.0" content="other"/>
+      <port name="Osc1 Step1" direction="input" pp:minimum="-12.0" pp:maximum="12.0"
             content="other"/>
-      <port name="Osc1 Arpeggiator Speed" direction="input" minimum="1.0"
-            maximum="100.0" content="other"/>
-      <port name="Osc1 Step1" direction="input" minimum="-12.0" maximum="12.0"
+      <port name="Osc1 Step2" direction="input" pp:minimum="-12.0" pp:maximum="12.0"
             content="other"/>
-      <port name="Osc1 Step2" direction="input" minimum="-12.0" maximum="12.0"
+      <port name="Osc1 Step3" direction="input" pp:minimum="-12.0" pp:maximum="12.0"
             content="other"/>
-      <port name="Osc1 Step3" direction="input" minimum="-12.0" maximum="12.0"
+      <port name="Osc1 Arpeggiator On" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Osc1 Step3 On" direction="input" pp:default="0.0" pp:maximum="1.0"
             content="other"/>
-      <port name="Osc1 Arpeggiator On" direction="input" default="0.0" maximum="1.0"
+      <port name="Osc1 Chipnoise" direction="input" pp:default="0.0" pp:maximum="1.0"
             content="other"/>
-      <port name="Osc1 Step3 On" direction="input" default="0.0" maximum="1.0"
+      <port name="Osc1 Exponential FM" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Osc1 FM/PM amount" direction="input" pp:default="0.0" pp:maximum="1.0"
             content="other"/>
-      <port name="Osc1 Chipnoise" direction="input" default="0.0" maximum="1.0"
+      <port name="Osc1 Noise Lowpass" direction="input" pp:minimum="80.0"
+            pp:maximum="18000.0" content="other"/>
+      <port name="Osc1 Noise Highpass" direction="input" pp:default="0.0"
+            pp:minimum="80.0" pp:maximum="18000.0" content="other"/>
+      <port name="Osc2 Octave" direction="input" pp:minimum="-4.0" pp:maximum="4.0"
             content="other"/>
-      <port name="Osc1 Exponential FM" direction="input" default="0.0" maximum="1.0"
+      <port name="Osc2 Semitones" direction="input" pp:minimum="-7.0" pp:maximum="7.0"
             content="other"/>
-      <port name="Osc1 FM/PM amount" direction="input" default="0.0" maximum="1.0"
+      <port name="Osc2 Finetune" direction="input" pp:minimum="-50.0" pp:maximum="50.0"
             content="other"/>
-      <port name="Osc1 Noise Lowpass" direction="input" minimum="80.0" maximum="18000.0"
+      <port name="Osc2 Volume" direction="input" pp:minimum="-60.0" pp:maximum="12.0"
             content="other"/>
-      <port name="Osc1 Noise Highpass" direction="input" default="0.0" minimum="80.0"
-            maximum="18000.0" content="other"/>
-      <port name="Osc2 Octave" direction="input" minimum="-4.0" maximum="4.0"
+      <port name="Osc2 Reset" direction="input" pp:default="0.0" pp:maximum="1.0"
             content="other"/>
-      <port name="Osc2 Semitones" direction="input" minimum="-7.0" maximum="7.0"
+      <port name="Osc2 Sync" direction="input" pp:default="0.0" pp:maximum="1.0"
             content="other"/>
-      <port name="Osc2 Finetune" direction="input" minimum="-50.0" maximum="50.0"
+      <port name="Osc2 Wavetable Position" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Osc2 Detune" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Osc2 Position Modulation" direction="input" pp:minimum="-1.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Osc2 Multi Position" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Osc2 Wavetable Spread" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Osc2 PulseWidth" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Osc2 Drift" direction="input" pp:default="0.0" pp:maximum="1.0"
             content="other"/>
-      <port name="Osc2 Volume" direction="input" minimum="-60.0" maximum="12.0"
+      <port name="Osc2 Vector X" direction="input" pp:default="0.0" pp:maximum="1.0"
             content="other"/>
-      <port name="Osc2 Reset" direction="input" default="0.0" maximum="1.0"
+      <port name="Osc2 Vector Y" direction="input" pp:default="0.0" pp:maximum="1.0"
             content="other"/>
-      <port name="Osc2 Sync" direction="input" default="0.0" maximum="1.0"
+      <port name="Osc2 Arpeggiator Speed" direction="input" pp:minimum="1.0"
+            pp:maximum="100.0" content="other"/>
+      <port name="Osc2 Step1" direction="input" pp:minimum="-12.0" pp:maximum="12.0"
             content="other"/>
-      <port name="Osc2 Wavetable Position" direction="input" default="0.0"
-            maximum="1.0" content="other"/>
-      <port name="Osc2 Detune" direction="input" maximum="1.0" content="other"/>
-      <port name="Osc2 Position Modulation" direction="input" minimum="-1.0"
-            maximum="1.0" content="other"/>
-      <port name="Osc2 Multi Position" direction="input" default="0.0" maximum="1.0"
+      <port name="Osc2 Step2" direction="input" pp:minimum="-12.0" pp:maximum="12.0"
             content="other"/>
-      <port name="Osc2 Wavetable Spread" direction="input" default="0.0"
-            maximum="1.0" content="other"/>
-      <port name="Osc2 PulseWidth" direction="input" maximum="1.0" content="other"/>
-      <port name="Osc2 Drift" direction="input" default="0.0" maximum="1.0"
+      <port name="Osc2 Step3" direction="input" pp:minimum="-12.0" pp:maximum="12.0"
             content="other"/>
-      <port name="Osc2 Vector X" direction="input" default="0.0" maximum="1.0"
+      <port name="Osc2 Arpeggiator On" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Osc2 Step3 On" direction="input" pp:default="0.0" pp:maximum="1.0"
             content="other"/>
-      <port name="Osc2 Vector Y" direction="input" default="0.0" maximum="1.0"
+      <port name="Osc2 Chipnoise" direction="input" pp:default="0.0" pp:maximum="1.0"
             content="other"/>
-      <port name="Osc2 Arpeggiator Speed" direction="input" minimum="1.0"
-            maximum="100.0" content="other"/>
-      <port name="Osc2 Step1" direction="input" minimum="-12.0" maximum="12.0"
+      <port name="Osc2 Exponential FM" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Osc2 FM/PM amount" direction="input" pp:default="0.0" pp:maximum="1.0"
             content="other"/>
-      <port name="Osc2 Step2" direction="input" minimum="-12.0" maximum="12.0"
+      <port name="Osc2 Noise Lowpass" direction="input" pp:minimum="80.0"
+            pp:maximum="18000.0" content="other"/>
+      <port name="Osc2 Noise Highpass" direction="input" pp:default="0.0"
+            pp:minimum="80.0" pp:maximum="18000.0" content="other"/>
+      <port name="Osc3 Octave" direction="input" pp:minimum="-4.0" pp:maximum="4.0"
             content="other"/>
-      <port name="Osc2 Step3" direction="input" minimum="-12.0" maximum="12.0"
-            content="other"/>
-      <port name="Osc2 Arpeggiator On" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Osc2 Step3 On" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Osc2 Chipnoise" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Osc2 Exponential FM" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Osc2 FM/PM amount" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Osc2 Noise Lowpass" direction="input" minimum="80.0" maximum="18000.0"
-            content="other"/>
-      <port name="Osc2 Noise Highpass" direction="input" default="0.0" minimum="80.0"
-            maximum="18000.0" content="other"/>
-      <port name="Osc3 Octave" direction="input" minimum="-4.0" maximum="4.0"
-            content="other"/>
-      <port name="Osc3 Semitones" direction="input" minimum="-7.0" maximum="7.0"
-            content="other"/>
-      <port name="Osc3 Finetune" direction="input" minimum="-50.0" maximum="50.0"
-            content="other"/>
-      <port name="Osc3 Volume" direction="input" minimum="-60.0" maximum="12.0"
-            content="other"/>
-      <port name="Osc3 Reset" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Osc3 Sync" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Osc3 Wavetable Position" direction="input" default="0.0"
-            maximum="1.0" content="other"/>
-      <port name="Osc3 Detune" direction="input" maximum="1.0" content="other"/>
-      <port name="Osc3 Position Modulation" direction="input" minimum="-1.0"
-            maximum="1.0" content="other"/>
-      <port name="Osc3 Multi Position" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Osc3 Wavetable Spread" direction="input" default="0.0"
-            maximum="1.0" content="other"/>
-      <port name="Osc3 PulseWidth" direction="input" maximum="1.0" content="other"/>
-      <port name="Osc3 Drift" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Osc3 Vector X" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Osc3 Vector Y" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Osc3 Arpeggiator Speed" direction="input" minimum="1.0"
-            maximum="100.0" content="other"/>
-      <port name="Osc3 Step1" direction="input" minimum="-12.0" maximum="12.0"
-            content="other"/>
-      <port name="Osc3 Step2" direction="input" minimum="-12.0" maximum="12.0"
-            content="other"/>
-      <port name="Osc3 Step3" direction="input" minimum="-12.0" maximum="12.0"
-            content="other"/>
-      <port name="Osc3 Arpeggiator On" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Osc3 Step3 On" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Osc3 Chipnoise" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Osc3 Exponential FM" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Osc3 FM/PM amount" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Osc3 Noise Lowpass" direction="input" minimum="80.0" maximum="18000.0"
-            content="other"/>
-      <port name="Osc3 Noise Highpass" direction="input" default="0.0" minimum="80.0"
-            maximum="18000.0" content="other"/>
-      <port name="Filter1 Osc1 Input" direction="input" maximum="1.0" content="other"/>
-      <port name="Filter1 Osc2 Input" direction="input" maximum="1.0" content="other"/>
-      <port name="Filter1 Osc3 Input" direction="input" maximum="1.0" content="other"/>
-      <port name="Filter1 Velocity Amount" direction="input" default="0.0"
-            maximum="1.0" content="other"/>
-      <port name="Filter1 Envelope Amount" direction="input" minimum="-1.0"
-            maximum="1.0" content="other"/>
-      <port name="Filter1 Keyboard Follow" direction="input" default="0.0"
-            maximum="1.0" content="other"/>
-      <port name="Filter1 Gain" direction="input" minimum="-60.0" maximum="12.0"
-            content="other"/>
-      <port name="Filter1 Frequency" direction="input" minimum="20.0" maximum="20000.0"
-            content="other"/>
-      <port name="Filter1 Resonance" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Filter1 Saturation" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Filter1 SEM Transition" direction="input" default="0.0"
-            minimum="-1.0" maximum="1.0" content="other"/>
-      <port name="Filter1 Formant Transition" direction="input" default="0.0"
-            maximum="1.0" content="other"/>
-      <port name="Filter1 RingMod Amount" direction="input" maximum="1.0"
-            content="other"/>
-      <port name="Filter2 Osc1 Input" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Filter2 Osc2 Input" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Filter2 Osc3 Input" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Filter2 Filter1 Input" direction="input" maximum="1.0"
-            content="other"/>
-      <port name="Filter2 Velocity Amount" direction="input" default="0.0"
-            maximum="1.0" content="other"/>
-      <port name="Filter2 Envelope Amount" direction="input" minimum="-1.0"
-            maximum="1.0" content="other"/>
-      <port name="Filter2 Keyboard Follow" direction="input" default="0.0"
-            maximum="1.0" content="other"/>
-      <port name="Filter2 Gain" direction="input" minimum="-60.0" maximum="12.0"
-            content="other"/>
-      <port name="Filter2 Frequency" direction="input" minimum="20.0" maximum="20000.0"
-            content="other"/>
-      <port name="Filter2 Resonance" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Filter2 Saturation" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Filter2 SEM Transition" direction="input" default="0.0"
-            minimum="-1.0" maximum="1.0" content="other"/>
-      <port name="Filter2 Formant Transition" direction="input" default="0.0"
-            maximum="1.0" content="other"/>
-      <port name="Filter2 RingMod Amount" direction="input" maximum="1.0"
-            content="other"/>
-      <port name="Filter3 Velocity Amount" direction="input" default="0.0"
-            maximum="1.0" content="other"/>
-      <port name="Filter3 Envelope Amount" direction="input" minimum="-1.0"
-            maximum="1.0" content="other"/>
-      <port name="Filter3 Keyboard Follow" direction="input" default="0.0"
-            maximum="1.0" content="other"/>
-      <port name="Filter3 Gain" direction="input" minimum="-60.0" maximum="12.0"
-            content="other"/>
-      <port name="Filter3 Frequency" direction="input" minimum="20.0" maximum="20000.0"
-            content="other"/>
-      <port name="Filter3 Resonance" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Filter3 Saturation" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Filter3 SEM Transition" direction="input" default="0.0"
-            minimum="-1.0" maximum="1.0" content="other"/>
-      <port name="Filter3 Formant Transition" direction="input" default="0.0"
-            maximum="1.0" content="other"/>
-      <port name="Filter3 RingMod Amount" direction="input" maximum="1.0"
-            content="other"/>
-      <port name="Amplifier Velocity" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Amplifier Panorama" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Amplifier Gain" direction="input" minimum="-30.0" maximum="12.0"
-            content="other"/>
-      <port name="Distortion Boost" direction="input" maximum="1.0" content="other"/>
-      <port name="Distortion DryWet" direction="input" maximum="1.0" content="other"/>
-      <port name="AmpEnv Attack" direction="input" minimum="0.001000000047497451"
-            maximum="10.0" content="other"/>
-      <port name="AmpEnv Decay" direction="input" minimum="0.001000000047497451"
-            maximum="10.0" content="other"/>
-      <port name="AmpEnv Sustain" direction="input" maximum="1.0" content="other"/>
-      <port name="AmpEnv Release" direction="input" minimum="0.001000000047497451"
-            maximum="10.0" content="other"/>
-      <port name="AmpEnv Loop" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="FilterEnv Attack" direction="input" minimum="0.001000000047497451"
-            maximum="10.0" content="other"/>
-      <port name="FilterEnv Decay" direction="input" minimum="0.001000000047497451"
-            maximum="10.0" content="other"/>
-      <port name="FilterEnv Sustain" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="FilterEnv Release" direction="input" minimum="0.001000000047497451"
-            maximum="10.0" content="other"/>
-      <port name="FilterEnv Loop" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="ModEnv Attack" direction="input" minimum="0.001000000047497451"
-            maximum="10.0" content="other"/>
-      <port name="ModEnv Decay" direction="input" minimum="0.001000000047497451"
-            maximum="10.0" content="other"/>
-      <port name="ModEnv Sustain" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="ModEnv Release" direction="input" minimum="0.001000000047497451"
-            maximum="10.0" content="other"/>
-      <port name="ModEnv Loop" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="GlobalEnv Attack" direction="input" minimum="0.001000000047497451"
-            maximum="10.0" content="other"/>
-      <port name="GlobalEnv Decay" direction="input" minimum="0.001000000047497451"
-            maximum="10.0" content="other"/>
-      <port name="GlobalEnv Sustain" direction="input" maximum="1.0" content="other"/>
-      <port name="GlobalEnv Release" direction="input" minimum="0.001000000047497451"
-            maximum="10.0" content="other"/>
-      <port name="GlobalEnv Loop" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="LFO1 Reset" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="LFO1 Frequency" direction="input" minimum="0.05000000074505806"
-            maximum="100.0" content="other"/>
-      <port name="LFO2 Reset" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="LFO2 Frequency" direction="input" minimum="0.05000000074505806"
-            maximum="100.0" content="other"/>
-      <port name="LFO3 Reset" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="LFO3 Frequency" direction="input" minimum="0.05000000074505806"
-            maximum="100.0" content="other"/>
-      <port name="LFO4 Reset" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="LFO4 Frequency" direction="input" minimum="0.05000000074505806"
-            maximum="100.0" content="other"/>
-      <port name="Filter1 To Amplifier" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Filter2 To Amplifier" direction="input" maximum="1.0" content="other"/>
-      <port name="Glide" direction="input" default="0.0" maximum="1.0" content="other"/>
-      <port name="Master" direction="input" minimum="-30.0" maximum="12.0"
-            content="other"/>
-      <port name="Modwheel" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Pitchbend" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="XY Pad X" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="XY Pad Y" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Delay PingPong" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Delay Time" direction="input" minimum="0.009999999776482582"
-            maximum="3.0" content="other"/>
-      <port name="Delay Feedback" direction="input" maximum="1.0" content="other"/>
-      <port name="Delay Highpass Frequency" direction="input" default="0.0"
-            minimum="80.0" maximum="18000.0" content="other"/>
-      <port name="Delay Ducking" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Delay Dry" direction="input" maximum="1.0" content="other"/>
-      <port name="Delay Wet" direction="input" maximum="1.0" content="other"/>
-      <port name="Delay On" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Phaser Reset" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Phaser On" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Phaser Frequency" direction="input" minimum="40.0" maximum="8000.0"
-            content="other"/>
-      <port name="Phaser Feedback" direction="input" maximum="1.0" content="other"/>
-      <port name="Phaser Rate" direction="input" minimum="0.05000000074505806"
-            maximum="20.0" content="other"/>
-      <port name="Phaser Amount" direction="input" maximum="1.0" content="other"/>
-      <port name="Phaser DryWet" direction="input" maximum="1.0" content="other"/>
-      <port name="Flanger Reset" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Flanger On" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Flanger Rate" direction="input" minimum="0.05000000074505806"
-            maximum="20.0" content="other"/>
-      <port name="Flanger Feedback" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Flanger Amount" direction="input" maximum="1.0" content="other"/>
-      <port name="Flanger DryWet" direction="input" maximum="1.0" content="other"/>
-      <port name="Chorus Reset" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Chorus On" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Chorus Rate" direction="input" minimum="0.05000000074505806"
-            maximum="20.0" content="other"/>
-      <port name="Chorus Amount" direction="input" maximum="1.0" content="other"/>
-      <port name="Chorus Feedback" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Chorus DryWet" direction="input" maximum="1.0" content="other"/>
-      <port name="Unison Detune" direction="input" maximum="0.6000000238418579"
-            content="other"/>
-      <port name="Unison Width" direction="input" maximum="1.0" content="other"/>
-      <port name="Arp Step 1 On" direction="input" maximum="1.0" content="other"/>
-      <port name="Arp Step 2 On" direction="input" maximum="1.0" content="other"/>
-      <port name="Arp Step 3 On" direction="input" maximum="1.0" content="other"/>
-      <port name="Arp Step 4 On" direction="input" maximum="1.0" content="other"/>
-      <port name="Arp Step 5 On" direction="input" maximum="1.0" content="other"/>
-      <port name="Arp Step 6 On" direction="input" maximum="1.0" content="other"/>
-      <port name="Arp Step 7 On" direction="input" maximum="1.0" content="other"/>
-      <port name="Arp Step 8 On" direction="input" maximum="1.0" content="other"/>
-      <port name="Arp Step 9 On" direction="input" maximum="1.0" content="other"/>
-      <port name="Arp Step 10 On" direction="input" maximum="1.0" content="other"/>
-      <port name="Arp Step 11 On" direction="input" maximum="1.0" content="other"/>
-      <port name="Arp Step 12 On" direction="input" maximum="1.0" content="other"/>
-      <port name="Arp Step 13 On" direction="input" maximum="1.0" content="other"/>
-      <port name="Arp Step 14 On" direction="input" maximum="1.0" content="other"/>
-      <port name="Arp Step 15 On" direction="input" maximum="1.0" content="other"/>
-      <port name="Arp Step 16 On" direction="input" maximum="1.0" content="other"/>
-      <port name="Arp Step 1 Mod 1" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 2 Mod 1" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 3 Mod 1" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 4 Mod 1" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 5 Mod 1" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 6 Mod 1" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 7 Mod 1" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 8 Mod 1" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 9 Mod 1" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 10 Mod 1" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 11 Mod 1" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 12 Mod 1" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 13 Mod 1" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 14 Mod 1" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 15 Mod 1" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 16 Mod 1" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 1 Mod 2" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 2 Mod 2" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 3 Mod 2" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 4 Mod 2" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 5 Mod 2" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 6 Mod 2" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 7 Mod 2" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 8 Mod 2" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 9 Mod 2" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 10 Mod 2" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 11 Mod 2" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 12 Mod 2" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 13 Mod 2" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 14 Mod 2" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 15 Mod 2" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 16 Mod 2" direction="input" minimum="-1.0" maximum="1.0"
-            content="other"/>
-      <port name="Arp Step 1 Transpose" direction="input" minimum="-24.0"
-            maximum="24.0" content="other"/>
-      <port name="Arp Step 2 Transpose" direction="input" minimum="-24.0"
-            maximum="24.0" content="other"/>
-      <port name="Arp Step 3 Transpose" direction="input" minimum="-24.0"
-            maximum="24.0" content="other"/>
-      <port name="Arp Step 4 Transpose" direction="input" minimum="-24.0"
-            maximum="24.0" content="other"/>
-      <port name="Arp Step 5 Transpose" direction="input" minimum="-24.0"
-            maximum="24.0" content="other"/>
-      <port name="Arp Step 6 Transpose" direction="input" minimum="-24.0"
-            maximum="24.0" content="other"/>
-      <port name="Arp Step 7 Transpose" direction="input" minimum="-24.0"
-            maximum="24.0" content="other"/>
-      <port name="Arp Step 8 Transpose" direction="input" minimum="-24.0"
-            maximum="24.0" content="other"/>
-      <port name="Arp Step 9 Transpose" direction="input" minimum="-24.0"
-            maximum="24.0" content="other"/>
-      <port name="Arp Step 10 Transpose" direction="input" minimum="-24.0"
-            maximum="24.0" content="other"/>
-      <port name="Arp Step 11 Transpose" direction="input" minimum="-24.0"
-            maximum="24.0" content="other"/>
-      <port name="Arp Step 12 Transpose" direction="input" minimum="-24.0"
-            maximum="24.0" content="other"/>
-      <port name="Arp Step 13 Transpose" direction="input" minimum="-24.0"
-            maximum="24.0" content="other"/>
-      <port name="Arp Step 14 Transpose" direction="input" minimum="-24.0"
-            maximum="24.0" content="other"/>
-      <port name="Arp Step 15 Transpose" direction="input" minimum="-24.0"
-            maximum="24.0" content="other"/>
-      <port name="Arp Step 16 Transpose" direction="input" minimum="-24.0"
-            maximum="24.0" content="other"/>
-      <port name="Arp Mod Transpose" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Arpeggiator On" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
-      <port name="Arpeggiator OneShot" direction="input" default="0.0" maximum="1.0"
-            content="other"/>
+      <port name="Osc3 Semitones" direction="input" pp:minimum="-7.0" pp:maximum="7.0"
+            content="other"/>
+      <port name="Osc3 Finetune" direction="input" pp:minimum="-50.0" pp:maximum="50.0"
+            content="other"/>
+      <port name="Osc3 Volume" direction="input" pp:minimum="-60.0" pp:maximum="12.0"
+            content="other"/>
+      <port name="Osc3 Reset" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Osc3 Sync" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Osc3 Wavetable Position" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Osc3 Detune" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Osc3 Position Modulation" direction="input" pp:minimum="-1.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Osc3 Multi Position" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Osc3 Wavetable Spread" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Osc3 PulseWidth" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Osc3 Drift" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Osc3 Vector X" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Osc3 Vector Y" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Osc3 Arpeggiator Speed" direction="input" pp:minimum="1.0"
+            pp:maximum="100.0" content="other"/>
+      <port name="Osc3 Step1" direction="input" pp:minimum="-12.0" pp:maximum="12.0"
+            content="other"/>
+      <port name="Osc3 Step2" direction="input" pp:minimum="-12.0" pp:maximum="12.0"
+            content="other"/>
+      <port name="Osc3 Step3" direction="input" pp:minimum="-12.0" pp:maximum="12.0"
+            content="other"/>
+      <port name="Osc3 Arpeggiator On" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Osc3 Step3 On" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Osc3 Chipnoise" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Osc3 Exponential FM" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Osc3 FM/PM amount" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Osc3 Noise Lowpass" direction="input" pp:minimum="80.0"
+            pp:maximum="18000.0" content="other"/>
+      <port name="Osc3 Noise Highpass" direction="input" pp:default="0.0"
+            pp:minimum="80.0" pp:maximum="18000.0" content="other"/>
+      <port name="Filter1 Osc1 Input" direction="input" pp:maximum="1.0"
+            content="other"/>
+      <port name="Filter1 Osc2 Input" direction="input" pp:maximum="1.0"
+            content="other"/>
+      <port name="Filter1 Osc3 Input" direction="input" pp:maximum="1.0"
+            content="other"/>
+      <port name="Filter1 Velocity Amount" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Filter1 Envelope Amount" direction="input" pp:minimum="-1.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Filter1 Keyboard Follow" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Filter1 Gain" direction="input" pp:minimum="-60.0" pp:maximum="12.0"
+            content="other"/>
+      <port name="Filter1 Frequency" direction="input" pp:minimum="20.0"
+            pp:maximum="20000.0" content="other"/>
+      <port name="Filter1 Resonance" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Filter1 Saturation" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Filter1 SEM Transition" direction="input" pp:default="0.0"
+            pp:minimum="-1.0" pp:maximum="1.0" content="other"/>
+      <port name="Filter1 Formant Transition" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Filter1 RingMod Amount" direction="input" pp:maximum="1.0"
+            content="other"/>
+      <port name="Filter2 Osc1 Input" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Filter2 Osc2 Input" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Filter2 Osc3 Input" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Filter2 Filter1 Input" direction="input" pp:maximum="1.0"
+            content="other"/>
+      <port name="Filter2 Velocity Amount" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Filter2 Envelope Amount" direction="input" pp:minimum="-1.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Filter2 Keyboard Follow" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Filter2 Gain" direction="input" pp:minimum="-60.0" pp:maximum="12.0"
+            content="other"/>
+      <port name="Filter2 Frequency" direction="input" pp:minimum="20.0"
+            pp:maximum="20000.0" content="other"/>
+      <port name="Filter2 Resonance" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Filter2 Saturation" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Filter2 SEM Transition" direction="input" pp:default="0.0"
+            pp:minimum="-1.0" pp:maximum="1.0" content="other"/>
+      <port name="Filter2 Formant Transition" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Filter2 RingMod Amount" direction="input" pp:maximum="1.0"
+            content="other"/>
+      <port name="Filter3 Velocity Amount" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Filter3 Envelope Amount" direction="input" pp:minimum="-1.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Filter3 Keyboard Follow" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Filter3 Gain" direction="input" pp:minimum="-60.0" pp:maximum="12.0"
+            content="other"/>
+      <port name="Filter3 Frequency" direction="input" pp:minimum="20.0"
+            pp:maximum="20000.0" content="other"/>
+      <port name="Filter3 Resonance" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Filter3 Saturation" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Filter3 SEM Transition" direction="input" pp:default="0.0"
+            pp:minimum="-1.0" pp:maximum="1.0" content="other"/>
+      <port name="Filter3 Formant Transition" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Filter3 RingMod Amount" direction="input" pp:maximum="1.0"
+            content="other"/>
+      <port name="Amplifier Velocity" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Amplifier Panorama" direction="input" pp:minimum="-1.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Amplifier Gain" direction="input" pp:minimum="-30.0" pp:maximum="12.0"
+            content="other"/>
+      <port name="Distortion Boost" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Distortion DryWet" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="AmpEnv Attack" direction="input" pp:minimum="0.001000000047497451"
+            pp:maximum="10.0" content="other"/>
+      <port name="AmpEnv Decay" direction="input" pp:minimum="0.001000000047497451"
+            pp:maximum="10.0" content="other"/>
+      <port name="AmpEnv Sustain" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="AmpEnv Release" direction="input" pp:minimum="0.001000000047497451"
+            pp:maximum="10.0" content="other"/>
+      <port name="AmpEnv Loop" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="FilterEnv Attack" direction="input" pp:minimum="0.001000000047497451"
+            pp:maximum="10.0" content="other"/>
+      <port name="FilterEnv Decay" direction="input" pp:minimum="0.001000000047497451"
+            pp:maximum="10.0" content="other"/>
+      <port name="FilterEnv Sustain" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="FilterEnv Release" direction="input" pp:minimum="0.001000000047497451"
+            pp:maximum="10.0" content="other"/>
+      <port name="FilterEnv Loop" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="ModEnv Attack" direction="input" pp:minimum="0.001000000047497451"
+            pp:maximum="10.0" content="other"/>
+      <port name="ModEnv Decay" direction="input" pp:minimum="0.001000000047497451"
+            pp:maximum="10.0" content="other"/>
+      <port name="ModEnv Sustain" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="ModEnv Release" direction="input" pp:minimum="0.001000000047497451"
+            pp:maximum="10.0" content="other"/>
+      <port name="ModEnv Loop" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="GlobalEnv Attack" direction="input" pp:minimum="0.001000000047497451"
+            pp:maximum="10.0" content="other"/>
+      <port name="GlobalEnv Decay" direction="input" pp:minimum="0.001000000047497451"
+            pp:maximum="10.0" content="other"/>
+      <port name="GlobalEnv Sustain" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="GlobalEnv Release" direction="input" pp:minimum="0.001000000047497451"
+            pp:maximum="10.0" content="other"/>
+      <port name="GlobalEnv Loop" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="LFO1 Reset" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="LFO1 Frequency" direction="input" pp:minimum="0.05000000074505806"
+            pp:maximum="100.0" content="other"/>
+      <port name="LFO2 Reset" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="LFO2 Frequency" direction="input" pp:minimum="0.05000000074505806"
+            pp:maximum="100.0" content="other"/>
+      <port name="LFO3 Reset" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="LFO3 Frequency" direction="input" pp:minimum="0.05000000074505806"
+            pp:maximum="100.0" content="other"/>
+      <port name="LFO4 Reset" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="LFO4 Frequency" direction="input" pp:minimum="0.05000000074505806"
+            pp:maximum="100.0" content="other"/>
+      <port name="Filter1 To Amplifier" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Filter2 To Amplifier" direction="input" pp:maximum="1.0"
+            content="other"/>
+      <port name="Glide" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Master" direction="input" pp:minimum="-30.0" pp:maximum="12.0"
+            content="other"/>
+      <port name="Modwheel" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Pitchbend" direction="input" pp:minimum="-1.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="XY Pad X" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="XY Pad Y" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Delay PingPong" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Delay Time" direction="input" pp:minimum="0.009999999776482582"
+            pp:maximum="3.0" content="other"/>
+      <port name="Delay Feedback" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Delay Highpass Frequency" direction="input" pp:default="0.0"
+            pp:minimum="80.0" pp:maximum="18000.0" content="other"/>
+      <port name="Delay Ducking" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Delay Dry" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Delay Wet" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Delay On" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Phaser Reset" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Phaser On" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Phaser Frequency" direction="input" pp:minimum="40.0" pp:maximum="8000.0"
+            content="other"/>
+      <port name="Phaser Feedback" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Phaser Rate" direction="input" pp:minimum="0.05000000074505806"
+            pp:maximum="20.0" content="other"/>
+      <port name="Phaser Amount" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Phaser DryWet" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Flanger Reset" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Flanger On" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Flanger Rate" direction="input" pp:minimum="0.05000000074505806"
+            pp:maximum="20.0" content="other"/>
+      <port name="Flanger Feedback" direction="input" pp:minimum="-1.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Flanger Amount" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Flanger DryWet" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Chorus Reset" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Chorus On" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Chorus Rate" direction="input" pp:minimum="0.05000000074505806"
+            pp:maximum="20.0" content="other"/>
+      <port name="Chorus Amount" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Chorus Feedback" direction="input" pp:minimum="-1.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Chorus DryWet" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Unison Detune" direction="input" pp:maximum="0.6000000238418579"
+            content="other"/>
+      <port name="Unison Width" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 1 On" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 2 On" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 3 On" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 4 On" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 5 On" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 6 On" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 7 On" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 8 On" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 9 On" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 10 On" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 11 On" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 12 On" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 13 On" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 14 On" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 15 On" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 16 On" direction="input" pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 1 Mod 1" direction="input" pp:minimum="-1.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Arp Step 2 Mod 1" direction="input" pp:minimum="-1.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Arp Step 3 Mod 1" direction="input" pp:minimum="-1.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Arp Step 4 Mod 1" direction="input" pp:minimum="-1.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Arp Step 5 Mod 1" direction="input" pp:minimum="-1.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Arp Step 6 Mod 1" direction="input" pp:minimum="-1.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Arp Step 7 Mod 1" direction="input" pp:minimum="-1.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Arp Step 8 Mod 1" direction="input" pp:minimum="-1.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Arp Step 9 Mod 1" direction="input" pp:minimum="-1.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Arp Step 10 Mod 1" direction="input" pp:minimum="-1.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 11 Mod 1" direction="input" pp:minimum="-1.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 12 Mod 1" direction="input" pp:minimum="-1.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 13 Mod 1" direction="input" pp:minimum="-1.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 14 Mod 1" direction="input" pp:minimum="-1.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 15 Mod 1" direction="input" pp:minimum="-1.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 16 Mod 1" direction="input" pp:minimum="-1.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 1 Mod 2" direction="input" pp:minimum="-1.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Arp Step 2 Mod 2" direction="input" pp:minimum="-1.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Arp Step 3 Mod 2" direction="input" pp:minimum="-1.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Arp Step 4 Mod 2" direction="input" pp:minimum="-1.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Arp Step 5 Mod 2" direction="input" pp:minimum="-1.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Arp Step 6 Mod 2" direction="input" pp:minimum="-1.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Arp Step 7 Mod 2" direction="input" pp:minimum="-1.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Arp Step 8 Mod 2" direction="input" pp:minimum="-1.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Arp Step 9 Mod 2" direction="input" pp:minimum="-1.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Arp Step 10 Mod 2" direction="input" pp:minimum="-1.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 11 Mod 2" direction="input" pp:minimum="-1.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 12 Mod 2" direction="input" pp:minimum="-1.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 13 Mod 2" direction="input" pp:minimum="-1.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 14 Mod 2" direction="input" pp:minimum="-1.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 15 Mod 2" direction="input" pp:minimum="-1.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 16 Mod 2" direction="input" pp:minimum="-1.0"
+            pp:maximum="1.0" content="other"/>
+      <port name="Arp Step 1 Transpose" direction="input" pp:minimum="-24.0"
+            pp:maximum="24.0" content="other"/>
+      <port name="Arp Step 2 Transpose" direction="input" pp:minimum="-24.0"
+            pp:maximum="24.0" content="other"/>
+      <port name="Arp Step 3 Transpose" direction="input" pp:minimum="-24.0"
+            pp:maximum="24.0" content="other"/>
+      <port name="Arp Step 4 Transpose" direction="input" pp:minimum="-24.0"
+            pp:maximum="24.0" content="other"/>
+      <port name="Arp Step 5 Transpose" direction="input" pp:minimum="-24.0"
+            pp:maximum="24.0" content="other"/>
+      <port name="Arp Step 6 Transpose" direction="input" pp:minimum="-24.0"
+            pp:maximum="24.0" content="other"/>
+      <port name="Arp Step 7 Transpose" direction="input" pp:minimum="-24.0"
+            pp:maximum="24.0" content="other"/>
+      <port name="Arp Step 8 Transpose" direction="input" pp:minimum="-24.0"
+            pp:maximum="24.0" content="other"/>
+      <port name="Arp Step 9 Transpose" direction="input" pp:minimum="-24.0"
+            pp:maximum="24.0" content="other"/>
+      <port name="Arp Step 10 Transpose" direction="input" pp:minimum="-24.0"
+            pp:maximum="24.0" content="other"/>
+      <port name="Arp Step 11 Transpose" direction="input" pp:minimum="-24.0"
+            pp:maximum="24.0" content="other"/>
+      <port name="Arp Step 12 Transpose" direction="input" pp:minimum="-24.0"
+            pp:maximum="24.0" content="other"/>
+      <port name="Arp Step 13 Transpose" direction="input" pp:minimum="-24.0"
+            pp:maximum="24.0" content="other"/>
+      <port name="Arp Step 14 Transpose" direction="input" pp:minimum="-24.0"
+            pp:maximum="24.0" content="other"/>
+      <port name="Arp Step 15 Transpose" direction="input" pp:minimum="-24.0"
+            pp:maximum="24.0" content="other"/>
+      <port name="Arp Step 16 Transpose" direction="input" pp:minimum="-24.0"
+            pp:maximum="24.0" content="other"/>
+      <port name="Arp Mod Transpose" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Arpeggiator On" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Arpeggiator OneShot" direction="input" pp:default="0.0"
+            pp:maximum="1.0" content="other"/>
       <port direction="output" content="audio" name="Left"/>
       <port direction="output" content="audio" name="Right"/>
       <port direction="input" content="midi" name="MIDI input"/>
