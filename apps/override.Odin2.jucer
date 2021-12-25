@@ -1813,7 +1813,7 @@
     <ANDROIDSTUDIO targetFolder="Builds/Android"
                    extraCompilerFlags="-Wno-implicit-float-conversion"
                    androidMinimumSDK="29" androidTargetSDK="31"
-                   androidDependencies="implementation 'org.androidaudioplugin:androidaudioplugin:0.6.18'&#10;implementation 'org.androidaudioplugin:androidaudioplugin-midi-device-service:0.6.18'&#10;implementation &quot;org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.10&quot;&#10;"
+                   androidDependencies="implementation 'org.androidaudioplugin:androidaudioplugin:0.6.21'&#10;implementation 'org.androidaudioplugin:androidaudioplugin-midi-device-service:0.6.21'&#10;implementation &quot;org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.31&quot;&#10;"
                    gradleVersion="6.8" gradleWrapperVersion="7.0.0-alpha04">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1"  defines="ODIN_LINUX&#10;ODIN_DEBUG"
