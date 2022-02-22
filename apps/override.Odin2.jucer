@@ -1783,11 +1783,11 @@
     <LINUX_MAKE targetFolder="Builds/LinuxMakefile" extraCompilerFlags="-msse2 -Wno-implicit-float-conversion">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" defines="ODIN_LINUX&#10;JUCE_JACK_CLIENT_NAME=JucePlugin_Name&#10;ODIN_DEBUG"
-            headerPath="../../android-audio-plugin-framework/native/plugin-api/include;../../android-audio-plugin-framework/native/androidaudioplugin/core/include"
+            headerPath="../../android-audio-plugin-framework/include"
             libraryPath="/usr/X11R6/lib/;../../android-audio-plugin-framework/build/native/androidaudioplugin"
                        linuxArchitecture="-m64"/>
         <CONFIGURATION name="Release" defines="ODIN_LINUX&#10;JUCE_JACK_CLIENT_NAME=JucePlugin_Name&#10;ODIN_RELEASE"
-            headerPath="../../android-audio-plugin-framework/native/plugin-api/include;../../android-audio-plugin-framework/native/androidaudioplugin/core/include"
+            headerPath="../../android-audio-plugin-framework/include"
             libraryPath="/usr/X11R6/lib/;../../android-audio-plugin-framework/build/native/androidaudioplugin"
                        linuxArchitecture="-m64"/>
       </CONFIGURATIONS>
@@ -1813,17 +1813,17 @@
     <ANDROIDSTUDIO targetFolder="Builds/Android"
                    extraCompilerFlags="-Wno-implicit-float-conversion"
                    androidMinimumSDK="29" androidTargetSDK="31"
-                   androidDependencies="implementation 'org.androidaudioplugin:androidaudioplugin:0.6.21'&#10;implementation 'org.androidaudioplugin:androidaudioplugin-midi-device-service:0.6.21'&#10;implementation &quot;org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.31&quot;&#10;"
-                   gradleVersion="6.8" gradleWrapperVersion="7.0.0-alpha04">
+                   androidDependencies="implementation 'org.androidaudioplugin:androidaudioplugin:0.7.0'&#10;implementation 'org.androidaudioplugin:androidaudioplugin-midi-device-service:0.7.0'&#10;implementation &quot;org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.10&quot;&#10;"
+                   gradleVersion="7.4" gradleWrapperVersion="7.3.0-alpha03">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" isDebug="1"  defines="ODIN_LINUX&#10;ODIN_DEBUG"
-                       headerPath="../../android-audio-plugin-framework/native/plugin-api/include;../../android-audio-plugin-framework/native/androidaudioplugin/core/include"
-                       libraryPath="../../android-audio-plugin-framework/java/androidaudioplugin/build/intermediates/cmake/debug/obj/${ANDROID_ABI}"
+                       headerPath="../../android-audio-plugin-framework/include"
+                       libraryPath="../../android-audio-plugin-framework/androidaudioplugin/build/intermediates/cmake/debug/obj/${ANDROID_ABI}"
                        optimisation="1" linkTimeOptimisation="0"
                        recommendedWarnings="LLVM"/>
         <CONFIGURATION name="Release" isDebug="0" optimisation="3" linkTimeOptimisation="1" defines="ODIN_LINUX&#10;ODIN_RELEASE"
-                       headerPath="../../android-audio-plugin-framework/native/plugin-api/include;../../android-audio-plugin-framework/native/androidaudioplugin/core/include"
-                       libraryPath="../../android-audio-plugin-framework/java/androidaudioplugin/build/intermediates/cmake/release/obj/${ANDROID_ABI}"
+                       headerPath="../../android-audio-plugin-framework/include"
+                       libraryPath="../../android-audio-plugin-framework/androidaudioplugin/build/intermediates/cmake/release/obj/${ANDROID_ABI}"
                        recommendedWarnings="LLVM"/>
       </CONFIGURATIONS>
       <MODULEPATHS>

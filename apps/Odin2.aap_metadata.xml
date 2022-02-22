@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <plugins xmlns="urn:org.androidaudioplugin.core" xmlns:pp="urn:org.androidaudioplugin.port">
-  <plugin name="Odin2" category="Synth" author="TheWaveWarden" manufacturer="www.thewavewarden.com"
+  <plugin name="Odin2" category="Instrument" author="TheWaveWarden" manufacturer="www.thewavewarden.com"
           unique-id="juceaap:4f44494e" library="libjuce_jni.so" entrypoint="GetJuceAAPFactory"
           assets="">
     <ports>
