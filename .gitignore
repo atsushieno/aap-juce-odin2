@@ -1,1 +1,7 @@
-apps/odin2
+local.properties
+.idea
+.cxx
+build
+.gradle
+release-builds
+

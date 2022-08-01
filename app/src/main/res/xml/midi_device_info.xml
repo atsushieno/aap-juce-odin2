@@ -1,0 +1,6 @@
+<devices>
+    <device name="Odin2" manufacturer="androidaudioplugin.org" product="Odin2">
+        <input-port name="input" />
+    </device>
+</devices>
+
