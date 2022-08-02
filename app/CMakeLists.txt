@@ -13,7 +13,6 @@ if(CMAKE_EXPORT_COMPILE_COMMANDS)
 set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
 endif()
 
-if (ANDROID)
 if ("${JUCE_DIR}" STREQUAL "")
 set (JUCE_DIR "JUCE")
 endif ()
@@ -27,13 +26,16 @@ endif ()
 
 # defs, some are specific to Android and need definisions in prior to `add_subdirectory(JUCE)`.
 add_definitions(
+    "-DJUCEAAP_USE_UNIQUE_ID=1"
+    "-DJUCEAAP_HOSTED_PARAMETER=1"
+    )
+if (ANDROID)
+add_definitions(
     "-DJUCE_ANDROID=1"
     "-DJUCE_ANDROID_API_VERSION=16"
     "-DJUCE_PUSH_NOTIFICATIONS=1" 
     "-DJUCE_PUSH_NOTIFICATIONS_ACTIVITY=\"com/rmsl/juce/JuceActivity\"" 
     "-DJUCE_USE_ANDROID_OBOE=0"
-    "-DJUCEAAP_USE_UNIQUE_ID=1"
-    "-DJUCEAAP_HOSTED_PARAMETER=1"
     )
 
 # Enable these lines if you use juce_audio_devices API

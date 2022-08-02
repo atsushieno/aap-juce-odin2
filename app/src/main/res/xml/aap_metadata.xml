@@ -2,8 +2,8 @@
 
 <plugins xmlns="urn:org.androidaudioplugin.core" xmlns:pp="urn:org.androidaudioplugin.port">
   <plugin name="Odin2" category="Instrument" author="TheWaveWarden" manufacturer="www.thewavewarden.com"
-          unique-id="juceaap:4f44494e" library="libjuce_jni.so" entrypoint="GetJuceAAPFactory"
-          assets="">
+          unique-id="juceaap:4f44494e" library="libOdin2_Standalone.so"
+          entrypoint="GetJuceAAPFactoryStandalone" assets="">
     <extensions>
       <extension uri="urn://androidaudioplugin.org/extensions/presets/v1"/>
     </extensions>
@@ -333,6 +333,20 @@
       <port name="Delay Wet" direction="input" pp:maximum="1.0" pp:default="0.8885006308555603"
             content="other"/>
       <port name="Delay On" direction="input" pp:default="0.0" pp:maximum="1.0"
+            content="other"/>
+      <port name="Reverb PreDelay" direction="input" pp:minimum="20.0" pp:maximum="80.0"
+            pp:default="0.0" content="other"/>
+      <port name="Reverb EQ Gain" direction="input" pp:minimum="-12.0" pp:maximum="12.0"
+            pp:default="0.5208333134651184" content="other"/>
+      <port name="Reverb EQ Freq" direction="input" pp:minimum="100.0" pp:maximum="10000.0"
+            pp:default="0.0" content="other"/>
+      <port name="Reverb DryWet" direction="input" pp:maximum="1.0" pp:default="0.506979763507843"
+            content="other"/>
+      <port name="Reverb Mid Hall" direction="input" pp:minimum="1.0" pp:maximum="8.0"
+            pp:default="0.0" content="other"/>
+      <port name="Reverb High Freq Damp" direction="input" pp:minimum="1500.0"
+            pp:maximum="24000.0" pp:default="0.0" content="other"/>
+      <port name="Reverb On" direction="input" pp:default="0.0" pp:maximum="1.0"
             content="other"/>
       <port name="Phaser Reset" direction="input" pp:default="0.0" pp:maximum="1.0"
             content="other"/>
