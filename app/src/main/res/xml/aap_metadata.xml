@@ -7,7 +7,6 @@
     <extensions>
       <extension uri="urn://androidaudioplugin.org/extensions/presets/v1"/>
     </extensions>
-    <!-- FIXME: aap-juce needs to work fine with automated ports -->
     <ports>
       <port direction="output" content="audio" name="Left"/>
       <port direction="output" content="audio" name="Right"/>
