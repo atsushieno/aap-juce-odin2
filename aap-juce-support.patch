@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 887c371b..c3870ae0 100644
+index 887c371b..a9e58195 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -3,13 +3,18 @@ cmake_minimum_required(VERSION 3.15)
@@ -23,7 +23,7 @@ index 887c371b..c3870ae0 100644
  # ================= Git Commit Hash =====================
  find_package(Git)
  if (Git_FOUND)
-@@ -29,11 +34,34 @@ option(ODIN2_COPY_PLUGIN_AFTER_BUILD "Copy JUCE Plugins after built" OFF)
+@@ -29,11 +34,33 @@ option(ODIN2_COPY_PLUGIN_AFTER_BUILD "Copy JUCE Plugins after built" OFF)
  
  # ==================== Add Plugin =======================
  # Build LV2 only on Linux
@@ -39,8 +39,7 @@ index 887c371b..c3870ae0 100644
 +        "${AAP_DIR}/include"
 +        )
 +
-+juce_add_module(${AAP_JUCE_DIR}/modules/juceaap_audio_plugin_client)
-+juce_add_module(${AAP_JUCE_DIR}/modules/juceaap_audio_processors)
++juce_add_module(${AAP_JUCE_DIR}/aap-modules/juceaap_audio_plugin_client)
 +
 +if (ANDROID)
 +
@@ -59,16 +58,17 @@ index 887c371b..c3870ae0 100644
  juce_add_plugin(Odin2
    VERSION "2.3.3"
    COMPANY_NAME "TheWaveWarden"
-@@ -49,10 +77,25 @@ juce_add_plugin(Odin2
+@@ -49,10 +76,26 @@ juce_add_plugin(Odin2
    LV2_SHARED_LIBRARY_NAME Odin2
  )
  
 +### AAP except for module
 +
++add_compile_definitions([[JUCE_DONT_AUTO_OPEN_MIDI_DEVICES_ON_MOBILE=1]])
++
 +target_link_libraries(Odin2
 +	PRIVATE
 +	juceaap_audio_plugin_client
-+	juceaap_audio_processors
 +        ${log}
 +        ${android}
 +        ${glesv2}
