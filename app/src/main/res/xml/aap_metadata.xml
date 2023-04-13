@@ -1,468 +1,538 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <plugins xmlns="urn:org.androidaudioplugin.core">
-  <plugin name="AAP Odin2" category="Instrument" author="AAP / TheWaveWarden" manufacturer="https://github.com/atsushieno/aap-juce-odin2"
+  <plugin name="Odin2" category="Instrument" author="TheWaveWarden" developer="TheWaveWarden"
           unique-id="juceaap:4f44494e" library="libOdin2_Standalone.so"
-          entrypoint="GetJuceAAPFactoryStandalone" assets="">
+          entrypoint="GetJuceAAPFactoryStandalone">
     <extensions>
-      <extension uri="urn://androidaudioplugin.org/extensions/presets/v1"/>
+      <extension uri="urn://androidaudioplugin.org/extensions/plugin-info/v2"/>
+      <extension uri="urn://androidaudioplugin.org/extensions/presets/v2"/>
+      <extension uri="urn://androidaudioplugin.org/extensions/state/v2"/>
+      <extension uri="urn://androidaudioplugin.org/extensions/midi2/v2"/>
+      <extension uri="urn://androidaudioplugin.org/extensions/gui/v2"/>
     </extensions>
+    <parameters xmlns="urn://androidaudioplugin.org/extensions/parameters">
+      <parameter id="0" name="Osc1 Octave" direction="input" minimum="-4.0" maximum="4.0"
+                 default="0.5625" content="other"/>
+      <parameter id="1" name="Osc1 Semitones" direction="input" minimum="-7.0"
+                 maximum="7.0" default="0.5357142686843872" content="other"/>
+      <parameter id="2" name="Osc1 Finetune" direction="input" minimum="-50.0"
+                 maximum="50.0" default="0.5049999952316284" content="other"/>
+      <parameter id="3" name="Osc1 Volume" direction="input" minimum="-60.0" maximum="12.0"
+                 default="0.8449074029922485" content="other"/>
+      <parameter id="4" name="Osc1 Reset" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.0" content="other"/>
+      <parameter id="5" name="Osc1 Wavetble Position" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="6" name="Osc1 Detune" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.2000000029802322" content="other"/>
+      <parameter id="7" name="Osc1 Position Modulation" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="8" name="Osc1 Multi Position" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="9" name="Osc1 Wavetable Spread" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="10" name="Osc1 PulseWidth" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.5" content="other"/>
+      <parameter id="11" name="Osc1 Drift" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.0" content="other"/>
+      <parameter id="12" name="Osc1 Vector X" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="13" name="Osc1 Vector Y" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="14" name="Osc1 Arpeggiator Speed" direction="input" minimum="1.0"
+                 maximum="100.0" default="0.0" content="other"/>
+      <parameter id="15" name="Osc1 Step1" direction="input" minimum="-12.0" maximum="12.0"
+                 default="0.5208333134651184" content="other"/>
+      <parameter id="16" name="Osc1 Step2" direction="input" minimum="-12.0" maximum="12.0"
+                 default="0.5416666865348816" content="other"/>
+      <parameter id="17" name="Osc1 Step3" direction="input" minimum="-12.0" maximum="12.0"
+                 default="0.5329861044883728" content="other"/>
+      <parameter id="18" name="Osc1 Arpeggiator On" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="19" name="Osc1 Step3 On" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="20" name="Osc1 Chipnoise" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="21" name="Osc1 Exponential FM" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="22" name="Osc1 FM/PM amount" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="23" name="Osc1 Noise Lowpass" direction="input" minimum="80.0"
+                 maximum="18000.0" default="0.0" content="other"/>
+      <parameter id="24" name="Osc1 Noise Highpass" direction="input" minimum="80.0"
+                 maximum="18000.0" default="0.0" content="other"/>
+      <parameter id="25" name="Osc2 Octave" direction="input" minimum="-4.0" maximum="4.0"
+                 default="0.5625" content="other"/>
+      <parameter id="26" name="Osc2 Semitones" direction="input" minimum="-7.0"
+                 maximum="7.0" default="0.5357142686843872" content="other"/>
+      <parameter id="27" name="Osc2 Finetune" direction="input" minimum="-50.0"
+                 maximum="50.0" default="0.5049999952316284" content="other"/>
+      <parameter id="28" name="Osc2 Volume" direction="input" minimum="-60.0"
+                 maximum="12.0" default="0.8449074029922485" content="other"/>
+      <parameter id="29" name="Osc2 Reset" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.0" content="other"/>
+      <parameter id="30" name="Osc2 Sync" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.0" content="other"/>
+      <parameter id="31" name="Osc2 Wavetable Position" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="32" name="Osc2 Detune" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.2000000029802322" content="other"/>
+      <parameter id="33" name="Osc2 Position Modulation" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="34" name="Osc2 Multi Position" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="35" name="Osc2 Wavetable Spread" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="36" name="Osc2 PulseWidth" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.5" content="other"/>
+      <parameter id="37" name="Osc2 Drift" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.0" content="other"/>
+      <parameter id="38" name="Osc2 Vector X" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="39" name="Osc2 Vector Y" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="40" name="Osc2 Arpeggiator Speed" direction="input" minimum="1.0"
+                 maximum="100.0" default="0.0" content="other"/>
+      <parameter id="41" name="Osc2 Step1" direction="input" minimum="-12.0" maximum="12.0"
+                 default="0.5208333134651184" content="other"/>
+      <parameter id="42" name="Osc2 Step2" direction="input" minimum="-12.0" maximum="12.0"
+                 default="0.5416666865348816" content="other"/>
+      <parameter id="43" name="Osc2 Step3" direction="input" minimum="-12.0" maximum="12.0"
+                 default="0.5329861044883728" content="other"/>
+      <parameter id="44" name="Osc2 Arpeggiator On" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="45" name="Osc2 Step3 On" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="46" name="Osc2 Chipnoise" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="47" name="Osc2 Exponential FM" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="48" name="Osc2 FM/PM amount" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="49" name="Osc2 Noise Lowpass" direction="input" minimum="80.0"
+                 maximum="18000.0" default="0.0" content="other"/>
+      <parameter id="50" name="Osc2 Noise Highpass" direction="input" minimum="80.0"
+                 maximum="18000.0" default="0.0" content="other"/>
+      <parameter id="51" name="Osc3 Octave" direction="input" minimum="-4.0" maximum="4.0"
+                 default="0.5625" content="other"/>
+      <parameter id="52" name="Osc3 Semitones" direction="input" minimum="-7.0"
+                 maximum="7.0" default="0.5357142686843872" content="other"/>
+      <parameter id="53" name="Osc3 Finetune" direction="input" minimum="-50.0"
+                 maximum="50.0" default="0.5049999952316284" content="other"/>
+      <parameter id="54" name="Osc3 Volume" direction="input" minimum="-60.0"
+                 maximum="12.0" default="0.8449074029922485" content="other"/>
+      <parameter id="55" name="Osc3 Reset" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.0" content="other"/>
+      <parameter id="56" name="Osc3 Sync" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.0" content="other"/>
+      <parameter id="57" name="Osc3 Wavetable Position" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="58" name="Osc3 Detune" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.2000000029802322" content="other"/>
+      <parameter id="59" name="Osc3 Position Modulation" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="60" name="Osc3 Multi Position" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="61" name="Osc3 Wavetable Spread" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="62" name="Osc3 PulseWidth" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.5" content="other"/>
+      <parameter id="63" name="Osc3 Drift" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.0" content="other"/>
+      <parameter id="64" name="Osc3 Vector X" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="65" name="Osc3 Vector Y" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="66" name="Osc3 Arpeggiator Speed" direction="input" minimum="1.0"
+                 maximum="100.0" default="0.0" content="other"/>
+      <parameter id="67" name="Osc3 Step1" direction="input" minimum="-12.0" maximum="12.0"
+                 default="0.5208333134651184" content="other"/>
+      <parameter id="68" name="Osc3 Step2" direction="input" minimum="-12.0" maximum="12.0"
+                 default="0.5416666865348816" content="other"/>
+      <parameter id="69" name="Osc3 Step3" direction="input" minimum="-12.0" maximum="12.0"
+                 default="0.5329861044883728" content="other"/>
+      <parameter id="70" name="Osc3 Arpeggiator On" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="71" name="Osc3 Step3 On" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="72" name="Osc3 Chipnoise" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="73" name="Osc3 Exponential FM" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="74" name="Osc3 FM/PM amount" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="75" name="Osc3 Noise Lowpass" direction="input" minimum="80.0"
+                 maximum="18000.0" default="0.0" content="other"/>
+      <parameter id="76" name="Osc3 Noise Highpass" direction="input" minimum="80.0"
+                 maximum="18000.0" default="0.0" content="other"/>
+      <parameter id="77" name="Filter1 Osc1 Input" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="78" name="Filter1 Osc2 Input" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="79" name="Filter1 Osc3 Input" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="80" name="Filter1 Velocity Amount" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="81" name="Filter1 Envelope Amount" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="82" name="Filter1 Keyboard Follow" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="83" name="Filter1 Gain" direction="input" minimum="-60.0"
+                 maximum="12.0" default="0.8449074029922485" content="other"/>
+      <parameter id="84" name="Filter1 Frequency" direction="input" minimum="20.0"
+                 maximum="20000.0" default="0.0" content="other"/>
+      <parameter id="85" name="Filter1 Resonance" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="86" name="Filter1 Saturation" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="87" name="Filter1 SEM Transition" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.5" content="other"/>
+      <parameter id="88" name="Filter1 Formant Transition" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="89" name="Filter1 RingMod Amount" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="90" name="Filter2 Osc1 Input" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="91" name="Filter2 Osc2 Input" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="92" name="Filter2 Osc3 Input" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="93" name="Filter2 Filter1 Input" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="94" name="Filter2 Velocity Amount" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="95" name="Filter2 Envelope Amount" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="96" name="Filter2 Keyboard Follow" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="97" name="Filter2 Gain" direction="input" minimum="-60.0"
+                 maximum="12.0" default="0.8449074029922485" content="other"/>
+      <parameter id="98" name="Filter2 Frequency" direction="input" minimum="20.0"
+                 maximum="20000.0" default="0.0" content="other"/>
+      <parameter id="99" name="Filter2 Resonance" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="100" name="Filter2 Saturation" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="101" name="Filter2 SEM Transition" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.5" content="other"/>
+      <parameter id="102" name="Filter2 Formant Transition" direction="input"
+                 minimum="0.0" maximum="1.0" default="0.0" content="other"/>
+      <parameter id="103" name="Filter2 RingMod Amount" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="104" name="Filter3 Velocity Amount" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="105" name="Filter3 Envelope Amount" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="106" name="Filter3 Keyboard Follow" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="107" name="Filter3 Gain" direction="input" minimum="-60.0"
+                 maximum="12.0" default="0.8449074029922485" content="other"/>
+      <parameter id="108" name="Filter3 Frequency" direction="input" minimum="20.0"
+                 maximum="20000.0" default="0.0" content="other"/>
+      <parameter id="109" name="Filter3 Resonance" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="110" name="Filter3 Saturation" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="111" name="Filter3 SEM Transition" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.5" content="other"/>
+      <parameter id="112" name="Filter3 Formant Transition" direction="input"
+                 minimum="0.0" maximum="1.0" default="0.0" content="other"/>
+      <parameter id="113" name="Filter3 RingMod Amount" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="114" name="Amplifier Velocity" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="115" name="Amplifier Panorama" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="116" name="Amplifier Gain" direction="input" minimum="-30.0"
+                 maximum="12.0" default="0.7312924861907959" content="other"/>
+      <parameter id="117" name="Distortion Boost" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.300000011920929" content="other"/>
+      <parameter id="118" name="Distortion DryWet" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="119" name="AmpEnv Attack" direction="input" minimum="0.001000000047497451"
+                 maximum="10.0" default="0.2643838822841644" content="other"/>
+      <parameter id="120" name="AmpEnv Decay" direction="input" minimum="0.001000000047497451"
+                 maximum="10.0" default="0.405747652053833" content="other"/>
+      <parameter id="121" name="AmpEnv Sustain" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.7947373390197754" content="other"/>
+      <parameter id="122" name="AmpEnv Release" direction="input" minimum="0.001000000047497451"
+                 maximum="10.0" default="0.2643838822841644" content="other"/>
+      <parameter id="123" name="AmpEnv Loop" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.0" content="other"/>
+      <parameter id="124" name="FilterEnv Attack" direction="input" minimum="0.001000000047497451"
+                 maximum="10.0" default="0.2643838822841644" content="other"/>
+      <parameter id="125" name="FilterEnv Decay" direction="input" minimum="0.001000000047497451"
+                 maximum="10.0" default="0.3976060152053833" content="other"/>
+      <parameter id="126" name="FilterEnv Sustain" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="127" name="FilterEnv Release" direction="input" minimum="0.001000000047497451"
+                 maximum="10.0" default="0.2643838822841644" content="other"/>
+      <parameter id="128" name="FilterEnv Loop" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="129" name="ModEnv Attack" direction="input" minimum="0.001000000047497451"
+                 maximum="10.0" default="0.2643838822841644" content="other"/>
+      <parameter id="130" name="ModEnv Decay" direction="input" minimum="0.001000000047497451"
+                 maximum="10.0" default="0.3976060152053833" content="other"/>
+      <parameter id="131" name="ModEnv Sustain" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="132" name="ModEnv Release" direction="input" minimum="0.001000000047497451"
+                 maximum="10.0" default="0.2643838822841644" content="other"/>
+      <parameter id="133" name="ModEnv Loop" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.0" content="other"/>
+      <parameter id="134" name="GlobalEnv Attack" direction="input" minimum="0.001000000047497451"
+                 maximum="10.0" default="0.2643838822841644" content="other"/>
+      <parameter id="135" name="GlobalEnv Decay" direction="input" minimum="0.001000000047497451"
+                 maximum="10.0" default="0.405747652053833" content="other"/>
+      <parameter id="136" name="GlobalEnv Sustain" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.7947373390197754" content="other"/>
+      <parameter id="137" name="GlobalEnv Release" direction="input" minimum="0.001000000047497451"
+                 maximum="10.0" default="0.2643838822841644" content="other"/>
+      <parameter id="138" name="GlobalEnv Loop" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="139" name="LFO1 Reset" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.0" content="other"/>
+      <parameter id="140" name="LFO1 Frequency" direction="input" minimum="0.05000000074505806"
+                 maximum="100.0" default="0.3287306427955627" content="other"/>
+      <parameter id="141" name="LFO2 Reset" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.0" content="other"/>
+      <parameter id="142" name="LFO2 Frequency" direction="input" minimum="0.05000000074505806"
+                 maximum="100.0" default="0.3287306427955627" content="other"/>
+      <parameter id="143" name="LFO3 Reset" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.0" content="other"/>
+      <parameter id="144" name="LFO3 Frequency" direction="input" minimum="0.05000000074505806"
+                 maximum="100.0" default="0.3287306427955627" content="other"/>
+      <parameter id="145" name="LFO4 Reset" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.0" content="other"/>
+      <parameter id="146" name="LFO4 Frequency" direction="input" minimum="0.05000000074505806"
+                 maximum="100.0" default="0.3287306427955627" content="other"/>
+      <parameter id="147" name="Filter1 To Amplifier" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="148" name="Filter2 To Amplifier" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="149" name="Glide" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.0" content="other"/>
+      <parameter id="150" name="Master" direction="input" minimum="-30.0" maximum="12.0"
+                 default="0.7273242473602295" content="other"/>
+      <parameter id="151" name="Modwheel" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.0" content="other"/>
+      <parameter id="152" name="Pitchbend" direction="input" minimum="-1.0" maximum="1.0"
+                 default="0.75" content="other"/>
+      <parameter id="153" name="XY Pad X" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.0" content="other"/>
+      <parameter id="154" name="XY Pad Y" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.0" content="other"/>
+      <parameter id="155" name="Delay PingPong" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="156" name="Delay Time" direction="input" minimum="0.009999999776482582"
+                 maximum="3.0" default="0.3216838836669922" content="other"/>
+      <parameter id="157" name="Delay Feedback" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.7674626708030701" content="other"/>
+      <parameter id="158" name="Delay Highpass Frequency" direction="input" minimum="80.0"
+                 maximum="18000.0" default="0.0" content="other"/>
+      <parameter id="159" name="Delay Ducking" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="160" name="Delay Dry" direction="input" minimum="0.0" maximum="1.0"
+                 default="1.0" content="other"/>
+      <parameter id="161" name="Delay Wet" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.8885006308555603" content="other"/>
+      <parameter id="162" name="Delay On" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.0" content="other"/>
+      <parameter id="163" name="Reverb PreDelay" direction="input" minimum="20.0"
+                 maximum="80.0" default="0.0" content="other"/>
+      <parameter id="164" name="Reverb EQ Gain" direction="input" minimum="-12.0"
+                 maximum="12.0" default="0.5208333134651184" content="other"/>
+      <parameter id="165" name="Reverb EQ Freq" direction="input" minimum="100.0"
+                 maximum="10000.0" default="0.0" content="other"/>
+      <parameter id="166" name="Reverb DryWet" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.506979763507843" content="other"/>
+      <parameter id="167" name="Reverb Mid Hall" direction="input" minimum="1.0"
+                 maximum="8.0" default="0.0" content="other"/>
+      <parameter id="168" name="Reverb High Freq Damp" direction="input" minimum="1500.0"
+                 maximum="24000.0" default="0.0" content="other"/>
+      <parameter id="169" name="Reverb On" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.0" content="other"/>
+      <parameter id="170" name="Phaser Reset" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="171" name="Phaser On" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.0" content="other"/>
+      <parameter id="172" name="Phaser Frequency" direction="input" minimum="40.0"
+                 maximum="8000.0" default="0.0" content="other"/>
+      <parameter id="173" name="Phaser Feedback" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.25" content="other"/>
+      <parameter id="174" name="Phaser Rate" direction="input" minimum="0.05000000074505806"
+                 maximum="20.0" default="0.4198892116546631" content="other"/>
+      <parameter id="175" name="Phaser Amount" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.300000011920929" content="other"/>
+      <parameter id="176" name="Phaser DryWet" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="177" name="Flanger Reset" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="178" name="Flanger On" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.0" content="other"/>
+      <parameter id="179" name="Flanger Rate" direction="input" minimum="0.05000000074505806"
+                 maximum="20.0" default="0.4050113260746002" content="other"/>
+      <parameter id="180" name="Flanger Feedback" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.8999999761581421" content="other"/>
+      <parameter id="181" name="Flanger Amount" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.300000011920929" content="other"/>
+      <parameter id="182" name="Flanger DryWet" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="183" name="Chorus Reset" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="184" name="Chorus On" direction="input" minimum="0.0" maximum="1.0"
+                 default="0.0" content="other"/>
+      <parameter id="185" name="Chorus Rate" direction="input" minimum="0.05000000074505806"
+                 maximum="20.0" default="0.4050113260746002" content="other"/>
+      <parameter id="186" name="Chorus Amount" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.4000000059604645" content="other"/>
+      <parameter id="187" name="Chorus Feedback" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="188" name="Chorus DryWet" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="189" name="Unison Detune" direction="input" minimum="0.0"
+                 maximum="0.6000000238418579" default="0.7801157832145691" content="other"/>
+      <parameter id="190" name="Unison Width" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.699999988079071" content="other"/>
+      <parameter id="191" name="Arp Step 1 On" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="192" name="Arp Step 2 On" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="193" name="Arp Step 3 On" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="194" name="Arp Step 4 On" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="195" name="Arp Step 5 On" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="196" name="Arp Step 6 On" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="197" name="Arp Step 7 On" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="198" name="Arp Step 8 On" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="199" name="Arp Step 9 On" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="200" name="Arp Step 10 On" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="201" name="Arp Step 11 On" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="202" name="Arp Step 12 On" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="203" name="Arp Step 13 On" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="204" name="Arp Step 14 On" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="205" name="Arp Step 15 On" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="206" name="Arp Step 16 On" direction="input" minimum="0.0"
+                 maximum="1.0" default="1.0" content="other"/>
+      <parameter id="207" name="Arp Step 1 Mod 1" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="208" name="Arp Step 2 Mod 1" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="209" name="Arp Step 3 Mod 1" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="210" name="Arp Step 4 Mod 1" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="211" name="Arp Step 5 Mod 1" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="212" name="Arp Step 6 Mod 1" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="213" name="Arp Step 7 Mod 1" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="214" name="Arp Step 8 Mod 1" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="215" name="Arp Step 9 Mod 1" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="216" name="Arp Step 10 Mod 1" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="217" name="Arp Step 11 Mod 1" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="218" name="Arp Step 12 Mod 1" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="219" name="Arp Step 13 Mod 1" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="220" name="Arp Step 14 Mod 1" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="221" name="Arp Step 15 Mod 1" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="222" name="Arp Step 16 Mod 1" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="223" name="Arp Step 1 Mod 2" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="224" name="Arp Step 2 Mod 2" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="225" name="Arp Step 3 Mod 2" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="226" name="Arp Step 4 Mod 2" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="227" name="Arp Step 5 Mod 2" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="228" name="Arp Step 6 Mod 2" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="229" name="Arp Step 7 Mod 2" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="230" name="Arp Step 8 Mod 2" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="231" name="Arp Step 9 Mod 2" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="232" name="Arp Step 10 Mod 2" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="233" name="Arp Step 11 Mod 2" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="234" name="Arp Step 12 Mod 2" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="235" name="Arp Step 13 Mod 2" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="236" name="Arp Step 14 Mod 2" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="237" name="Arp Step 15 Mod 2" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="238" name="Arp Step 16 Mod 2" direction="input" minimum="-1.0"
+                 maximum="1.0" default="0.75" content="other"/>
+      <parameter id="239" name="Arp Step 1 Transpose" direction="input" minimum="-24.0"
+                 maximum="24.0" default="0.5104166865348816" content="other"/>
+      <parameter id="240" name="Arp Step 2 Transpose" direction="input" minimum="-24.0"
+                 maximum="24.0" default="0.5104166865348816" content="other"/>
+      <parameter id="241" name="Arp Step 3 Transpose" direction="input" minimum="-24.0"
+                 maximum="24.0" default="0.5104166865348816" content="other"/>
+      <parameter id="242" name="Arp Step 4 Transpose" direction="input" minimum="-24.0"
+                 maximum="24.0" default="0.5104166865348816" content="other"/>
+      <parameter id="243" name="Arp Step 5 Transpose" direction="input" minimum="-24.0"
+                 maximum="24.0" default="0.5104166865348816" content="other"/>
+      <parameter id="244" name="Arp Step 6 Transpose" direction="input" minimum="-24.0"
+                 maximum="24.0" default="0.5104166865348816" content="other"/>
+      <parameter id="245" name="Arp Step 7 Transpose" direction="input" minimum="-24.0"
+                 maximum="24.0" default="0.5104166865348816" content="other"/>
+      <parameter id="246" name="Arp Step 8 Transpose" direction="input" minimum="-24.0"
+                 maximum="24.0" default="0.5104166865348816" content="other"/>
+      <parameter id="247" name="Arp Step 9 Transpose" direction="input" minimum="-24.0"
+                 maximum="24.0" default="0.5104166865348816" content="other"/>
+      <parameter id="248" name="Arp Step 10 Transpose" direction="input" minimum="-24.0"
+                 maximum="24.0" default="0.5104166865348816" content="other"/>
+      <parameter id="249" name="Arp Step 11 Transpose" direction="input" minimum="-24.0"
+                 maximum="24.0" default="0.5104166865348816" content="other"/>
+      <parameter id="250" name="Arp Step 12 Transpose" direction="input" minimum="-24.0"
+                 maximum="24.0" default="0.5104166865348816" content="other"/>
+      <parameter id="251" name="Arp Step 13 Transpose" direction="input" minimum="-24.0"
+                 maximum="24.0" default="0.5104166865348816" content="other"/>
+      <parameter id="252" name="Arp Step 14 Transpose" direction="input" minimum="-24.0"
+                 maximum="24.0" default="0.5104166865348816" content="other"/>
+      <parameter id="253" name="Arp Step 15 Transpose" direction="input" minimum="-24.0"
+                 maximum="24.0" default="0.5104166865348816" content="other"/>
+      <parameter id="254" name="Arp Step 16 Transpose" direction="input" minimum="-24.0"
+                 maximum="24.0" default="0.5104166865348816" content="other"/>
+      <parameter id="255" name="Arp Mod Transpose" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="256" name="Arpeggiator On" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+      <parameter id="257" name="Arpeggiator OneShot" direction="input" minimum="0.0"
+                 maximum="1.0" default="0.0" content="other"/>
+    </parameters>
     <ports>
       <port direction="output" content="audio" name="Left"/>
       <port direction="output" content="audio" name="Right"/>
       <port direction="input" content="midi2" name="MIDI input"/>
-      <port direction="output" content="midi2" name="MIDI output"/>
     </ports>
-    <parameters xmlns="urn://androidaudioplugin.org/extensions/parameters">
-      <parameter id="0" name="Osc1 Octave" minimum="-4.0" maximum="4.0" default="0.5625"
-                 content="other"/>
-      <parameter id="1" name="Osc1 Semitones" minimum="-7.0" maximum="7.0" default="0.5357142686843872"
-                 content="other"/>
-      <parameter id="2" name="Osc1 Finetune" minimum="-50.0" maximum="50.0" default="0.5049999952316284"
-                 content="other"/>
-      <parameter id="3" name="Osc1 Volume" minimum="-60.0" maximum="12.0" default="0.8449074029922485"
-                 content="other"/>
-      <parameter id="4" name="Osc1 Reset" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="5" name="Osc1 Wavetble Position" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="6" name="Osc1 Detune" maximum="1.0" default="0.2000000029802322"
-                 content="other"/>
-      <parameter id="7" name="Osc1 Position Modulation" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="8" name="Osc1 Multi Position" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="9" name="Osc1 Wavetable Spread" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="10" name="Osc1 PulseWidth" maximum="1.0" default="0.5" content="other"/>
-      <parameter id="11" name="Osc1 Drift" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="12" name="Osc1 Vector X" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="13" name="Osc1 Vector Y" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="14" name="Osc1 Arpeggiator Speed" minimum="1.0" maximum="100.0"
-                 default="0.0" content="other"/>
-      <parameter id="15" name="Osc1 Step1" minimum="-12.0" maximum="12.0" default="0.5208333134651184"
-                 content="other"/>
-      <parameter id="16" name="Osc1 Step2" minimum="-12.0" maximum="12.0" default="0.5416666865348816"
-                 content="other"/>
-      <parameter id="17" name="Osc1 Step3" minimum="-12.0" maximum="12.0" default="0.5329861044883728"
-                 content="other"/>
-      <parameter id="18" name="Osc1 Arpeggiator On" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="19" name="Osc1 Step3 On" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="20" name="Osc1 Chipnoise" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="21" name="Osc1 Exponential FM" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="22" name="Osc1 FM/PM amount" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="23" name="Osc1 Noise Lowpass" minimum="80.0" maximum="18000.0"
-                 default="0.0" content="other"/>
-      <parameter id="24" name="Osc1 Noise Highpass" minimum="80.0" maximum="18000.0"
-                 default="0.0" content="other"/>
-      <parameter id="25" name="Osc2 Octave" minimum="-4.0" maximum="4.0" default="0.5625"
-                 content="other"/>
-      <parameter id="26" name="Osc2 Semitones" minimum="-7.0" maximum="7.0" default="0.5357142686843872"
-                 content="other"/>
-      <parameter id="27" name="Osc2 Finetune" minimum="-50.0" maximum="50.0" default="0.5049999952316284"
-                 content="other"/>
-      <parameter id="28" name="Osc2 Volume" minimum="-60.0" maximum="12.0" default="0.8449074029922485"
-                 content="other"/>
-      <parameter id="29" name="Osc2 Reset" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="30" name="Osc2 Sync" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="31" name="Osc2 Wavetable Position" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="32" name="Osc2 Detune" maximum="1.0" default="0.2000000029802322"
-                 content="other"/>
-      <parameter id="33" name="Osc2 Position Modulation" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="34" name="Osc2 Multi Position" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="35" name="Osc2 Wavetable Spread" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="36" name="Osc2 PulseWidth" maximum="1.0" default="0.5" content="other"/>
-      <parameter id="37" name="Osc2 Drift" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="38" name="Osc2 Vector X" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="39" name="Osc2 Vector Y" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="40" name="Osc2 Arpeggiator Speed" minimum="1.0" maximum="100.0"
-                 default="0.0" content="other"/>
-      <parameter id="41" name="Osc2 Step1" minimum="-12.0" maximum="12.0" default="0.5208333134651184"
-                 content="other"/>
-      <parameter id="42" name="Osc2 Step2" minimum="-12.0" maximum="12.0" default="0.5416666865348816"
-                 content="other"/>
-      <parameter id="43" name="Osc2 Step3" minimum="-12.0" maximum="12.0" default="0.5329861044883728"
-                 content="other"/>
-      <parameter id="44" name="Osc2 Arpeggiator On" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="45" name="Osc2 Step3 On" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="46" name="Osc2 Chipnoise" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="47" name="Osc2 Exponential FM" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="48" name="Osc2 FM/PM amount" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="49" name="Osc2 Noise Lowpass" minimum="80.0" maximum="18000.0"
-                 default="0.0" content="other"/>
-      <parameter id="50" name="Osc2 Noise Highpass" minimum="80.0" maximum="18000.0"
-                 default="0.0" content="other"/>
-      <parameter id="51" name="Osc3 Octave" minimum="-4.0" maximum="4.0" default="0.5625"
-                 content="other"/>
-      <parameter id="52" name="Osc3 Semitones" minimum="-7.0" maximum="7.0" default="0.5357142686843872"
-                 content="other"/>
-      <parameter id="53" name="Osc3 Finetune" minimum="-50.0" maximum="50.0" default="0.5049999952316284"
-                 content="other"/>
-      <parameter id="54" name="Osc3 Volume" minimum="-60.0" maximum="12.0" default="0.8449074029922485"
-                 content="other"/>
-      <parameter id="55" name="Osc3 Reset" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="56" name="Osc3 Sync" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="57" name="Osc3 Wavetable Position" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="58" name="Osc3 Detune" maximum="1.0" default="0.2000000029802322"
-                 content="other"/>
-      <parameter id="59" name="Osc3 Position Modulation" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="60" name="Osc3 Multi Position" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="61" name="Osc3 Wavetable Spread" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="62" name="Osc3 PulseWidth" maximum="1.0" default="0.5" content="other"/>
-      <parameter id="63" name="Osc3 Drift" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="64" name="Osc3 Vector X" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="65" name="Osc3 Vector Y" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="66" name="Osc3 Arpeggiator Speed" minimum="1.0" maximum="100.0"
-                 default="0.0" content="other"/>
-      <parameter id="67" name="Osc3 Step1" minimum="-12.0" maximum="12.0" default="0.5208333134651184"
-                 content="other"/>
-      <parameter id="68" name="Osc3 Step2" minimum="-12.0" maximum="12.0" default="0.5416666865348816"
-                 content="other"/>
-      <parameter id="69" name="Osc3 Step3" minimum="-12.0" maximum="12.0" default="0.5329861044883728"
-                 content="other"/>
-      <parameter id="70" name="Osc3 Arpeggiator On" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="71" name="Osc3 Step3 On" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="72" name="Osc3 Chipnoise" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="73" name="Osc3 Exponential FM" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="74" name="Osc3 FM/PM amount" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="75" name="Osc3 Noise Lowpass" minimum="80.0" maximum="18000.0"
-                 default="0.0" content="other"/>
-      <parameter id="76" name="Osc3 Noise Highpass" minimum="80.0" maximum="18000.0"
-                 default="0.0" content="other"/>
-      <parameter id="77" name="Filter1 Osc1 Input" maximum="1.0" default="1.0"
-                 content="other"/>
-      <parameter id="78" name="Filter1 Osc2 Input" maximum="1.0" default="1.0"
-                 content="other"/>
-      <parameter id="79" name="Filter1 Osc3 Input" maximum="1.0" default="1.0"
-                 content="other"/>
-      <parameter id="80" name="Filter1 Velocity Amount" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="81" name="Filter1 Envelope Amount" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="82" name="Filter1 Keyboard Follow" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="83" name="Filter1 Gain" minimum="-60.0" maximum="12.0" default="0.8449074029922485"
-                 content="other"/>
-      <parameter id="84" name="Filter1 Frequency" minimum="20.0" maximum="20000.0"
-                 default="0.0" content="other"/>
-      <parameter id="85" name="Filter1 Resonance" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="86" name="Filter1 Saturation" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="87" name="Filter1 SEM Transition" minimum="-1.0" maximum="1.0"
-                 default="0.0" content="other"/>
-      <parameter id="88" name="Filter1 Formant Transition" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="89" name="Filter1 RingMod Amount" maximum="1.0" default="1.0"
-                 content="other"/>
-      <parameter id="90" name="Filter2 Osc1 Input" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="91" name="Filter2 Osc2 Input" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="92" name="Filter2 Osc3 Input" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="93" name="Filter2 Filter1 Input" maximum="1.0" default="1.0"
-                 content="other"/>
-      <parameter id="94" name="Filter2 Velocity Amount" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="95" name="Filter2 Envelope Amount" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="96" name="Filter2 Keyboard Follow" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="97" name="Filter2 Gain" minimum="-60.0" maximum="12.0" default="0.8449074029922485"
-                 content="other"/>
-      <parameter id="98" name="Filter2 Frequency" minimum="20.0" maximum="20000.0"
-                 default="0.0" content="other"/>
-      <parameter id="99" name="Filter2 Resonance" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="100" name="Filter2 Saturation" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="101" name="Filter2 SEM Transition" minimum="-1.0" maximum="1.0"
-                 default="0.0" content="other"/>
-      <parameter id="102" name="Filter2 Formant Transition" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="103" name="Filter2 RingMod Amount" maximum="1.0" default="1.0"
-                 content="other"/>
-      <parameter id="104" name="Filter3 Velocity Amount" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="105" name="Filter3 Envelope Amount" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="106" name="Filter3 Keyboard Follow" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="107" name="Filter3 Gain" minimum="-60.0" maximum="12.0" default="0.8449074029922485"
-                 content="other"/>
-      <parameter id="108" name="Filter3 Frequency" minimum="20.0" maximum="20000.0"
-                 default="0.0" content="other"/>
-      <parameter id="109" name="Filter3 Resonance" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="110" name="Filter3 Saturation" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="111" name="Filter3 SEM Transition" minimum="-1.0" maximum="1.0"
-                 default="0.0" content="other"/>
-      <parameter id="112" name="Filter3 Formant Transition" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="113" name="Filter3 RingMod Amount" maximum="1.0" default="1.0"
-                 content="other"/>
-      <parameter id="114" name="Amplifier Velocity" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="115" name="Amplifier Panorama" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="116" name="Amplifier Gain" minimum="-30.0" maximum="12.0"
-                 default="0.7312924861907959" content="other"/>
-      <parameter id="117" name="Distortion Boost" maximum="1.0" default="0.300000011920929"
-                 content="other"/>
-      <parameter id="118" name="Distortion DryWet" maximum="1.0" default="1.0"
-                 content="other"/>
-      <parameter id="119" name="AmpEnv Attack" minimum="0.001000000047497451"
-                 maximum="10.0" default="0.2643838822841644" content="other"/>
-      <parameter id="120" name="AmpEnv Decay" minimum="0.001000000047497451" maximum="10.0"
-                 default="0.405747652053833" content="other"/>
-      <parameter id="121" name="AmpEnv Sustain" maximum="1.0" default="0.7947373390197754"
-                 content="other"/>
-      <parameter id="122" name="AmpEnv Release" minimum="0.001000000047497451"
-                 maximum="10.0" default="0.2643838822841644" content="other"/>
-      <parameter id="123" name="AmpEnv Loop" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="124" name="FilterEnv Attack" minimum="0.001000000047497451"
-                 maximum="10.0" default="0.2643838822841644" content="other"/>
-      <parameter id="125" name="FilterEnv Decay" minimum="0.001000000047497451"
-                 maximum="10.0" default="0.3976060152053833" content="other"/>
-      <parameter id="126" name="FilterEnv Sustain" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="127" name="FilterEnv Release" minimum="0.001000000047497451"
-                 maximum="10.0" default="0.2643838822841644" content="other"/>
-      <parameter id="128" name="FilterEnv Loop" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="129" name="ModEnv Attack" minimum="0.001000000047497451"
-                 maximum="10.0" default="0.2643838822841644" content="other"/>
-      <parameter id="130" name="ModEnv Decay" minimum="0.001000000047497451" maximum="10.0"
-                 default="0.3976060152053833" content="other"/>
-      <parameter id="131" name="ModEnv Sustain" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="132" name="ModEnv Release" minimum="0.001000000047497451"
-                 maximum="10.0" default="0.2643838822841644" content="other"/>
-      <parameter id="133" name="ModEnv Loop" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="134" name="GlobalEnv Attack" minimum="0.001000000047497451"
-                 maximum="10.0" default="0.2643838822841644" content="other"/>
-      <parameter id="135" name="GlobalEnv Decay" minimum="0.001000000047497451"
-                 maximum="10.0" default="0.405747652053833" content="other"/>
-      <parameter id="136" name="GlobalEnv Sustain" maximum="1.0" default="0.7947373390197754"
-                 content="other"/>
-      <parameter id="137" name="GlobalEnv Release" minimum="0.001000000047497451"
-                 maximum="10.0" default="0.2643838822841644" content="other"/>
-      <parameter id="138" name="GlobalEnv Loop" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="139" name="LFO1 Reset" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="140" name="LFO1 Frequency" minimum="0.05000000074505806"
-                 maximum="100.0" default="0.3287306427955627" content="other"/>
-      <parameter id="141" name="LFO2 Reset" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="142" name="LFO2 Frequency" minimum="0.05000000074505806"
-                 maximum="100.0" default="0.3287306427955627" content="other"/>
-      <parameter id="143" name="LFO3 Reset" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="144" name="LFO3 Frequency" minimum="0.05000000074505806"
-                 maximum="100.0" default="0.3287306427955627" content="other"/>
-      <parameter id="145" name="LFO4 Reset" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="146" name="LFO4 Frequency" minimum="0.05000000074505806"
-                 maximum="100.0" default="0.3287306427955627" content="other"/>
-      <parameter id="147" name="Filter1 To Amplifier" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="148" name="Filter2 To Amplifier" maximum="1.0" default="1.0"
-                 content="other"/>
-      <parameter id="149" name="Glide" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="150" name="Master" minimum="-30.0" maximum="12.0" default="0.7273242473602295"
-                 content="other"/>
-      <parameter id="151" name="Modwheel" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="152" name="Pitchbend" minimum="-1.0" maximum="1.0" default="0.75"
-                 content="other"/>
-      <parameter id="153" name="XY Pad X" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="154" name="XY Pad Y" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="155" name="Delay PingPong" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="156" name="Delay Time" minimum="0.009999999776482582" maximum="3.0"
-                 default="0.3216838836669922" content="other"/>
-      <parameter id="157" name="Delay Feedback" maximum="1.0" default="0.7674626708030701"
-                 content="other"/>
-      <parameter id="158" name="Delay Highpass Frequency" minimum="80.0" maximum="18000.0"
-                 default="0.0" content="other"/>
-      <parameter id="159" name="Delay Ducking" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="160" name="Delay Dry" maximum="1.0" default="1.0" content="other"/>
-      <parameter id="161" name="Delay Wet" maximum="1.0" default="0.8885006308555603"
-                 content="other"/>
-      <parameter id="162" name="Delay On" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="163" name="Reverb PreDelay" minimum="20.0" maximum="80.0"
-                 default="0.0" content="other"/>
-      <parameter id="164" name="Reverb EQ Gain" minimum="-12.0" maximum="12.0"
-                 default="0.5208333134651184" content="other"/>
-      <parameter id="165" name="Reverb EQ Freq" minimum="100.0" maximum="10000.0"
-                 default="0.0" content="other"/>
-      <parameter id="166" name="Reverb DryWet" maximum="1.0" default="0.506979763507843"
-                 content="other"/>
-      <parameter id="167" name="Reverb Mid Hall" minimum="1.0" maximum="8.0" default="0.0"
-                 content="other"/>
-      <parameter id="168" name="Reverb High Freq Damp" minimum="1500.0" maximum="24000.0"
-                 default="0.0" content="other"/>
-      <parameter id="169" name="Reverb On" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="170" name="Phaser Reset" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="171" name="Phaser On" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="172" name="Phaser Frequency" minimum="40.0" maximum="8000.0"
-                 default="0.0" content="other"/>
-      <parameter id="173" name="Phaser Feedback" maximum="1.0" default="0.25"
-                 content="other"/>
-      <parameter id="174" name="Phaser Rate" minimum="0.05000000074505806" maximum="20.0"
-                 default="0.4198892116546631" content="other"/>
-      <parameter id="175" name="Phaser Amount" maximum="1.0" default="0.300000011920929"
-                 content="other"/>
-      <parameter id="176" name="Phaser DryWet" maximum="1.0" default="1.0" content="other"/>
-      <parameter id="177" name="Flanger Reset" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="178" name="Flanger On" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="179" name="Flanger Rate" minimum="0.05000000074505806" maximum="20.0"
-                 default="0.4050113260746002" content="other"/>
-      <parameter id="180" name="Flanger Feedback" minimum="-1.0" maximum="1.0"
-                 default="0.8999999761581421" content="other"/>
-      <parameter id="181" name="Flanger Amount" maximum="1.0" default="0.300000011920929"
-                 content="other"/>
-      <parameter id="182" name="Flanger DryWet" maximum="1.0" default="1.0" content="other"/>
-      <parameter id="183" name="Chorus Reset" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="184" name="Chorus On" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="185" name="Chorus Rate" minimum="0.05000000074505806" maximum="20.0"
-                 default="0.4050113260746002" content="other"/>
-      <parameter id="186" name="Chorus Amount" maximum="1.0" default="0.4000000059604645"
-                 content="other"/>
-      <parameter id="187" name="Chorus Feedback" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="188" name="Chorus DryWet" maximum="1.0" default="1.0" content="other"/>
-      <parameter id="189" name="Unison Detune" maximum="0.6000000238418579" default="0.7801157832145691"
-                 content="other"/>
-      <parameter id="190" name="Unison Width" maximum="1.0" default="0.699999988079071"
-                 content="other"/>
-      <parameter id="191" name="Arp Step 1 On" maximum="1.0" default="1.0" content="other"/>
-      <parameter id="192" name="Arp Step 2 On" maximum="1.0" default="1.0" content="other"/>
-      <parameter id="193" name="Arp Step 3 On" maximum="1.0" default="1.0" content="other"/>
-      <parameter id="194" name="Arp Step 4 On" maximum="1.0" default="1.0" content="other"/>
-      <parameter id="195" name="Arp Step 5 On" maximum="1.0" default="1.0" content="other"/>
-      <parameter id="196" name="Arp Step 6 On" maximum="1.0" default="1.0" content="other"/>
-      <parameter id="197" name="Arp Step 7 On" maximum="1.0" default="1.0" content="other"/>
-      <parameter id="198" name="Arp Step 8 On" maximum="1.0" default="1.0" content="other"/>
-      <parameter id="199" name="Arp Step 9 On" maximum="1.0" default="1.0" content="other"/>
-      <parameter id="200" name="Arp Step 10 On" maximum="1.0" default="1.0" content="other"/>
-      <parameter id="201" name="Arp Step 11 On" maximum="1.0" default="1.0" content="other"/>
-      <parameter id="202" name="Arp Step 12 On" maximum="1.0" default="1.0" content="other"/>
-      <parameter id="203" name="Arp Step 13 On" maximum="1.0" default="1.0" content="other"/>
-      <parameter id="204" name="Arp Step 14 On" maximum="1.0" default="1.0" content="other"/>
-      <parameter id="205" name="Arp Step 15 On" maximum="1.0" default="1.0" content="other"/>
-      <parameter id="206" name="Arp Step 16 On" maximum="1.0" default="1.0" content="other"/>
-      <parameter id="207" name="Arp Step 1 Mod 1" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="208" name="Arp Step 2 Mod 1" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="209" name="Arp Step 3 Mod 1" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="210" name="Arp Step 4 Mod 1" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="211" name="Arp Step 5 Mod 1" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="212" name="Arp Step 6 Mod 1" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="213" name="Arp Step 7 Mod 1" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="214" name="Arp Step 8 Mod 1" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="215" name="Arp Step 9 Mod 1" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="216" name="Arp Step 10 Mod 1" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="217" name="Arp Step 11 Mod 1" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="218" name="Arp Step 12 Mod 1" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="219" name="Arp Step 13 Mod 1" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="220" name="Arp Step 14 Mod 1" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="221" name="Arp Step 15 Mod 1" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="222" name="Arp Step 16 Mod 1" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="223" name="Arp Step 1 Mod 2" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="224" name="Arp Step 2 Mod 2" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="225" name="Arp Step 3 Mod 2" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="226" name="Arp Step 4 Mod 2" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="227" name="Arp Step 5 Mod 2" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="228" name="Arp Step 6 Mod 2" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="229" name="Arp Step 7 Mod 2" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="230" name="Arp Step 8 Mod 2" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="231" name="Arp Step 9 Mod 2" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="232" name="Arp Step 10 Mod 2" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="233" name="Arp Step 11 Mod 2" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="234" name="Arp Step 12 Mod 2" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="235" name="Arp Step 13 Mod 2" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="236" name="Arp Step 14 Mod 2" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="237" name="Arp Step 15 Mod 2" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="238" name="Arp Step 16 Mod 2" minimum="-1.0" maximum="1.0"
-                 default="0.75" content="other"/>
-      <parameter id="239" name="Arp Step 1 Transpose" minimum="-24.0" maximum="24.0"
-                 default="0.5104166865348816" content="other"/>
-      <parameter id="240" name="Arp Step 2 Transpose" minimum="-24.0" maximum="24.0"
-                 default="0.5104166865348816" content="other"/>
-      <parameter id="241" name="Arp Step 3 Transpose" minimum="-24.0" maximum="24.0"
-                 default="0.5104166865348816" content="other"/>
-      <parameter id="242" name="Arp Step 4 Transpose" minimum="-24.0" maximum="24.0"
-                 default="0.5104166865348816" content="other"/>
-      <parameter id="243" name="Arp Step 5 Transpose" minimum="-24.0" maximum="24.0"
-                 default="0.5104166865348816" content="other"/>
-      <parameter id="244" name="Arp Step 6 Transpose" minimum="-24.0" maximum="24.0"
-                 default="0.5104166865348816" content="other"/>
-      <parameter id="245" name="Arp Step 7 Transpose" minimum="-24.0" maximum="24.0"
-                 default="0.5104166865348816" content="other"/>
-      <parameter id="246" name="Arp Step 8 Transpose" minimum="-24.0" maximum="24.0"
-                 default="0.5104166865348816" content="other"/>
-      <parameter id="247" name="Arp Step 9 Transpose" minimum="-24.0" maximum="24.0"
-                 default="0.5104166865348816" content="other"/>
-      <parameter id="248" name="Arp Step 10 Transpose" minimum="-24.0" maximum="24.0"
-                 default="0.5104166865348816" content="other"/>
-      <parameter id="249" name="Arp Step 11 Transpose" minimum="-24.0" maximum="24.0"
-                 default="0.5104166865348816" content="other"/>
-      <parameter id="250" name="Arp Step 12 Transpose" minimum="-24.0" maximum="24.0"
-                 default="0.5104166865348816" content="other"/>
-      <parameter id="251" name="Arp Step 13 Transpose" minimum="-24.0" maximum="24.0"
-                 default="0.5104166865348816" content="other"/>
-      <parameter id="252" name="Arp Step 14 Transpose" minimum="-24.0" maximum="24.0"
-                 default="0.5104166865348816" content="other"/>
-      <parameter id="253" name="Arp Step 15 Transpose" minimum="-24.0" maximum="24.0"
-                 default="0.5104166865348816" content="other"/>
-      <parameter id="254" name="Arp Step 16 Transpose" minimum="-24.0" maximum="24.0"
-                 default="0.5104166865348816" content="other"/>
-      <parameter id="255" name="Arp Mod Transpose" maximum="1.0" default="0.0"
-                 content="other"/>
-      <parameter id="256" name="Arpeggiator On" maximum="1.0" default="0.0" content="other"/>
-      <parameter id="257" name="Arpeggiator OneShot" maximum="1.0" default="0.0"
-                 content="other"/>
-    </parameters>
   </plugin>
 </plugins>
