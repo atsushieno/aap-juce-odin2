@@ -1,29 +1,17 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 887c371b..a9e58195 100644
+index 887c371b..b27216e5 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -3,13 +3,18 @@ cmake_minimum_required(VERSION 3.15)
- project(Odin2 VERSION 2.3.3 LANGUAGES C CXX ASM)
+@@ -4,7 +4,7 @@ project(Odin2 VERSION 2.3.3 LANGUAGES C CXX ASM)
  
  # ================== CMake Subdirs ======================
--add_subdirectory(libs/clap-juce-extensions)
+ add_subdirectory(libs/clap-juce-extensions)
 -if(UNIX AND NOT APPLE)
-+#add_subdirectory(libs/clap-juce-extensions)
 +if(false) #UNIX AND NOT APPLE) # We don't build LV2 on Android
    add_subdirectory(libs/JUCELV2)
  else()
    add_subdirectory(libs/JUCE)
- endif()
- 
-+add_definitions(
-+    "-DJUCEAAP_USE_UNIQUE_ID=1"
-+    "-DJUCEAAP_HOSTED_PARAMETER=1"
-+    )
-+
- # ================= Git Commit Hash =====================
- find_package(Git)
- if (Git_FOUND)
-@@ -29,11 +34,33 @@ option(ODIN2_COPY_PLUGIN_AFTER_BUILD "Copy JUCE Plugins after built" OFF)
+@@ -29,7 +29,7 @@ option(ODIN2_COPY_PLUGIN_AFTER_BUILD "Copy JUCE Plugins after built" OFF)
  
  # ==================== Add Plugin =======================
  # Build LV2 only on Linux
@@ -32,60 +20,7 @@ index 887c371b..a9e58195 100644
  if(UNIX AND NOT APPLE)
      list(APPEND JUCE_FORMATS LV2)
  endif()
- 
-+# begin JUCEAAP specific -->
-+# It is not beautiful, but there does not seem to be any way to add custom include directory for modules.
-+include_directories(
-+        "${AAP_DIR}/include"
-+        )
-+
-+juce_add_module(${AAP_JUCE_DIR}/aap-modules/juceaap_audio_plugin_client)
-+
-+if (ANDROID)
-+
-+# dependencies
-+find_library(log "log")
-+find_library(android "android")
-+find_library(glesv2 "GLESv2")
-+find_library(egl "EGL")
-+set(cpufeatures_lib "cpufeatures")
-+set(oboe_lib "oboe")
-+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-+
-+endif (ANDROID)
-+# <-- end JUCEAAP specific
-+
- juce_add_plugin(Odin2
-   VERSION "2.3.3"
-   COMPANY_NAME "TheWaveWarden"
-@@ -49,10 +76,26 @@ juce_add_plugin(Odin2
-   LV2_SHARED_LIBRARY_NAME Odin2
- )
- 
-+### AAP except for module
-+
-+add_compile_definitions([[JUCE_DONT_AUTO_OPEN_MIDI_DEVICES_ON_MOBILE=1]])
-+
-+target_link_libraries(Odin2
-+	PRIVATE
-+	juceaap_audio_plugin_client
-+        ${log}
-+        ${android}
-+        ${glesv2}
-+        ${egl}
-+        ${cpufeatures_lib}
-+        )
-+
- # ==================== CLAP =======================
-+if(false) # skip all CLAP bits, it don't exist on Android
- clap_juce_extensions_plugin(TARGET Odin2
-         CLAP_ID "com.thewavewarden.odin2"
-         CLAP_FEATURES instrument "virtual analog")
-+endif()
- 
- # ==================== JUCE Defines =======================
- juce_generate_juce_header(Odin2)
-@@ -62,7 +105,6 @@ target_compile_definitions(Odin2
+@@ -62,7 +62,6 @@ target_compile_definitions(Odin2
      JUCE_USE_CURL=0
      JUCE_VST3_CAN_REPLACE_VST2=0
      JUCE_WEB_BROWSER=0
@@ -93,6 +28,52 @@ index 887c371b..a9e58195 100644
      JUCE_DISPLAY_SPLASH_SCREEN=0
  )
  
+@@ -1190,3 +1189,45 @@ target_link_libraries(Odin2
+     juce::juce_recommended_lto_flags
+     #juce::juce_recommended_warning_flags
+ )
++
++# begin JUCEAAP specific -->
++# It is not beautiful, but there does not seem to be any way to add custom include directory for modules.
++include_directories(
++        "${AAP_DIR}/include"
++)
++
++juce_add_module(${AAP_JUCE_DIR}/aap-modules/aap_audio_processors)
++
++if (ANDROID)
++
++    # dependencies
++    find_library(log "log")
++    find_library(android "android")
++    find_library(glesv2 "GLESv2")
++    find_library(egl "EGL")
++    set(cpufeatures_lib "cpufeatures")
++    set(oboe_lib "oboe")
++    set(CMAKE_CXX_FLAGS_RELEASE "-O3")
++
++add_compile_definitions(
++    [[JUCE_ANDROID=1]]
++)
++
++endif (ANDROID)
++
++add_compile_definitions(
++    [[JUCEAAP_USE_UNIQUE_ID=1]]
++    [[JUCEAAP_HOSTED_PARAMETER=1]]
++    [[JUCE_DONT_AUTO_OPEN_MIDI_DEVICES_ON_MOBILE=1]]
++)
++
++target_link_libraries(Odin2
++        PRIVATE
++        aap_audio_processors
++        ${log}
++        ${android}
++        ${glesv2}
++        ${egl}
++        ${cpufeatures_lib}
++        )
++# <-- end JUCEAAP specific
 diff --git a/Source/PluginEditor.cpp b/Source/PluginEditor.cpp
 index 87ee9f36..51abc6cc 100644
 --- a/Source/PluginEditor.cpp
