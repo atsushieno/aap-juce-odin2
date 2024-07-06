@@ -1,5 +1,5 @@
 <devices>
-    <device name="Odin2 UMP" manufacturer="AAP Porting Project" product="Odin2">
+    <device name="Odin2" manufacturer="AAP Porting Project" product="Odin2">
         <port name="port1" />
     </device>
 </devices>

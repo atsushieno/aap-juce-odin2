@@ -6,12 +6,11 @@ plugins {
 
 android {
     namespace 'org.androidaudioplugin.samples.odin2'
-    compileSdkPreview = "VanillaIceCream"
+    compileSdk = libs.versions.android.compileSdk.get().toInteger()
 
     defaultConfig {
         applicationId "org.androidaudioplugin.ports.juce.odin2"
-        targetSdk 34
-        minSdk = 29
+        minSdk = libs.versions.android.minSdk.get().toInteger()
         externalNativeBuild {
             cmake {
                 arguments "-DAAP_DIR=${System.env.AAP_DIR != null ? System.env.AAP_DIR : "$projectDir/../external/aap-core"}",
