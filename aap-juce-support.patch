@@ -1,8 +1,8 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 887c371b..aecd096c 100644
+index 7f1decb3..c21c341d 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -4,7 +4,7 @@ project(Odin2 VERSION 2.3.3 LANGUAGES C CXX ASM)
+@@ -5,7 +5,7 @@ project(Odin2 VERSION 2.3.4 LANGUAGES C CXX ASM)
  
  # ================== CMake Subdirs ======================
  add_subdirectory(libs/clap-juce-extensions)
@@ -11,7 +11,7 @@ index 887c371b..aecd096c 100644
    add_subdirectory(libs/JUCELV2)
  else()
    add_subdirectory(libs/JUCE)
-@@ -29,7 +29,7 @@ option(ODIN2_COPY_PLUGIN_AFTER_BUILD "Copy JUCE Plugins after built" OFF)
+@@ -30,7 +30,7 @@ option(ODIN2_COPY_PLUGIN_AFTER_BUILD "Copy JUCE Plugins after built" OFF)
  
  # ==================== Add Plugin =======================
  # Build LV2 only on Linux
@@ -20,7 +20,7 @@ index 887c371b..aecd096c 100644
  if(UNIX AND NOT APPLE)
      list(APPEND JUCE_FORMATS LV2)
  endif()
-@@ -62,7 +62,6 @@ target_compile_definitions(Odin2
+@@ -63,7 +63,6 @@ target_compile_definitions(Odin2
      JUCE_USE_CURL=0
      JUCE_VST3_CAN_REPLACE_VST2=0
      JUCE_WEB_BROWSER=0
@@ -28,7 +28,7 @@ index 887c371b..aecd096c 100644
      JUCE_DISPLAY_SPLASH_SCREEN=0
  )
  
-@@ -1190,3 +1189,51 @@ target_link_libraries(Odin2
+@@ -1194,3 +1193,51 @@ target_link_libraries(Odin2
      juce::juce_recommended_lto_flags
      #juce::juce_recommended_warning_flags
  )
@@ -81,7 +81,7 @@ index 887c371b..aecd096c 100644
 +        )
 +# <-- end JUCEAAP specific
 diff --git a/Source/PluginEditor.cpp b/Source/PluginEditor.cpp
-index 87ee9f36..51abc6cc 100644
+index 0cdc0dda..8534429e 100644
 --- a/Source/PluginEditor.cpp
 +++ b/Source/PluginEditor.cpp
 @@ -93,13 +93,13 @@ OdinAudioProcessorEditor::OdinAudioProcessorEditor(OdinAudioProcessor &p_process
@@ -107,9 +107,9 @@ index 87ee9f36..51abc6cc 100644
 -		setOsc1Plate(m_osc_dropdown_menu.show());
 +		m_osc_dropdown_menu.showMenuAsync(PopupMenu::Options{}, [&](int v) { setOsc1Plate(v); });
  	};
- 	addAndMakeVisible(m_osc1_dropdown);
- 	m_osc1_dropdown.setTooltip("Select the module to\nbe used for oscillator 1");
-@@ -180,7 +180,7 @@ OdinAudioProcessorEditor::OdinAudioProcessorEditor(OdinAudioProcessor &p_process
+ 	addAndMakeVisible(m_title_button);
+ 
+@@ -182,7 +182,7 @@ OdinAudioProcessorEditor::OdinAudioProcessorEditor(OdinAudioProcessor &p_process
  	m_osc2_dropdown.onClick = [&]() {
  		m_osc2_dropdown.setState(Button::ButtonState::buttonNormal);
  		m_osc2_dropdown.setToggleState(false, dontSendNotification);
@@ -118,7 +118,7 @@ index 87ee9f36..51abc6cc 100644
  	};
  	m_osc2_dropdown.setTooltip("Select the module to\nbe used for oscillator 2");
  	addAndMakeVisible(m_osc2_dropdown);
-@@ -194,7 +194,7 @@ OdinAudioProcessorEditor::OdinAudioProcessorEditor(OdinAudioProcessor &p_process
+@@ -196,7 +196,7 @@ OdinAudioProcessorEditor::OdinAudioProcessorEditor(OdinAudioProcessor &p_process
  	m_osc3_dropdown.onClick = [&]() {
  		m_osc3_dropdown.setState(Button::ButtonState::buttonNormal);
  		m_osc3_dropdown.setToggleState(false, dontSendNotification);
@@ -127,7 +127,7 @@ index 87ee9f36..51abc6cc 100644
  	};
  	m_osc3_dropdown.setTooltip("Select the module to\nbe used for oscillator 3");
  	addAndMakeVisible(m_osc3_dropdown);
-@@ -208,7 +208,7 @@ OdinAudioProcessorEditor::OdinAudioProcessorEditor(OdinAudioProcessor &p_process
+@@ -210,7 +210,7 @@ OdinAudioProcessorEditor::OdinAudioProcessorEditor(OdinAudioProcessor &p_process
  	m_filter1_dropdown.onClick = [&]() {
  		m_filter1_dropdown.setState(Button::ButtonState::buttonNormal);
  		m_filter1_dropdown.setToggleState(false, dontSendNotification);
@@ -136,7 +136,7 @@ index 87ee9f36..51abc6cc 100644
  	};
  	m_filter1_dropdown.setTooltip("Select the module to\nbe used for filter 1");
  	addAndMakeVisible(m_filter1_dropdown);
-@@ -222,7 +222,7 @@ OdinAudioProcessorEditor::OdinAudioProcessorEditor(OdinAudioProcessor &p_process
+@@ -224,7 +224,7 @@ OdinAudioProcessorEditor::OdinAudioProcessorEditor(OdinAudioProcessor &p_process
  	m_filter2_dropdown.onClick = [&]() {
  		m_filter2_dropdown.setState(Button::ButtonState::buttonNormal);
  		m_filter2_dropdown.setToggleState(false, dontSendNotification);
@@ -145,7 +145,7 @@ index 87ee9f36..51abc6cc 100644
  	};
  	m_filter2_dropdown.setTooltip("Select the module to\nbe used for filter 2");
  	addAndMakeVisible(m_filter2_dropdown);
-@@ -236,7 +236,7 @@ OdinAudioProcessorEditor::OdinAudioProcessorEditor(OdinAudioProcessor &p_process
+@@ -238,7 +238,7 @@ OdinAudioProcessorEditor::OdinAudioProcessorEditor(OdinAudioProcessor &p_process
  	m_filter3_dropdown.onClick = [&]() {
  		m_filter3_dropdown.setState(Button::ButtonState::buttonNormal);
  		m_filter3_dropdown.setToggleState(false, dontSendNotification);
@@ -345,10 +345,10 @@ index cfddd4a5..26ce29ab 100644
  		return;
  	}
 diff --git a/Source/gui/PatchBrowser.cpp b/Source/gui/PatchBrowser.cpp
-index 3ab8d00a..1edc36fa 100644
+index 21927324..571891d5 100644
 --- a/Source/gui/PatchBrowser.cpp
 +++ b/Source/gui/PatchBrowser.cpp
-@@ -117,13 +117,13 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -122,13 +122,13 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  		DBG("DELETE directory: " + m_soundbank_selector.getDirectory() + File::getSeparatorString() + p_string);
  		String absolute_path = m_soundbank_selector.getDirectory() + File::getSeparatorString() + p_string;
  
@@ -364,7 +364,7 @@ index 3ab8d00a..1edc36fa 100644
  			File file_to_delete(absolute_path);
  			if (file_to_delete.deleteRecursively()) {
  				DBG("Directory was deleted!");
-@@ -147,13 +147,13 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -152,13 +152,13 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  		DBG("DELETE directory: " + m_category_selector.getDirectory() + File::getSeparatorString() + p_string);
  		String absolute_path = m_category_selector.getDirectory() + File::getSeparatorString() + p_string;
  
@@ -380,7 +380,7 @@ index 3ab8d00a..1edc36fa 100644
  			File file_to_delete(absolute_path);
  			if (file_to_delete.deleteRecursively()) {
  				DBG("DBG: Directory was deleted!");
-@@ -174,12 +174,12 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -179,12 +179,12 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  		DBG("DELETE patch: " + m_patch_selector.getDirectory() + File::getSeparatorString() + p_string);
  		String absolute_path = m_patch_selector.getDirectory() + File::getSeparatorString() + p_string;
  
@@ -395,7 +395,7 @@ index 3ab8d00a..1edc36fa 100644
  			File file_to_delete(absolute_path);
  			if (file_to_delete.deleteFile()) {
  				DBG("file was deleted!");
-@@ -201,12 +201,12 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -206,12 +206,12 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  		//check whether file already exists
  		if (file_to_write.existsAsFile()) {
@@ -410,7 +410,7 @@ index 3ab8d00a..1edc36fa 100644
  				//user selected cancel
  				return;
  			}
-@@ -227,7 +227,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -232,7 +232,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  		//check whether directory already exists
  		if (dir_to_create.isDirectory()) {
@@ -419,7 +419,7 @@ index 3ab8d00a..1edc36fa 100644
  			                            "Category Exists!",
  			                            "The category you're trying to create already exists!",
  			                            "Ok");
-@@ -248,7 +248,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -253,7 +253,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  		//check whether directory already exists
  		if (dir_to_create.isDirectory()) {
@@ -428,7 +428,7 @@ index 3ab8d00a..1edc36fa 100644
  			                            "Soundbank Exists!",
  			                            "The soundbank you're trying to create already exists!",
  			                            "Ok");
-@@ -300,12 +300,12 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -305,12 +305,12 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  				    //check whether file already exists
  				    if (file_to_write.existsAsFile()) {
@@ -443,7 +443,7 @@ index 3ab8d00a..1edc36fa 100644
  						    //user selected cancel
  						    return;
  					    }
-@@ -324,7 +324,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -329,7 +329,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  	m_soundbank_selector.onExport = [&](String p_directory) {
  		File soundbank_file(m_category_selector.getDirectory());
  		if (!soundbank_file.isDirectory()) {
@@ -452,7 +452,7 @@ index 3ab8d00a..1edc36fa 100644
  			                            "No soundbank selected!",
  			                            "You appear to not have selected any soundbank.",
  			                            "Bummer");
-@@ -357,12 +357,12 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -362,12 +362,12 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  				    //check whether file already exists
  				    if (file_to_write.existsAsFile()) {
@@ -467,7 +467,7 @@ index 3ab8d00a..1edc36fa 100644
  						    //user selected cancel
  						    return;
  					    }
-@@ -413,7 +413,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -418,7 +418,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  		File move_target(p_directory + File::getSeparatorString() + p_new_name + ".odin");
  		if (move_target.existsAsFile()) {
@@ -476,7 +476,7 @@ index 3ab8d00a..1edc36fa 100644
  			                            "Preset already exists!",
  			                            "The preset you're trying to create already exists, please choose another name "
  			                            "or remove the other one.",
-@@ -441,7 +441,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -446,7 +446,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  		File move_target(p_directory + File::getSeparatorString() + p_new_name);
  		if (move_target.isDirectory()) {
@@ -485,7 +485,7 @@ index 3ab8d00a..1edc36fa 100644
  			    AlertWindow::AlertIconType::WarningIcon,
  			    "Category already exists!",
  			    "The category you're trying to create already exists, please choose another name "
-@@ -476,7 +476,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -481,7 +481,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  		File move_target(p_directory + File::getSeparatorString() + p_new_name);
  		if (move_target.isDirectory()) {
@@ -494,7 +494,7 @@ index 3ab8d00a..1edc36fa 100644
  			    AlertWindow::AlertIconType::WarningIcon,
  			    "Soundbank already exists!",
  			    "The soundbank you're trying to create already exists, please choose another name "
-@@ -512,7 +512,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -517,7 +517,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  		File move_target(target_absolute);
  		if (move_target.isDirectory()) {
@@ -503,7 +503,7 @@ index 3ab8d00a..1edc36fa 100644
  			    AlertWindow::AlertIconType::WarningIcon,
  			    "Category already exists!",
  			    "The category you're trying to create already exists, please choose another name "
-@@ -544,7 +544,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -549,7 +549,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  		                 File::getSeparatorString() + p_file + ".odin");
  
  		if (move_target.existsAsFile()) {
@@ -512,7 +512,7 @@ index 3ab8d00a..1edc36fa 100644
  			                            "Preset already exists!",
  			                            "The preset you're trying to create already exists, please choose another name "
  			                            "or remove the other one.",
-@@ -571,7 +571,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -576,7 +576,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  		File move_target(target_absolute);
  		if (move_target.isDirectory()) {
@@ -521,7 +521,7 @@ index 3ab8d00a..1edc36fa 100644
  			    AlertWindow::AlertIconType::WarningIcon,
  			    "Category already exists!",
  			    "The category you're trying to create already exists, please choose another name "
-@@ -602,7 +602,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -607,7 +607,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  		                 File::getSeparatorString() + p_file + ".odin");
  
  		if (copy_target.existsAsFile()) {
@@ -530,7 +530,7 @@ index 3ab8d00a..1edc36fa 100644
  			                            "Preset already exists!",
  			                            "The preset you're trying to create already exists, please choose another name "
  			                            "or remove the other one.",
-@@ -719,7 +719,7 @@ void PatchBrowser::loadPatchFromOpenedFileStream(juce::FileInputStream &p_file_s
+@@ -724,7 +724,7 @@ void PatchBrowser::loadPatchFromOpenedFileStream(juce::FileInputStream &p_file_s
  	std::string version_string;
  	if (checkForBiggerVersion(p_file_stream, version_string)) {
  		//abort with icon
@@ -539,7 +539,7 @@ index 3ab8d00a..1edc36fa 100644
  		    AlertWindow::AlertIconType::WarningIcon,
  		    "Cannot load patch!",
  		    "The bad news: You cannot load this patch, because you are on version " + ODIN_VERSION_STRING +
-@@ -1074,7 +1074,7 @@ void PatchBrowser::loadPatchWithFileBrowserAndCopyToCategory(String p_directory)
+@@ -1079,7 +1079,7 @@ void PatchBrowser::loadPatchWithFileBrowserAndCopyToCategory(String p_directory)
  				    config_save.saveDataToFile();
  
  				    if (copy_target.existsAsFile()) {
@@ -783,3 +783,9 @@ index bc0f33e6..eec62491 100644
  
  	m_buttons_right = p_buttons_right;
  
+diff --git a/libs/JUCE b/libs/JUCE
+--- a/libs/JUCE
++++ b/libs/JUCE
+@@ -1 +1 @@
+-Subproject commit 53b04877c6ebc7ef3cb42e84cb11a48e0cf809b5
++Subproject commit 53b04877c6ebc7ef3cb42e84cb11a48e0cf809b5-dirty
