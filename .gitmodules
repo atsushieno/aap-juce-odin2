@@ -7,3 +7,6 @@
 [submodule "external/odin2"]
 	path = external/odin2
 	url = https://github.com/TheWaveWarden/odin2.git
+[submodule "external/JUCE"]
+	path = external/JUCE
+	url = https://github.com/juce-framework/JUCE.git

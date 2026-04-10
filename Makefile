@@ -6,7 +6,7 @@ APP_NAME=Odin2
 
 APP_BUILD_DIR=$(PWD)
 APP_SRC_DIR=$(PWD)/external/odin2
-JUCE_DIR=$(APP_SRC_DIR)/libs/JUCE
+JUCE_DIR=$(PWD)/external/JUCE
 
 APP_SHARED_CODE_LIBS="$(APP_NAME)_artefacts/lib$(APP_NAME)_SharedCode.a lib${APP_NAME}_BinaryData.a"
 

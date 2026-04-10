@@ -1,26 +1,28 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 887c371b..aecd096c 100644
+index 6886a6b4..63b2f30c 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -4,7 +4,7 @@ project(Odin2 VERSION 2.3.3 LANGUAGES C CXX ASM)
- 
+@@ -6,7 +6,7 @@ project(Odin2 VERSION 2.4.1 LANGUAGES C CXX ASM)
  # ================== CMake Subdirs ======================
- add_subdirectory(libs/clap-juce-extensions)
--if(UNIX AND NOT APPLE)
-+if(false) #UNIX AND NOT APPLE) # We don't build LV2 on Android
-   add_subdirectory(libs/JUCELV2)
+ add_subdirectory(libs/clap-juce-extensions EXCLUDE_FROM_ALL)
+ if(UNIX AND NOT APPLE)
+-  add_subdirectory(libs/JUCELV2 EXCLUDE_FROM_ALL)
++  add_subdirectory(${JUCE_DIR} "JUCE" EXCLUDE_FROM_ALL)
  else()
-   add_subdirectory(libs/JUCE)
-@@ -29,7 +29,7 @@ option(ODIN2_COPY_PLUGIN_AFTER_BUILD "Copy JUCE Plugins after built" OFF)
+   add_subdirectory(libs/JUCE EXCLUDE_FROM_ALL)
+ endif()
+@@ -36,8 +36,8 @@ add_compile_definitions(
  
  # ==================== Add Plugin =======================
  # Build LV2 only on Linux
 -set(JUCE_FORMATS AU VST3 Standalone)
+-if(UNIX AND NOT APPLE)
 +set(JUCE_FORMATS AU Standalone)
- if(UNIX AND NOT APPLE)
++if(false) #UNIX AND NOT APPLE) # We don't build LV2 on Android
      list(APPEND JUCE_FORMATS LV2)
  endif()
-@@ -62,7 +62,6 @@ target_compile_definitions(Odin2
+ 
+@@ -69,7 +69,6 @@ target_compile_definitions(Odin2
      JUCE_USE_CURL=0
      JUCE_VST3_CAN_REPLACE_VST2=0
      JUCE_WEB_BROWSER=0
@@ -28,10 +30,10 @@ index 887c371b..aecd096c 100644
      JUCE_DISPLAY_SPLASH_SCREEN=0
  )
  
-@@ -1190,3 +1189,51 @@ target_link_libraries(Odin2
-     juce::juce_recommended_lto_flags
-     #juce::juce_recommended_warning_flags
- )
+@@ -254,3 +253,52 @@ endforeach()
+ if(TARGET ${PROJECT_NAME}_CLAP)
+   install(TARGETS ${PROJECT_NAME}_CLAP DESTINATION ${CMAKE_INSTALL_LIBDIR}/clap)
+ endif()
 +
 +# begin JUCEAAP specific -->
 +# It is not beautiful, but there does not seem to be any way to add custom include directory for modules.
@@ -58,16 +60,17 @@ index 887c371b..aecd096c 100644
 +    set(oboe_lib "oboe")
 +    set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 +
-+add_compile_definitions(
-+    [[JUCE_ANDROID=1]]
-+)
++    add_compile_definitions(
++            [[JUCE_ANDROID=1]]
++    )
 +
 +endif (ANDROID)
 +
 +add_compile_definitions(
-+    [[JUCEAAP_USE_UNIQUE_ID=1]]
-+    [[JUCEAAP_HOSTED_PARAMETER=1]]
-+    [[JUCE_DONT_AUTO_OPEN_MIDI_DEVICES_ON_MOBILE=1]]
++        [[JUCEAAP_USE_UNIQUE_ID=1]]
++        [[JUCEAAP_HOSTED_PARAMETER=1]]
++        [[JUCE_DONT_AUTO_OPEN_MIDI_DEVICES_ON_MOBILE=1]]
++        [[JUCEAAP_HAVE_AUDIO_PLAYHEAD_NEW_POSITION_INFO=1]]
 +)
 +
 +target_link_libraries(Odin2
@@ -78,13 +81,13 @@ index 887c371b..aecd096c 100644
 +        ${glesv2}
 +        ${egl}
 +        ${cpufeatures_lib}
-+        )
++)
 +# <-- end JUCEAAP specific
 diff --git a/Source/PluginEditor.cpp b/Source/PluginEditor.cpp
-index 87ee9f36..51abc6cc 100644
+index e02314c8..fc7afa89 100644
 --- a/Source/PluginEditor.cpp
 +++ b/Source/PluginEditor.cpp
-@@ -93,13 +93,13 @@ OdinAudioProcessorEditor::OdinAudioProcessorEditor(OdinAudioProcessor &p_process
+@@ -128,13 +128,13 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
  	m_patch_browser.forceValueTreeLambda = [&]() { forceValueTreeOntoComponents(true); };
  
  	m_reset.onClick = [&]() {
@@ -100,16 +103,16 @@ index 87ee9f36..51abc6cc 100644
  
  			// replace stream with patch from binary data
  			MemoryInputStream init_stream(BinaryData::init_patch_odin, BinaryData::init_patch_odinSize, false);
-@@ -166,7 +166,7 @@ OdinAudioProcessorEditor::OdinAudioProcessorEditor(OdinAudioProcessor &p_process
+@@ -200,7 +200,7 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
  	m_osc1_dropdown.onClick = [&]() {
  		m_osc1_dropdown.setState(Button::ButtonState::buttonNormal);
  		m_osc1_dropdown.setToggleState(false, dontSendNotification);
 -		setOsc1Plate(m_osc_dropdown_menu.show());
 +		m_osc_dropdown_menu.showMenuAsync(PopupMenu::Options{}, [&](int v) { setOsc1Plate(v); });
  	};
- 	addAndMakeVisible(m_osc1_dropdown);
- 	m_osc1_dropdown.setTooltip("Select the module to\nbe used for oscillator 1");
-@@ -180,7 +180,7 @@ OdinAudioProcessorEditor::OdinAudioProcessorEditor(OdinAudioProcessor &p_process
+ 	addAndMakeVisible(m_title_button);
+ 
+@@ -220,7 +220,7 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
  	m_osc2_dropdown.onClick = [&]() {
  		m_osc2_dropdown.setState(Button::ButtonState::buttonNormal);
  		m_osc2_dropdown.setToggleState(false, dontSendNotification);
@@ -118,7 +121,7 @@ index 87ee9f36..51abc6cc 100644
  	};
  	m_osc2_dropdown.setTooltip("Select the module to\nbe used for oscillator 2");
  	addAndMakeVisible(m_osc2_dropdown);
-@@ -194,7 +194,7 @@ OdinAudioProcessorEditor::OdinAudioProcessorEditor(OdinAudioProcessor &p_process
+@@ -233,7 +233,7 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
  	m_osc3_dropdown.onClick = [&]() {
  		m_osc3_dropdown.setState(Button::ButtonState::buttonNormal);
  		m_osc3_dropdown.setToggleState(false, dontSendNotification);
@@ -127,7 +130,7 @@ index 87ee9f36..51abc6cc 100644
  	};
  	m_osc3_dropdown.setTooltip("Select the module to\nbe used for oscillator 3");
  	addAndMakeVisible(m_osc3_dropdown);
-@@ -208,7 +208,7 @@ OdinAudioProcessorEditor::OdinAudioProcessorEditor(OdinAudioProcessor &p_process
+@@ -246,7 +246,7 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
  	m_filter1_dropdown.onClick = [&]() {
  		m_filter1_dropdown.setState(Button::ButtonState::buttonNormal);
  		m_filter1_dropdown.setToggleState(false, dontSendNotification);
@@ -136,7 +139,7 @@ index 87ee9f36..51abc6cc 100644
  	};
  	m_filter1_dropdown.setTooltip("Select the module to\nbe used for filter 1");
  	addAndMakeVisible(m_filter1_dropdown);
-@@ -222,7 +222,7 @@ OdinAudioProcessorEditor::OdinAudioProcessorEditor(OdinAudioProcessor &p_process
+@@ -259,7 +259,7 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
  	m_filter2_dropdown.onClick = [&]() {
  		m_filter2_dropdown.setState(Button::ButtonState::buttonNormal);
  		m_filter2_dropdown.setToggleState(false, dontSendNotification);
@@ -145,7 +148,7 @@ index 87ee9f36..51abc6cc 100644
  	};
  	m_filter2_dropdown.setTooltip("Select the module to\nbe used for filter 2");
  	addAndMakeVisible(m_filter2_dropdown);
-@@ -236,7 +236,7 @@ OdinAudioProcessorEditor::OdinAudioProcessorEditor(OdinAudioProcessor &p_process
+@@ -272,7 +272,7 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
  	m_filter3_dropdown.onClick = [&]() {
  		m_filter3_dropdown.setState(Button::ButtonState::buttonNormal);
  		m_filter3_dropdown.setToggleState(false, dontSendNotification);
@@ -154,8 +157,18 @@ index 87ee9f36..51abc6cc 100644
  	};
  	m_filter3_dropdown.setTooltip("Select the module to\nbe used for filter 3");
  	addAndMakeVisible(m_filter3_dropdown);
+@@ -366,7 +366,8 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
+ 
+ 		OdinMenuFeels laf;
+ 		menu.setLookAndFeel(&laf);
+-		const auto ret = menu.show();
++        auto ret = 0;
++		menu.showMenuAsync({}, [&](int v) { ret = v; });
+ 		menu.setLookAndFeel(nullptr);
+ 
+ 		if (ret == 0)
 diff --git a/Source/PluginProcessorMisc.cpp b/Source/PluginProcessorMisc.cpp
-index e33bc168..e9525aed 100644
+index 13e4a2bb..a78fa3f6 100644
 --- a/Source/PluginProcessorMisc.cpp
 +++ b/Source/PluginProcessorMisc.cpp
 @@ -149,7 +149,7 @@ void OdinAudioProcessor::setStateInformation(const void *data, int sizeInBytes)
@@ -191,65 +204,41 @@ index 7f8d3c47..20ae47bf 100644
 +
 +#pragma clang diagnostic pop
 diff --git a/Source/gui/BrowserEntry.cpp b/Source/gui/BrowserEntry.cpp
-index a2564a0b..5251bdbe 100644
+index a7ebe135..3a8c00c6 100644
 --- a/Source/gui/BrowserEntry.cpp
 +++ b/Source/gui/BrowserEntry.cpp
-@@ -33,7 +33,7 @@ BrowserEntry::BrowserEntry(String p_text, bool p_GUI_big) : m_text(p_text), m_GU
- 	}
+@@ -26,7 +26,7 @@ BrowserEntry::BrowserEntry(String p_text) : m_text(p_text) {
+ 
  	m_rename_editor.onReturnKey = [&]() {
  		if (m_rename_editor.getText().isEmpty()) {
--			AlertWindow::showMessageBox(
-+			AlertWindow::showMessageBoxAsync(
- 			    AlertWindow::AlertIconType::WarningIcon, "Empty Name", "Please input a valid name!", "Ok");
+-			AlertWindow::showMessageBox(AlertWindow::AlertIconType::WarningIcon, "Empty Name", "Please input a valid name!", "Ok");
++			AlertWindow::showMessageBoxAsync(AlertWindow::AlertIconType::WarningIcon, "Empty Name", "Please input a valid name!", "Ok");
  			return;
  		}
-diff --git a/Source/gui/DrawableSlider.cpp b/Source/gui/DrawableSlider.cpp
-index 5d6bbb7c..950bfd3f 100644
---- a/Source/gui/DrawableSlider.cpp
-+++ b/Source/gui/DrawableSlider.cpp
-@@ -68,6 +68,8 @@ void DrawableSlider::mouseDown(const MouseEvent &event) {
- 	if (event.mods.isRightButtonDown() && m_midi_learn_possible) {
- 		//DBG("RIGHT");
- 		PopupMenu midi_learn_menu;
-+		Logger::writeToLog("Menu popup not implemented on Android");
-+		/*
- 		if (m_midi_learn) {
- 			midi_learn_menu.addItem(2, "Stop MIDI learn");
- 			if (midi_learn_menu.show() == 2) {
-@@ -94,6 +96,7 @@ void DrawableSlider::mouseDown(const MouseEvent &event) {
- 				repaint();
- 			}
- 		}
-+		*/
- 		return;
- 	}
- 	Slider::mouseDown(event);
-diff --git a/Source/gui/LeftRightButton.cpp b/Source/gui/LeftRightButton.cpp
-index 980d8631..4432972a 100644
---- a/Source/gui/LeftRightButton.cpp
-+++ b/Source/gui/LeftRightButton.cpp
-@@ -60,6 +60,8 @@ void LeftRightButton::mouseDown(const MouseEvent &p_event) {
+ 		hideRenameEditor();
+diff --git a/Source/gui/JsonGuiProvider.cpp b/Source/gui/JsonGuiProvider.cpp
+index 108914b7..4c11862d 100644
+--- a/Source/gui/JsonGuiProvider.cpp
++++ b/Source/gui/JsonGuiProvider.cpp
+@@ -34,9 +34,13 @@ void JsonGuiProvider::saveToFile() {
  
- 		//DBG("RIGHT");
- 		PopupMenu midi_learn_menu;
-+		Logger::writeToLog("Menu popup not implemented on Android");
+ juce::Rectangle<int> JsonGuiProvider::getBounds(const std::string &p_name, bool p_for_knob) {
+ 	if (!m_data.contains(p_name)) {
 +		/*
- 		if (m_midi_learn) {
- 			midi_learn_menu.addItem(2, "Stop MIDI learn");
- 			if (midi_learn_menu.show() == 2) {
-@@ -86,6 +88,7 @@ void LeftRightButton::mouseDown(const MouseEvent &p_event) {
- 				repaint();
- 			}
- 		}
-+		*/
- 		return;
+ 		m_alert_window.setMessage(p_name);
+ 		m_alert_window.runModalLoop();
+ 		setBoundsUnscaled(p_name, m_gui_editor.getData());
++		 */
++		std::cerr << "Odin2 error (removing runModalLoop): " << p_name << std::endl;
++		return getBoundsUnscaled(p_name);
  	}
- 	juce::Point<int> mouse_position = getMouseXYRelative();
+ 
+ 	auto zoom_size = ConfigFileManager::getInstance().getOptionGuiScale();
 diff --git a/Source/gui/NumberSelectorWithText.cpp b/Source/gui/NumberSelectorWithText.cpp
-index b3ed7bba..01cd136f 100644
+index 1eb9d912..2741920f 100644
 --- a/Source/gui/NumberSelectorWithText.cpp
 +++ b/Source/gui/NumberSelectorWithText.cpp
-@@ -49,11 +49,15 @@ NumberSelectorWithText::NumberSelectorWithText() : NumberSelector(true) {
+@@ -33,11 +33,15 @@ NumberSelectorWithText::NumberSelectorWithText(NumberSelector::Type p_type) : Nu
  			// b) make ordering inside menu the same as up/down buttons
  			m_dropdown.addItem(9999 - m_legal_values[index], valueToText(m_legal_values[index]));
  		}
@@ -270,204 +259,93 @@ index b3ed7bba..01cd136f 100644
  	};
  
  	addAndMakeVisible(m_display);
-diff --git a/Source/gui/OdinButton.cpp b/Source/gui/OdinButton.cpp
-index 2b7eac9b..b70199d6 100644
---- a/Source/gui/OdinButton.cpp
-+++ b/Source/gui/OdinButton.cpp
-@@ -21,6 +21,8 @@ OdinAudioProcessor *OdinButton::m_processor;
- void OdinButton::mouseDown(const MouseEvent &event) {
- 	if (event.mods.isRightButtonDown() && m_midi_learn_possible) {
- 		//DBG("RIGHT");
-+		Logger::writeToLog("MIDI learn popup menu not implemented on Android");
-+		/*
- 		PopupMenu midi_learn_menu;
- 		if (m_midi_learn) {
- 			midi_learn_menu.addItem(2, "Stop MIDI learn");
-@@ -48,6 +50,7 @@ void OdinButton::mouseDown(const MouseEvent &event) {
- 				repaint();
- 			}
- 		}
-+		*/
- 		return;
- 	}
- 	DrawableButton::mouseDown(event);
-diff --git a/Source/gui/OdinKnob.cpp b/Source/gui/OdinKnob.cpp
-index cfddd4a5..26ce29ab 100644
---- a/Source/gui/OdinKnob.cpp
-+++ b/Source/gui/OdinKnob.cpp
-@@ -27,29 +27,32 @@ void OdinKnob::mouseDown(const MouseEvent &event) {
- 		PopupMenu midi_learn_menu;
- 		if (m_midi_learn) {
- 			midi_learn_menu.addItem(2, "Stop MIDI learn");
--			if (midi_learn_menu.show() == 2) {
--				stopMidiLearn();
--				m_processor->stopMidiLearn();
--			}
-+			midi_learn_menu.showMenuAsync(PopupMenu::Options{}, [&](int result) {
-+				if (result == 2) {
-+					stopMidiLearn();
-+					m_processor->stopMidiLearn();
-+				}
-+			});
- 		} else {
- 			midi_learn_menu.addItem(2, "MIDI learn");
- 			if (m_midi_control) {
- 				midi_learn_menu.addItem(3, "MIDI forget");
- 			}
--			int menu = midi_learn_menu.show();
--			if (menu == 2) {
--				if (m_midi_control) {
-+			midi_learn_menu.showMenuAsync(PopupMenu::Options{}, [&](int menu) {
-+				if (menu == 2) {
-+					if (m_midi_control) {
-+						m_processor->midiForget(m_parameter_ID, this);
-+					}
-+					m_processor->startMidiLearn(m_parameter_ID, this);
-+					m_midi_learn = true;
-+					m_midi_control = false;
-+					repaint();
-+				} else if (menu == 3) {
- 					m_processor->midiForget(m_parameter_ID, this);
-+					m_midi_control = false;
-+					repaint();
- 				}
--				m_processor->startMidiLearn(m_parameter_ID, this);
--				m_midi_learn   = true;
--				m_midi_control = false;
--				repaint();
--			} else if (menu == 3) {
--				m_processor->midiForget(m_parameter_ID, this);
--				m_midi_control = false;
--				repaint();
--			}
-+			});
- 		}
- 		return;
- 	}
 diff --git a/Source/gui/PatchBrowser.cpp b/Source/gui/PatchBrowser.cpp
-index 3ab8d00a..1edc36fa 100644
+index 0fb667f5..432bca9a 100644
 --- a/Source/gui/PatchBrowser.cpp
 +++ b/Source/gui/PatchBrowser.cpp
-@@ -117,13 +117,13 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
- 		DBG("DELETE directory: " + m_soundbank_selector.getDirectory() + File::getSeparatorString() + p_string);
+@@ -144,7 +144,8 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  		String absolute_path = m_soundbank_selector.getDirectory() + File::getSeparatorString() + p_string;
  
--		if (AlertWindow::showOkCancelBox(AlertWindow::WarningIcon,
-+		if (true/*AlertWindow::showOkCancelBox(AlertWindow::WarningIcon,
- 		                                 "Delete Category",
- 		                                 "Are you sure you want to delete the Soundbank " + p_string +
- 		                                     " and ALL the presets in it?",
- 		                                 {},
- 		                                 {},
--		                                 {})) {
-+		                                 {})*/) {
+ 		if (AlertWindow::showOkCancelBox(
+-		        AlertWindow::WarningIcon, "Delete Category", "Are you sure you want to delete the Soundbank " + p_string + " and ALL the presets in it?", {}, {}, {})) {
++		        AlertWindow::WarningIcon, "Delete Category", "Are you sure you want to delete the Soundbank " + p_string + " and ALL the presets in it?", {}, {}, {}, {})) {
++
  			File file_to_delete(absolute_path);
  			if (file_to_delete.deleteRecursively()) {
  				DBG("Directory was deleted!");
-@@ -147,13 +147,13 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
- 		DBG("DELETE directory: " + m_category_selector.getDirectory() + File::getSeparatorString() + p_string);
+@@ -169,7 +170,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  		String absolute_path = m_category_selector.getDirectory() + File::getSeparatorString() + p_string;
  
--		if (AlertWindow::showOkCancelBox(AlertWindow::WarningIcon,
-+		if (true/*AlertWindow::showOkCancelBox(AlertWindow::WarningIcon,
- 		                                 "Delete Category",
- 		                                 "Are you sure you want to delete the category " + p_string +
- 		                                     " and ALL the presets in it?",
- 		                                 {},
- 		                                 {},
--		                                 {})) {
-+		                                 {})*/) {
+ 		if (AlertWindow::showOkCancelBox(
+-		        AlertWindow::WarningIcon, "Delete Category", "Are you sure you want to delete the category " + p_string + " and ALL the presets in it?", {}, {}, {})) {
++		        AlertWindow::WarningIcon, "Delete Category", "Are you sure you want to delete the category " + p_string + " and ALL the presets in it?", {}, {}, {}, {})) {
  			File file_to_delete(absolute_path);
  			if (file_to_delete.deleteRecursively()) {
  				DBG("DBG: Directory was deleted!");
-@@ -174,12 +174,12 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -190,7 +191,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  		DBG("DELETE patch: " + m_patch_selector.getDirectory() + File::getSeparatorString() + p_string);
  		String absolute_path = m_patch_selector.getDirectory() + File::getSeparatorString() + p_string;
  
--		if (AlertWindow::showOkCancelBox(AlertWindow::WarningIcon,
-+		if (true/*AlertWindow::showOkCancelBox(AlertWindow::WarningIcon,
- 		                                 "Delete Preset",
- 		                                 "Are you sure you want to delete preset " + p_string + "?",
- 		                                 {},
- 		                                 {},
--		                                 {})) {
-+		                                 {})*/) {
+-		if (AlertWindow::showOkCancelBox(AlertWindow::WarningIcon, "Delete Preset", "Are you sure you want to delete preset " + p_string + "?", {}, {}, {})) {
++		if (AlertWindow::showOkCancelBox(AlertWindow::WarningIcon, "Delete Preset", "Are you sure you want to delete preset " + p_string + "?", {}, {}, {}, {})) {
  			File file_to_delete(absolute_path);
  			if (file_to_delete.deleteFile()) {
  				DBG("file was deleted!");
-@@ -201,12 +201,12 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -212,7 +213,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  		//check whether file already exists
  		if (file_to_write.existsAsFile()) {
--			if (!(AlertWindow::showOkCancelBox(AlertWindow::WarningIcon,
-+			if (true/*!(AlertWindow::showOkCancelBox(AlertWindow::WarningIcon,
- 			                                   "Preset already exists!",
- 			                                   "Are you sure you want to overwrite it?",
- 			                                   {},
- 			                                   {},
--			                                   {}))) {
-+			                                   {}))*/) {
+-			if (!(AlertWindow::showOkCancelBox(AlertWindow::WarningIcon, "Preset already exists!", "Are you sure you want to overwrite it?", {}, {}, {}))) {
++			if (!(AlertWindow::showOkCancelBox(AlertWindow::WarningIcon, "Preset already exists!", "Are you sure you want to overwrite it?", {}, {}, {}, {}))) {
  				//user selected cancel
  				return;
  			}
-@@ -227,7 +227,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -238,7 +239,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  		//check whether directory already exists
  		if (dir_to_create.isDirectory()) {
--			AlertWindow::showMessageBox(AlertWindow::AlertIconType::WarningIcon,
-+			AlertWindow::showMessageBoxAsync(AlertWindow::AlertIconType::WarningIcon,
- 			                            "Category Exists!",
- 			                            "The category you're trying to create already exists!",
- 			                            "Ok");
-@@ -248,7 +248,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+-			AlertWindow::showMessageBox(AlertWindow::AlertIconType::WarningIcon, "Category Exists!", "The category you're trying to create already exists!", "Ok");
++			AlertWindow::showMessageBoxAsync(AlertWindow::AlertIconType::WarningIcon, "Category Exists!", "The category you're trying to create already exists!", "Ok");
+ 			return;
+ 		}
+ 		if (dir_to_create.createDirectory()) {
+@@ -256,7 +257,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  		//check whether directory already exists
  		if (dir_to_create.isDirectory()) {
--			AlertWindow::showMessageBox(AlertWindow::AlertIconType::WarningIcon,
-+			AlertWindow::showMessageBoxAsync(AlertWindow::AlertIconType::WarningIcon,
- 			                            "Soundbank Exists!",
- 			                            "The soundbank you're trying to create already exists!",
- 			                            "Ok");
-@@ -300,12 +300,12 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+-			AlertWindow::showMessageBox(AlertWindow::AlertIconType::WarningIcon, "Soundbank Exists!", "The soundbank you're trying to create already exists!", "Ok");
++			AlertWindow::showMessageBoxAsync(AlertWindow::AlertIconType::WarningIcon, "Soundbank Exists!", "The soundbank you're trying to create already exists!", "Ok");
+ 			return;
+ 		}
+ 		if (dir_to_create.createDirectory()) {
+@@ -299,7 +300,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
- 				    //check whether file already exists
- 				    if (file_to_write.existsAsFile()) {
--					    if (!(AlertWindow::showOkCancelBox(AlertWindow::WarningIcon,
-+					    if (!(true/*AlertWindow::showOkCancelBox(AlertWindow::WarningIcon,
- 					                                       "File already exists!",
- 					                                       "Are you sure you want to overwrite it?",
- 					                                       {},
- 					                                       {},
--					                                       {}))) {
-+					                                       {})*/)) {
- 						    //user selected cancel
- 						    return;
- 					    }
-@@ -324,7 +324,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+ 				//check whether file already exists
+ 				if (file_to_write.existsAsFile()) {
+-					if (!(AlertWindow::showOkCancelBox(AlertWindow::WarningIcon, "File already exists!", "Are you sure you want to overwrite it?", {}, {}, {}))) {
++					if (!(AlertWindow::showOkCancelBox(AlertWindow::WarningIcon, "File already exists!", "Are you sure you want to overwrite it?", {}, {}, {}, {}))) {
+ 						//user selected cancel
+ 						return;
+ 					}
+@@ -318,7 +319,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  	m_soundbank_selector.onExport = [&](String p_directory) {
  		File soundbank_file(m_category_selector.getDirectory());
  		if (!soundbank_file.isDirectory()) {
--			AlertWindow::showMessageBox(AlertWindow::AlertIconType::WarningIcon,
-+			AlertWindow::showMessageBoxAsync(AlertWindow::AlertIconType::WarningIcon,
- 			                            "No soundbank selected!",
- 			                            "You appear to not have selected any soundbank.",
- 			                            "Bummer");
-@@ -357,12 +357,12 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+-			AlertWindow::showMessageBox(AlertWindow::AlertIconType::WarningIcon, "No soundbank selected!", "You appear to not have selected any soundbank.", "Bummer");
++			AlertWindow::showMessageBoxAsync(AlertWindow::AlertIconType::WarningIcon, "No soundbank selected!", "You appear to not have selected any soundbank.", "Bummer");
+ 		}
  
- 				    //check whether file already exists
- 				    if (file_to_write.existsAsFile()) {
--					    if (!(AlertWindow::showOkCancelBox(AlertWindow::WarningIcon,
-+					    if (!(true/*AlertWindow::showOkCancelBox(AlertWindow::WarningIcon,
- 					                                       "File already exists!",
- 					                                       "Are you sure you want to overwrite it?",
- 					                                       {},
- 					                                       {},
--					                                       {}))) {
-+					                                       {})*/)) {
- 						    //user selected cancel
- 						    return;
- 					    }
-@@ -413,7 +413,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+ 		auto suggested_dir = ConfigFileManager::getInstance().getOptionSoundbankDir();
+@@ -343,7 +344,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+ 
+ 				//check whether file already exists
+ 				if (file_to_write.existsAsFile()) {
+-					if (!(AlertWindow::showOkCancelBox(AlertWindow::WarningIcon, "File already exists!", "Are you sure you want to overwrite it?", {}, {}, {}))) {
++					if (!(AlertWindow::showOkCancelBox(AlertWindow::WarningIcon, "File already exists!", "Are you sure you want to overwrite it?", {}, {}, {}, {}))) {
+ 						//user selected cancel
+ 						return;
+ 					}
+@@ -389,7 +390,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  		File move_target(p_directory + File::getSeparatorString() + p_new_name + ".odin");
  		if (move_target.existsAsFile()) {
@@ -476,35 +354,35 @@ index 3ab8d00a..1edc36fa 100644
  			                            "Preset already exists!",
  			                            "The preset you're trying to create already exists, please choose another name "
  			                            "or remove the other one.",
-@@ -441,7 +441,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -417,7 +418,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  		File move_target(p_directory + File::getSeparatorString() + p_new_name);
  		if (move_target.isDirectory()) {
--			AlertWindow::showMessageBox(
-+			AlertWindow::showMessageBoxAsync(
- 			    AlertWindow::AlertIconType::WarningIcon,
- 			    "Category already exists!",
- 			    "The category you're trying to create already exists, please choose another name "
-@@ -476,7 +476,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+-			AlertWindow::showMessageBox(AlertWindow::AlertIconType::WarningIcon,
++			AlertWindow::showMessageBoxAsync(AlertWindow::AlertIconType::WarningIcon,
+ 			                            "Category already exists!",
+ 			                            "The category you're trying to create already exists, please choose another name "
+ 			                            "or remove the other one.",
+@@ -450,7 +451,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  		File move_target(p_directory + File::getSeparatorString() + p_new_name);
  		if (move_target.isDirectory()) {
--			AlertWindow::showMessageBox(
-+			AlertWindow::showMessageBoxAsync(
- 			    AlertWindow::AlertIconType::WarningIcon,
- 			    "Soundbank already exists!",
- 			    "The soundbank you're trying to create already exists, please choose another name "
-@@ -512,7 +512,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+-			AlertWindow::showMessageBox(AlertWindow::AlertIconType::WarningIcon,
++			AlertWindow::showMessageBoxAsync(AlertWindow::AlertIconType::WarningIcon,
+ 			                            "Soundbank already exists!",
+ 			                            "The soundbank you're trying to create already exists, please choose another name "
+ 			                            "or remove the other one.",
+@@ -483,7 +484,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  		File move_target(target_absolute);
  		if (move_target.isDirectory()) {
--			AlertWindow::showMessageBox(
-+			AlertWindow::showMessageBoxAsync(
- 			    AlertWindow::AlertIconType::WarningIcon,
- 			    "Category already exists!",
- 			    "The category you're trying to create already exists, please choose another name "
-@@ -544,7 +544,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
- 		                 File::getSeparatorString() + p_file + ".odin");
+-			AlertWindow::showMessageBox(AlertWindow::AlertIconType::WarningIcon,
++			AlertWindow::showMessageBoxAsync(AlertWindow::AlertIconType::WarningIcon,
+ 			                            "Category already exists!",
+ 			                            "The category you're trying to create already exists, please choose another name "
+ 			                            "or remove the other one.",
+@@ -512,7 +513,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+ 		File move_target(m_category_selector.getDirectory() + File::getSeparatorString() + p_target_cat + File::getSeparatorString() + p_file + ".odin");
  
  		if (move_target.existsAsFile()) {
 -			AlertWindow::showMessageBox(AlertWindow::AlertIconType::WarningIcon,
@@ -512,17 +390,17 @@ index 3ab8d00a..1edc36fa 100644
  			                            "Preset already exists!",
  			                            "The preset you're trying to create already exists, please choose another name "
  			                            "or remove the other one.",
-@@ -571,7 +571,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -538,7 +539,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  		File move_target(target_absolute);
  		if (move_target.isDirectory()) {
--			AlertWindow::showMessageBox(
-+			AlertWindow::showMessageBoxAsync(
- 			    AlertWindow::AlertIconType::WarningIcon,
- 			    "Category already exists!",
- 			    "The category you're trying to create already exists, please choose another name "
-@@ -602,7 +602,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
- 		                 File::getSeparatorString() + p_file + ".odin");
+-			AlertWindow::showMessageBox(AlertWindow::AlertIconType::WarningIcon,
++			AlertWindow::showMessageBoxAsync(AlertWindow::AlertIconType::WarningIcon,
+ 			                            "Category already exists!",
+ 			                            "The category you're trying to create already exists, please choose another name "
+ 			                            "or remove the other one.",
+@@ -566,7 +567,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+ 		File copy_target(m_category_selector.getDirectory() + File::getSeparatorString() + p_target_cat + File::getSeparatorString() + p_file + ".odin");
  
  		if (copy_target.existsAsFile()) {
 -			AlertWindow::showMessageBox(AlertWindow::AlertIconType::WarningIcon,
@@ -530,38 +408,38 @@ index 3ab8d00a..1edc36fa 100644
  			                            "Preset already exists!",
  			                            "The preset you're trying to create already exists, please choose another name "
  			                            "or remove the other one.",
-@@ -719,7 +719,7 @@ void PatchBrowser::loadPatchFromOpenedFileStream(juce::FileInputStream &p_file_s
+@@ -610,7 +611,7 @@ void PatchBrowser::loadPatchFromOpenedFileStream(juce::FileInputStream &p_file_s
  	std::string version_string;
  	if (checkForBiggerVersion(p_file_stream, version_string)) {
  		//abort with icon
--		AlertWindow::showMessageBox(
-+		AlertWindow::showMessageBoxAsync(
- 		    AlertWindow::AlertIconType::WarningIcon,
- 		    "Cannot load patch!",
- 		    "The bad news: You cannot load this patch, because you are on version " + ODIN_VERSION_STRING +
-@@ -1074,7 +1074,7 @@ void PatchBrowser::loadPatchWithFileBrowserAndCopyToCategory(String p_directory)
- 				    config_save.saveDataToFile();
+-		AlertWindow::showMessageBox(AlertWindow::AlertIconType::WarningIcon,
++		AlertWindow::showMessageBoxAsync(AlertWindow::AlertIconType::WarningIcon,
+ 		                            "Cannot load patch!",
+ 		                            "The bad news: You cannot load this patch, because you are on version " + ODIN_VERSION_STRING +
+ 		                                ".\nThe good news: The patch you're trying to load was created on version " + version_string +
+@@ -903,7 +904,7 @@ void PatchBrowser::loadPatchWithFileBrowserAndCopyToCategory(String p_directory)
+ 				ConfigFileManager::getInstance().saveDataToFile();
  
- 				    if (copy_target.existsAsFile()) {
--					    AlertWindow::showMessageBox(
-+					    AlertWindow::showMessageBoxAsync(
- 					        AlertWindow::AlertIconType::WarningIcon,
- 					        "Preset already exists!",
- 					        "The preset you're trying to import already exists in this category, "
+ 				if (copy_target.existsAsFile()) {
+-					AlertWindow::showMessageBox(AlertWindow::AlertIconType::WarningIcon,
++					AlertWindow::showMessageBoxAsync(AlertWindow::AlertIconType::WarningIcon,
+ 					                            "Preset already exists!",
+ 					                            "The preset you're trying to import already exists in this category, "
+ 					                            "please choose a different category name "
 diff --git a/Source/gui/PatchBrowserSelector.cpp b/Source/gui/PatchBrowserSelector.cpp
-index cd258bc9..ea6c0b36 100644
+index fef6b8a3..314589be 100644
 --- a/Source/gui/PatchBrowserSelector.cpp
 +++ b/Source/gui/PatchBrowserSelector.cpp
-@@ -120,7 +120,7 @@ void PatchBrowserSelector::paint(Graphics &g) {
+@@ -139,7 +139,7 @@ void PatchBrowserSelector::paint(Graphics &g) {
  void PatchBrowserSelector::applyInputField() {
  
  	if (m_input_field.getText().isEmpty()) {
--		AlertWindow::showMessageBox(AlertWindow::AlertIconType::WarningIcon,
-+		AlertWindow::showMessageBoxAsync(AlertWindow::AlertIconType::WarningIcon,
- 		                            "No name provided!",
- 		                            "Please enter a name into the text field!",
- 		                            "Jeeez, okay...");
-@@ -426,8 +426,7 @@ void PatchBrowserSelector::generateContent() {
+-		AlertWindow::showMessageBox(AlertWindow::AlertIconType::WarningIcon, "No name provided!", "Please enter a name into the text field!", "Jeeez, okay...");
++		AlertWindow::showMessageBoxAsync(AlertWindow::AlertIconType::WarningIcon, "No name provided!", "Please enter a name into the text field!", "Jeeez, okay...");
+ 	} else {
+ 		onCreateNewFile(getDirectory() + File::getSeparatorString() + m_input_field.getText());
+ 		m_input_field_active = false;
+@@ -397,8 +397,7 @@ void PatchBrowserSelector::generateContent() {
  					unhighlightAllEntries();
  				};
  				m_entries.back()->onRightClick = [&, return_string, file_index]() {
@@ -571,151 +449,48 @@ index cd258bc9..ea6c0b36 100644
  					DBG_VAR(file_index);
  
  					if (selected == PATCH_BROWSER_MENU_ENTRY_DELETE) {
-@@ -444,6 +443,7 @@ void PatchBrowserSelector::generateContent() {
+@@ -413,6 +412,7 @@ void PatchBrowserSelector::generateContent() {
  					} else if (selected >= PATCH_BROWSER_MENU_COPY_OFFSET) {
  						onCopy(m_entries[file_index]->getText(), getCopyFileString(selected));
  					}
 +					});
  				};
- 				m_entries.back()->applyRenaming = [&](String p_old_name, String p_new_name) {
- 					applyRenamingSelector(getDirectory(), p_old_name, p_new_name);
-diff --git a/Source/gui/SaveLoadComponent.cpp b/Source/gui/SaveLoadComponent.cpp
-index 1198bf34..f41504ee 100644
---- a/Source/gui/SaveLoadComponent.cpp
-+++ b/Source/gui/SaveLoadComponent.cpp
-@@ -171,12 +171,12 @@ SaveLoadComponent::SaveLoadComponent(AudioProcessorValueTreeState &vts, OdinAudi
- 
- 				    //check whether file already exists
- 				    if (file_to_write.existsAsFile()) {
--					    if (!(AlertWindow::showOkCancelBox(AlertWindow::WarningIcon,
-+					    if (!(true/*AlertWindow::showOkCancelBox(AlertWindow::WarningIcon,
- 					                                       "File already exists!",
- 					                                       "Are you sure you want to overwrite it?",
- 					                                       {},
- 					                                       {},
--					                                       {}))) {
-+					                                       {})*/)) {
- 						    //user selected cancel
- 						    return;
- 					    }
-@@ -265,13 +265,13 @@ SaveLoadComponent::SaveLoadComponent(AudioProcessorValueTreeState &vts, OdinAudi
- 
- 	m_reset.onClick = [&]() {
- 		if (/*m_reset_warning_was_shown ||*/
--		    AlertWindow::showOkCancelBox(AlertWindow::WarningIcon,
-+		    true/*AlertWindow::showOkCancelBox(AlertWindow::WarningIcon,
- 		                                 "Reset Synth",
- 		                                 "This will reset the synth to its initial state and you will lose "
- 		                                 "your patch!",
- 		                                 {},
- 		                                 {},
--		                                 {})) {
-+		                                 {})*/) {
- 
- 			// replace stream with patch from binary data
- 			MemoryInputStream init_stream(BinaryData::init_patch_odin, BinaryData::init_patch_odinSize, false);
-@@ -311,20 +311,23 @@ SaveLoadComponent::SaveLoadComponent(AudioProcessorValueTreeState &vts, OdinAudi
- 					m_patch_dropdown_menu.addItem(file_index + 1,
- 					                              file_array[file_index].getFileName().dropLastCharacters(5));
- 				}
--				int file_index_chosen = m_patch_dropdown_menu.show();
--
--				if (file_index_chosen != 0) { //means none was selected
--					File file_chosen = file_array[file_index_chosen - 1];
--
--					FileInputStream file_stream(file_chosen);
--					if (file_stream.openedOk()) {
--						loadPatchFromOpenedFileStream(file_stream);
--						m_value_tree.state.getChildWithName("misc").setProperty(
--						    "current_patch_filename", file_chosen.getFileName(), nullptr);
--						DBG("set filename in valuetree: " +
--						    m_value_tree.state.getChildWithName("misc")["current_patch_filename"].toString());
-+				std::function<void(int)> cb = [&](int file_index_chosen) {
-+					if (file_index_chosen != 0) { //means none was selected
-+						File file_chosen = file_array[file_index_chosen - 1];
-+
-+						FileInputStream file_stream(file_chosen);
-+						if (file_stream.openedOk()) {
-+							loadPatchFromOpenedFileStream(file_stream);
-+							m_value_tree.state.getChildWithName("misc").setProperty(
-+									"current_patch_filename", file_chosen.getFileName(), nullptr);
-+							DBG("set filename in valuetree: " +
-+								m_value_tree.state.getChildWithName(
-+										"misc")["current_patch_filename"].toString());
-+						}
- 					}
--				}
-+				};
-+				PopupMenu::Options options{};
-+				m_patch_dropdown_menu.showMenuAsync(options, cb);
- 			} else {
- 				//no files in current dir -> open filebrowser
- 				loadPatchWithFileBrowser();
-@@ -542,7 +545,7 @@ void SaveLoadComponent::loadPatchFromOpenedFileStream(juce::FileInputStream &p_f
- 	std::string version_string;
- 	if (checkForBiggerVersion(p_file_stream, version_string)) {
- 		//abort with icon
--		AlertWindow::showMessageBox(
-+		AlertWindow::showMessageBoxAsync(
- 		    AlertWindow::AlertIconType::WarningIcon,
- 		    "Cannot load patch!",
- 		    "The bad news: You cannot load this patch, because you are on version " + ODIN_VERSION_STRING +
+ 				m_entries.back()->applyRenaming = [&](String p_old_name, String p_new_name) { applyRenamingSelector(getDirectory(), p_old_name, p_new_name); };
+ 			}
 diff --git a/Source/gui/SyncTimeSelector.cpp b/Source/gui/SyncTimeSelector.cpp
-index 1316707d..b4922ceb 100644
+index 3e9d73e2..684f8640 100644
 --- a/Source/gui/SyncTimeSelector.cpp
 +++ b/Source/gui/SyncTimeSelector.cpp
-@@ -37,7 +37,8 @@ SyncTimeSelector::SyncTimeSelector() :
+@@ -40,7 +40,7 @@ SyncTimeSelector::SyncTimeSelector(UIAssets::Indices p_asset) :
  	m_dropdown.addItem(120, "1 / 32");
  	m_dropdown.addItem(130, "1 / 32T");
  
 -	m_display.onMouseDown = [&]() { setValuesFromDropdown(m_dropdown.show()); };
-+	// PopupMenu asyncification not implemented
-+	//m_display.onMouseDown = [&]() { setValuesFromDropdown(m_dropdown.show()); };
++	m_display.onMouseDown = [&]() { m_dropdown.showMenuAsync({}, [&](auto code) { setValuesFromDropdown(code); }); };
  
  	m_dropdown.setLookAndFeel(&m_menu_feels);
  
 diff --git a/Source/gui/TuningComponent.cpp b/Source/gui/TuningComponent.cpp
-index ce07e997..34ea8643 100644
+index 5bf443d6..93cb4d50 100644
 --- a/Source/gui/TuningComponent.cpp
 +++ b/Source/gui/TuningComponent.cpp
-@@ -85,6 +85,16 @@ void TuningComponent::importKBMFile() {
- 	                         FileBrowserComponent::openMode | FileBrowserComponent::canSelectFiles);
- }
- 
-+class CustomCallback : public ModalComponentManager::Callback {
-+		std::function<void(int)> modal_state_finished;
-+public:
-+	explicit CustomCallback(std::function<void(int)> modalStateFinished) : modal_state_finished(modalStateFinished) {}
-+
-+	void modalStateFinished(int returnValue) override {
-+		modal_state_finished(returnValue);
-+	}
-+};
-+
- void TuningComponent::exportSCLFileWithFileBrowser() {
- 	DBG("exportSCLFile()");
- 
-@@ -114,7 +124,8 @@ void TuningComponent::exportSCLFileWithFileBrowser() {
- 			    File file_to_write(file_name);
+@@ -114,6 +114,7 @@ void TuningComponent::exportSCLFileWithFileBrowser() {
  
  			    //check whether file already exists
--			    if (file_to_write.existsAsFile()) {
-+#if !ANDROID
-+			    /*if (file_to_write.existsAsFile()) {
+ 			    if (file_to_write.existsAsFile()) {
++					/*
  				    if (!(AlertWindow::showOkCancelBox(AlertWindow::WarningIcon,
  				                                       "File already exists!",
  				                                       "Are you sure you want to overwrite it?",
-@@ -124,7 +135,8 @@ void TuningComponent::exportSCLFileWithFileBrowser() {
+@@ -123,6 +124,7 @@ void TuningComponent::exportSCLFileWithFileBrowser() {
  					    //user selected cancel
  					    return;
  				    }
--			    }
-+			    }*/
-+#endif
++				    */
+ 			    }
  			    FileOutputStream file_stream(file_to_write);
  
- 			    ConfigFileManager config_save;
-@@ -138,7 +150,7 @@ void TuningComponent::exportSCLFileWithFileBrowser() {
+@@ -137,7 +139,7 @@ void TuningComponent::exportSCLFileWithFileBrowser() {
  				    file_stream.flush();
  				    //savePatchInOpenedFileStream(file_stream);
  			    } else {
@@ -724,25 +499,23 @@ index ce07e997..34ea8643 100644
  				        AlertWindow::AlertIconType::WarningIcon,
  				        "Unable to save file!",
  				        "Please make sure you have proper write-permissions for the selected directory!");
-@@ -174,6 +186,8 @@ void TuningComponent::exportKBMFileWithFileBrowser() {
+@@ -174,6 +176,7 @@ void TuningComponent::exportKBMFileWithFileBrowser() {
  
- 			    File file_to_write(file_name);
- 
-+#if !ANDROID
-+				/*
  			    //check whether file already exists
  			    if (file_to_write.existsAsFile()) {
++					/*
  				    if (!(AlertWindow::showOkCancelBox(AlertWindow::WarningIcon,
-@@ -186,6 +200,8 @@ void TuningComponent::exportKBMFileWithFileBrowser() {
+ 				                                       "File already exists!",
+ 				                                       "Are you sure you want to overwrite it?",
+@@ -183,6 +186,7 @@ void TuningComponent::exportKBMFileWithFileBrowser() {
+ 					    //user selected cancel
  					    return;
  				    }
++				    */
  			    }
-+			    */
-+#endif
  			    FileOutputStream file_stream(file_to_write);
  
- 			    ConfigFileManager config_save;
-@@ -198,7 +214,7 @@ void TuningComponent::exportKBMFileWithFileBrowser() {
+@@ -196,7 +200,7 @@ void TuningComponent::exportKBMFileWithFileBrowser() {
  				    file_stream << String(m_processor.m_tuning.keyboardMapping.rawText);
  				    file_stream.flush();
  			    } else {
@@ -751,7 +524,7 @@ index ce07e997..34ea8643 100644
  				        AlertWindow::AlertIconType::WarningIcon,
  				        "Unable to save file!",
  				        "Please make sure you have proper write-permissions for the selected directory!");
-@@ -258,7 +274,7 @@ void TuningComponent::importKBMFromFileBrowser(String p_directory,
+@@ -254,7 +258,7 @@ void TuningComponent::importKBMFromFileBrowser(String p_directory,
  		try {
  			kbm_from_file = Tunings::readKBMFile(file_name.toStdString());
  		} catch (...) {
@@ -760,7 +533,7 @@ index ce07e997..34ea8643 100644
  			                            "Unable to read keyboard mapping!",
  			                            "Please make sure the file is a proper keyboard mapping file!");
  			return;
-@@ -303,7 +319,7 @@ void TuningComponent::importSCLFromFileBrowser(String p_directory,
+@@ -297,7 +301,7 @@ void TuningComponent::importSCLFromFileBrowser(String p_directory,
  		try {
  			scale_from_file = Tunings::readSCLFile(file_name.toStdString());
  		} catch (...) {
@@ -770,16 +543,21 @@ index ce07e997..34ea8643 100644
  			                            "Please make sure the file is a proper Scala file!");
  			return;
 diff --git a/Source/gui/WaveformSelectorComponent.cpp b/Source/gui/WaveformSelectorComponent.cpp
-index bc0f33e6..eec62491 100644
+index 858f10af..6d48b5f1 100644
 --- a/Source/gui/WaveformSelectorComponent.cpp
 +++ b/Source/gui/WaveformSelectorComponent.cpp
-@@ -36,7 +36,8 @@ WaveformSelectorComponent::WaveformSelectorComponent(bool p_buttons_right) :
+@@ -36,7 +36,7 @@ WaveformSelectorComponent::WaveformSelectorComponent(bool p_buttons_right) : m_u
  	m_down.setColour(juce::DrawableButton::ColourIds::backgroundOnColourId, juce::Colour());
  	m_down.onClick = [&]() { increment(); };
  
 -	m_display.onMouseDown = [&]() { setValue(m_menu.show()); };
-+	// Not implemented on Android
-+	//m_display.onMouseDown = [&]() { setValue(m_menu.show()); };
++	m_display.onMouseDown = [&]() { m_menu.showMenuAsync({}, [&](auto code) { setValue(code); }); };
  
  	m_buttons_right = p_buttons_right;
  
+diff --git a/libs/JUCE b/libs/JUCE
+--- a/libs/JUCE
++++ b/libs/JUCE
+@@ -1 +1 @@
+-Subproject commit 2f980209cc4091a4490bb1bafc5d530f16834e58
++Subproject commit 2f980209cc4091a4490bb1bafc5d530f16834e58-dirty
