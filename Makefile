@@ -8,6 +8,8 @@ APP_BUILD_DIR=$(PWD)
 APP_SRC_DIR=$(PWD)/external/odin2
 JUCE_DIR=$(PWD)/external/JUCE
 
+APP_ICON=$(APP_SRC_DIR)/manual/graphics/logo.png
+
 APP_SHARED_CODE_LIBS="$(APP_NAME)_artefacts/lib$(APP_NAME)_SharedCode.a lib${APP_NAME}_BinaryData.a"
 
 PATCH_FILE=$(PWD)/aap-juce-support.patch
