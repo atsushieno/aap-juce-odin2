@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 6886a6b4..63b2f30c 100644
+index 6886a6b4..ee74ce13 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -6,7 +6,7 @@ project(Odin2 VERSION 2.4.1 LANGUAGES C CXX ASM)
@@ -30,7 +30,7 @@ index 6886a6b4..63b2f30c 100644
      JUCE_DISPLAY_SPLASH_SCREEN=0
  )
  
-@@ -254,3 +253,52 @@ endforeach()
+@@ -254,3 +253,55 @@ endforeach()
  if(TARGET ${PROJECT_NAME}_CLAP)
    install(TARGETS ${PROJECT_NAME}_CLAP DESTINATION ${CMAKE_INSTALL_LIBDIR}/clap)
  endif()
@@ -64,6 +64,8 @@ index 6886a6b4..63b2f30c 100644
 +            [[JUCE_ANDROID=1]]
 +    )
 +
++    find_package(androidaudioplugin REQUIRED CONFIG)
++
 +endif (ANDROID)
 +
 +add_compile_definitions(
@@ -76,6 +78,7 @@ index 6886a6b4..63b2f30c 100644
 +target_link_libraries(Odin2
 +        PRIVATE
 +        aap_audio_processors
++        androidaudioplugin::androidaudioplugin
 +        ${log}
 +        ${android}
 +        ${glesv2}
@@ -555,9 +558,3 @@ index 858f10af..6d48b5f1 100644
  
  	m_buttons_right = p_buttons_right;
  
-diff --git a/libs/JUCE b/libs/JUCE
---- a/libs/JUCE
-+++ b/libs/JUCE
-@@ -1 +1 @@
--Subproject commit 2f980209cc4091a4490bb1bafc5d530f16834e58
-+Subproject commit 2f980209cc4091a4490bb1bafc5d530f16834e58-dirty
