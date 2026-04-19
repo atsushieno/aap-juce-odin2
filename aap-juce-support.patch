@@ -87,10 +87,33 @@ index 6886a6b4..ee74ce13 100644
 +)
 +# <-- end JUCEAAP specific
 diff --git a/Source/PluginEditor.cpp b/Source/PluginEditor.cpp
-index e02314c8..fc7afa89 100644
+index e02314c8..3ca8641a 100644
 --- a/Source/PluginEditor.cpp
 +++ b/Source/PluginEditor.cpp
-@@ -128,13 +128,13 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
+@@ -111,12 +111,16 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
+ 
+ 	setResizable(false, false);
+ 
+-#ifdef ODIN_MAC
+-	setBufferedToImage(true);
+-#endif
+-
+-	if (m_is_standalone_plugin) {
+-		addKeyListener(this);
++#ifdef ODIN_MAC
++	setBufferedToImage(true);
++#endif
++
++#if JUCE_ANDROID
++	m_open_gl_context.attachTo(*this);
++#endif
++
++	if (m_is_standalone_plugin) {
++		addKeyListener(this);
+ 	}
+ 
+ 	//these functions need to be deleted in the destructor, since after editor
+@@ -128,13 +132,13 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
  	m_patch_browser.forceValueTreeLambda = [&]() { forceValueTreeOntoComponents(true); };
  
  	m_reset.onClick = [&]() {
@@ -106,7 +129,7 @@ index e02314c8..fc7afa89 100644
  
  			// replace stream with patch from binary data
  			MemoryInputStream init_stream(BinaryData::init_patch_odin, BinaryData::init_patch_odinSize, false);
-@@ -200,7 +200,7 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
+@@ -200,7 +204,7 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
  	m_osc1_dropdown.onClick = [&]() {
  		m_osc1_dropdown.setState(Button::ButtonState::buttonNormal);
  		m_osc1_dropdown.setToggleState(false, dontSendNotification);
@@ -115,7 +138,7 @@ index e02314c8..fc7afa89 100644
  	};
  	addAndMakeVisible(m_title_button);
  
-@@ -220,7 +220,7 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
+@@ -220,7 +224,7 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
  	m_osc2_dropdown.onClick = [&]() {
  		m_osc2_dropdown.setState(Button::ButtonState::buttonNormal);
  		m_osc2_dropdown.setToggleState(false, dontSendNotification);
@@ -124,7 +147,7 @@ index e02314c8..fc7afa89 100644
  	};
  	m_osc2_dropdown.setTooltip("Select the module to\nbe used for oscillator 2");
  	addAndMakeVisible(m_osc2_dropdown);
-@@ -233,7 +233,7 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
+@@ -233,7 +237,7 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
  	m_osc3_dropdown.onClick = [&]() {
  		m_osc3_dropdown.setState(Button::ButtonState::buttonNormal);
  		m_osc3_dropdown.setToggleState(false, dontSendNotification);
@@ -133,7 +156,7 @@ index e02314c8..fc7afa89 100644
  	};
  	m_osc3_dropdown.setTooltip("Select the module to\nbe used for oscillator 3");
  	addAndMakeVisible(m_osc3_dropdown);
-@@ -246,7 +246,7 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
+@@ -246,7 +250,7 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
  	m_filter1_dropdown.onClick = [&]() {
  		m_filter1_dropdown.setState(Button::ButtonState::buttonNormal);
  		m_filter1_dropdown.setToggleState(false, dontSendNotification);
@@ -142,7 +165,7 @@ index e02314c8..fc7afa89 100644
  	};
  	m_filter1_dropdown.setTooltip("Select the module to\nbe used for filter 1");
  	addAndMakeVisible(m_filter1_dropdown);
-@@ -259,7 +259,7 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
+@@ -259,7 +263,7 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
  	m_filter2_dropdown.onClick = [&]() {
  		m_filter2_dropdown.setState(Button::ButtonState::buttonNormal);
  		m_filter2_dropdown.setToggleState(false, dontSendNotification);
@@ -151,7 +174,7 @@ index e02314c8..fc7afa89 100644
  	};
  	m_filter2_dropdown.setTooltip("Select the module to\nbe used for filter 2");
  	addAndMakeVisible(m_filter2_dropdown);
-@@ -272,7 +272,7 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
+@@ -272,7 +276,7 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
  	m_filter3_dropdown.onClick = [&]() {
  		m_filter3_dropdown.setState(Button::ButtonState::buttonNormal);
  		m_filter3_dropdown.setToggleState(false, dontSendNotification);
@@ -160,7 +183,7 @@ index e02314c8..fc7afa89 100644
  	};
  	m_filter3_dropdown.setTooltip("Select the module to\nbe used for filter 3");
  	addAndMakeVisible(m_filter3_dropdown);
-@@ -366,7 +366,8 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
+@@ -366,7 +370,8 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
  
  		OdinMenuFeels laf;
  		menu.setLookAndFeel(&laf);
@@ -170,6 +193,41 @@ index e02314c8..fc7afa89 100644
  		menu.setLookAndFeel(nullptr);
  
  		if (ret == 0)
+@@ -768,8 +773,12 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
+ 		setGuiSize((GuiScale)ConfigFileManager::getInstance().getOptionGuiScale(), false);
+ }
+ 
+-OdinEditor::~OdinEditor() {
+-	UIAssetManager::getInstance()->unregisterEditor(this);
++OdinEditor::~OdinEditor() {
++#if JUCE_ANDROID
++	m_open_gl_context.detach();
++#endif
++
++	UIAssetManager::getInstance()->unregisterEditor(this);
+ 
+ 	//remove lookandfeels
+ 	m_osc_dropdown_menu.setLookAndFeel(nullptr);
+@@ -1392,4 +1401,4 @@ void OdinEditor::setGuiScale(int scale) {
+ 	ConfigFileManager::getInstance().saveDataToFile();
+ 
+ 	setSize(GUI_BASE_WIDTH * scale, GUI_BASE_HEIGHT * scale);
+-}
+\ No newline at end of file
++}
+diff --git a/Source/PluginEditor.h b/Source/PluginEditor.h
+index 8431a19b..1c737e07 100644
+--- a/Source/PluginEditor.h
++++ b/Source/PluginEditor.h
+@@ -114,6 +114,8 @@ public:
+ private:
+ 	void paintGrid(Graphics &g);
+ 
++	juce::OpenGLContext m_open_gl_context;
++
+ 	bool m_A_down = false; // C
+ 	bool m_W_down = false; // C#
+ 	bool m_S_down = false; // D
 diff --git a/Source/PluginProcessorMisc.cpp b/Source/PluginProcessorMisc.cpp
 index 13e4a2bb..a78fa3f6 100644
 --- a/Source/PluginProcessorMisc.cpp
@@ -220,10 +278,32 @@ index a7ebe135..3a8c00c6 100644
  		}
  		hideRenameEditor();
 diff --git a/Source/gui/JsonGuiProvider.cpp b/Source/gui/JsonGuiProvider.cpp
-index 108914b7..4c11862d 100644
+index 108914b7..7bd2e0c4 100644
 --- a/Source/gui/JsonGuiProvider.cpp
 +++ b/Source/gui/JsonGuiProvider.cpp
-@@ -34,9 +34,13 @@ void JsonGuiProvider::saveToFile() {
+@@ -1,14 +1,20 @@
+ #include "JsonGuiProvider.h"
+ #include "../ConfigFileManager.h"
+ 
+-JsonGuiProvider::JsonGuiProvider() : m_alert_window("Create GUI Data", "", juce::MessageBoxIconType::InfoIcon) {
++JsonGuiProvider::JsonGuiProvider()
++#if !JUCE_ANDROID
++    : m_alert_window("Create GUI Data", "", juce::MessageBoxIconType::InfoIcon)
++#endif
++{
+ 
+ 	//load the JSON data:
+ 	loadData();
+ 
++#if !JUCE_ANDROID
+ 	m_gui_editor.setBounds(0, 0, GUI_BASE_WIDTH, GUI_BASE_HEIGHT);
+ 	m_alert_window.addCustomComponent(&m_gui_editor);
+ 	m_alert_window.addButton("Create", 0, juce::KeyPress(juce::KeyPress::returnKey));
++#endif
+ }
+ 
+ void JsonGuiProvider::loadData() {
+@@ -34,9 +40,13 @@ void JsonGuiProvider::saveToFile() {
  
  juce::Rectangle<int> JsonGuiProvider::getBounds(const std::string &p_name, bool p_for_knob) {
  	if (!m_data.contains(p_name)) {
@@ -237,6 +317,30 @@ index 108914b7..4c11862d 100644
  	}
  
  	auto zoom_size = ConfigFileManager::getInstance().getOptionGuiScale();
+@@ -79,4 +89,4 @@ void JsonGuiProvider::setBoundsUnscaled(const std::string &p_name, const juce::R
+ 	m_data[p_name]["Y"]     = p_bounds.getY();
+ 	m_data[p_name]["SizeX"] = p_bounds.getWidth();
+ 	m_data[p_name]["SizeY"] = p_bounds.getHeight();
+-}
+\ No newline at end of file
++}
+diff --git a/Source/gui/JsonGuiProvider.h b/Source/gui/JsonGuiProvider.h
+index cb9e81e7..cbe07e23 100644
+--- a/Source/gui/JsonGuiProvider.h
++++ b/Source/gui/JsonGuiProvider.h
+@@ -27,8 +27,10 @@ protected:
+ 	JsonGuiProvider();
+ 	nlohmann::json m_data;
+ 
++#if !JUCE_ANDROID
+ 	GuiDataEditor m_gui_editor;
+ 	juce::AlertWindow m_alert_window;
++#endif
+ 
+ 	const std::string m_name;
+-};
+\ No newline at end of file
++};
 diff --git a/Source/gui/NumberSelectorWithText.cpp b/Source/gui/NumberSelectorWithText.cpp
 index 1eb9d912..2741920f 100644
 --- a/Source/gui/NumberSelectorWithText.cpp

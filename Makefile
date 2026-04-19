@@ -16,9 +16,15 @@ PATCH_FILE=$(PWD)/aap-juce-support.patch
 PATCH_DEPTH=1
 
 JUCE_PATCHES= \
-	$(shell pwd)/external/aap-juce/juce-patches/8.0.12/support-plugin-ui.patch \
-	$(shell pwd)/external/aap-juce/juce-patches/8.0.12/juce-component-peer-view-touch.patch \
-	$(shell pwd)/external/aap-juce/juce-patches/8.0.12/component-peer-view-lint.patch \
-	$(shell pwd)/external/aap-juce/juce-patches/8.0.12/android-opengl-local-bounds.patch
+	$(AAP_JUCE_DIR)/juce-patches/7.0.6/export-jni-symbols.patch \
+	$(AAP_JUCE_DIR)/juce-patches/7.0.11/disable-cgwindowlistcreateimage.patch \
+	$(AAP_JUCE_DIR)/juce-patches/7.0.6/support-plugin-ui.patch \
+	$(AAP_JUCE_DIR)/juce-patches/7.0.11/juce-component-peer-view-touch.patch
+
+	#$(AAP_JUCE_DIR)/juce-patches/8.0.12/support-plugin-ui.patch \
+	#$(AAP_JUCE_DIR)/juce-patches/8.0.12/juce-component-peer-view-touch.patch
+	#$(AAP_JUCE_DIR)/juce-patches/8.0.12/android-component-peer-supplied-parent.patch \
+	#$(AAP_JUCE_DIR)/juce-patches/8.0.12/component-peer-view-lint.patch \
+	#$(AAP_JUCE_DIR)/juce-patches/8.0.12/android-opengl-local-bounds.patch
 
 include $(AAP_JUCE_DIR)/Makefile.cmake-common
