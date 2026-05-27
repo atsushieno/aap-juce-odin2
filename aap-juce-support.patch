@@ -87,32 +87,20 @@ index 6886a6b4..ee74ce13 100644
 +)
 +# <-- end JUCEAAP specific
 diff --git a/Source/PluginEditor.cpp b/Source/PluginEditor.cpp
-index e02314c8..3ca8641a 100644
+index e02314c8..da08d25c 100644
 --- a/Source/PluginEditor.cpp
 +++ b/Source/PluginEditor.cpp
-@@ -111,12 +111,16 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
+@@ -115,6 +115,10 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
+ 	setBufferedToImage(true);
+ #endif
  
- 	setResizable(false, false);
- 
--#ifdef ODIN_MAC
--	setBufferedToImage(true);
--#endif
--
--	if (m_is_standalone_plugin) {
--		addKeyListener(this);
-+#ifdef ODIN_MAC
-+	setBufferedToImage(true);
-+#endif
-+
 +#if JUCE_ANDROID
 +	m_open_gl_context.attachTo(*this);
 +#endif
 +
-+	if (m_is_standalone_plugin) {
-+		addKeyListener(this);
+ 	if (m_is_standalone_plugin) {
+ 		addKeyListener(this);
  	}
- 
- 	//these functions need to be deleted in the destructor, since after editor
 @@ -128,13 +132,13 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
  	m_patch_browser.forceValueTreeLambda = [&]() { forceValueTreeOntoComponents(true); };
  
@@ -134,7 +122,7 @@ index e02314c8..3ca8641a 100644
  		m_osc1_dropdown.setState(Button::ButtonState::buttonNormal);
  		m_osc1_dropdown.setToggleState(false, dontSendNotification);
 -		setOsc1Plate(m_osc_dropdown_menu.show());
-+		m_osc_dropdown_menu.showMenuAsync(PopupMenu::Options{}, [&](int v) { setOsc1Plate(v); });
++		m_osc_dropdown_menu.showMenuAsync(PopupMenu::Options{}.withParentComponent(this), [&](int v) { setOsc1Plate(v); });
  	};
  	addAndMakeVisible(m_title_button);
  
@@ -143,7 +131,7 @@ index e02314c8..3ca8641a 100644
  		m_osc2_dropdown.setState(Button::ButtonState::buttonNormal);
  		m_osc2_dropdown.setToggleState(false, dontSendNotification);
 -		setOsc2Plate(m_osc_dropdown_menu.show());
-+		m_osc_dropdown_menu.showMenuAsync(PopupMenu::Options{}, [&](int v) { setOsc2Plate(v); });
++		m_osc_dropdown_menu.showMenuAsync(PopupMenu::Options{}.withParentComponent(this), [&](int v) { setOsc2Plate(v); });
  	};
  	m_osc2_dropdown.setTooltip("Select the module to\nbe used for oscillator 2");
  	addAndMakeVisible(m_osc2_dropdown);
@@ -152,7 +140,7 @@ index e02314c8..3ca8641a 100644
  		m_osc3_dropdown.setState(Button::ButtonState::buttonNormal);
  		m_osc3_dropdown.setToggleState(false, dontSendNotification);
 -		setOsc3Plate(m_osc_dropdown_menu.show());
-+		m_osc_dropdown_menu.showMenuAsync(PopupMenu::Options{}, [&](int v) {setOsc3Plate(v);});
++		m_osc_dropdown_menu.showMenuAsync(PopupMenu::Options{}.withParentComponent(this), [&](int v) {setOsc3Plate(v);});
  	};
  	m_osc3_dropdown.setTooltip("Select the module to\nbe used for oscillator 3");
  	addAndMakeVisible(m_osc3_dropdown);
@@ -161,7 +149,7 @@ index e02314c8..3ca8641a 100644
  		m_filter1_dropdown.setState(Button::ButtonState::buttonNormal);
  		m_filter1_dropdown.setToggleState(false, dontSendNotification);
 -		setFilter1Plate(m_filter_dropdown_menu.show());
-+		m_filter_dropdown_menu.showMenuAsync(PopupMenu::Options{}, [&](int v) { setFilter1Plate(v); });
++		m_filter_dropdown_menu.showMenuAsync(PopupMenu::Options{}.withParentComponent(this), [&](int v) { setFilter1Plate(v); });
  	};
  	m_filter1_dropdown.setTooltip("Select the module to\nbe used for filter 1");
  	addAndMakeVisible(m_filter1_dropdown);
@@ -170,7 +158,7 @@ index e02314c8..3ca8641a 100644
  		m_filter2_dropdown.setState(Button::ButtonState::buttonNormal);
  		m_filter2_dropdown.setToggleState(false, dontSendNotification);
 -		setFilter2Plate(m_filter_dropdown_menu.show());
-+		m_filter_dropdown_menu.showMenuAsync(PopupMenu::Options{}, [&](int v) {setFilter2Plate(v);});
++		m_filter_dropdown_menu.showMenuAsync(PopupMenu::Options{}.withParentComponent(this), [&](int v) {setFilter2Plate(v);});
  	};
  	m_filter2_dropdown.setTooltip("Select the module to\nbe used for filter 2");
  	addAndMakeVisible(m_filter2_dropdown);
@@ -179,36 +167,98 @@ index e02314c8..3ca8641a 100644
  		m_filter3_dropdown.setState(Button::ButtonState::buttonNormal);
  		m_filter3_dropdown.setToggleState(false, dontSendNotification);
 -		setFilter3Plate(m_filter_dropdown_menu.show());
-+		m_filter_dropdown_menu.showMenuAsync(PopupMenu::Options{}, [&](int v) { setFilter3Plate(v); } );
++		m_filter_dropdown_menu.showMenuAsync(PopupMenu::Options{}.withParentComponent(this), [&](int v) { setFilter3Plate(v); } );
  	};
  	m_filter3_dropdown.setTooltip("Select the module to\nbe used for filter 3");
  	addAndMakeVisible(m_filter3_dropdown);
-@@ -366,7 +370,8 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
+@@ -364,43 +368,42 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
+ 		menu.addItem(1100, "Save GuiData.json");
+ #endif
  
- 		OdinMenuFeels laf;
- 		menu.setLookAndFeel(&laf);
+-		OdinMenuFeels laf;
+-		menu.setLookAndFeel(&laf);
 -		const auto ret = menu.show();
-+        auto ret = 0;
-+		menu.showMenuAsync({}, [&](int v) { ret = v; });
- 		menu.setLookAndFeel(nullptr);
+-		menu.setLookAndFeel(nullptr);
+-
+-		if (ret == 0)
+-			return;
+-
+-		if (ret <= int(GuiScale::Z200)) {
+-			const auto threadWasStarted = UIAssetManager::getInstance()->launchImageCreationThreads(ret);
+-			if (!threadWasStarted)
+-				setGuiSize((GuiScale)(ret), true);
+-			return;
+-		}
++		auto laf = std::make_shared<OdinMenuFeels>();
++		menu.setLookAndFeel(laf.get());
++		menu.showMenuAsync(PopupMenu::Options{}.withParentComponent(this), [this, laf](int ret) {
++			if (ret == 0)
++				return;
++
++			if (ret <= int(GuiScale::Z200)) {
++				const auto threadWasStarted = UIAssetManager::getInstance()->launchImageCreationThreads(ret);
++				if (!threadWasStarted)
++					setGuiSize((GuiScale)(ret), true);
++				return;
++			}
  
- 		if (ret == 0)
-@@ -768,8 +773,12 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
- 		setGuiSize((GuiScale)ConfigFileManager::getInstance().getOptionGuiScale(), false);
+-		if (ret == 1000) {
+-			const auto new_tooltip_state = !ConfigFileManager::getInstance().getOptionShowTooltip();
+-			ConfigFileManager::getInstance().setOptionShowTooltip(new_tooltip_state);
+-			ConfigFileManager::getInstance().saveDataToFile();
+-			setTooltipEnabled(new_tooltip_state);
+-			return;
+-		}
++			if (ret == 1000) {
++				const auto new_tooltip_state = !ConfigFileManager::getInstance().getOptionShowTooltip();
++				ConfigFileManager::getInstance().setOptionShowTooltip(new_tooltip_state);
++				ConfigFileManager::getInstance().saveDataToFile();
++				setTooltipEnabled(new_tooltip_state);
++				return;
++			}
+ 
+-		if (ret == 1050) {
+-			juce::URL(ODIN_STORAGE_PATH).launchInDefaultBrowser();
+-			return;
+-		}
++			if (ret == 1050) {
++				juce::URL(ODIN_STORAGE_PATH).launchInDefaultBrowser();
++				return;
++			}
+ 
+-		if (ret == 1070) {
+-			juce::URL("https://thewavewarden.com").launchInDefaultBrowser();
+-			return;
+-		}
++			if (ret == 1070) {
++				juce::URL("https://thewavewarden.com").launchInDefaultBrowser();
++				return;
++			}
+ 
+-		if (ret == 1100) {
+-			JsonGuiProvider::getInstance().saveToFile();
+-			return;
+-		}
++			if (ret == 1100) {
++				JsonGuiProvider::getInstance().saveToFile();
++				return;
++			}
++		});
+ 	};
+ 
+ 	addAndMakeVisible(m_tuning);
+@@ -769,6 +772,10 @@ OdinEditor::OdinEditor(OdinAudioProcessor &p_processor, AudioProcessorValueTreeS
  }
  
--OdinEditor::~OdinEditor() {
--	UIAssetManager::getInstance()->unregisterEditor(this);
-+OdinEditor::~OdinEditor() {
+ OdinEditor::~OdinEditor() {
 +#if JUCE_ANDROID
 +	m_open_gl_context.detach();
 +#endif
 +
-+	UIAssetManager::getInstance()->unregisterEditor(this);
+ 	UIAssetManager::getInstance()->unregisterEditor(this);
  
  	//remove lookandfeels
- 	m_osc_dropdown_menu.setLookAndFeel(nullptr);
-@@ -1392,4 +1401,4 @@ void OdinEditor::setGuiScale(int scale) {
+@@ -1392,4 +1399,4 @@ void OdinEditor::setGuiScale(int scale) {
  	ConfigFileManager::getInstance().saveDataToFile();
  
  	setSize(GUI_BASE_WIDTH * scale, GUI_BASE_HEIGHT * scale);
@@ -341,8 +391,21 @@ index cb9e81e7..cbe07e23 100644
 -};
 \ No newline at end of file
 +};
+diff --git a/Source/gui/LFOSelectorComponent.cpp b/Source/gui/LFOSelectorComponent.cpp
+index 72a69381..13e42177 100644
+--- a/Source/gui/LFOSelectorComponent.cpp
++++ b/Source/gui/LFOSelectorComponent.cpp
+@@ -58,7 +58,7 @@ LFOSelectorComponent::LFOSelectorComponent() : m_up("up", "", OdinButton::Type::
+ 
+ 	m_display.toParentMouseUp = [&](const MouseEvent e) { Component::mouseUp(e); };
+ 	m_display.onClick         = [&]() {
+-        m_popup.showMenuAsync(PopupMenu::Options(), [&](int ret) {
++        m_popup.showMenuAsync(PopupMenu::Options().withParentComponent(getTopLevelComponent()), [&](int ret) {
+             if (ret) {
+                 // ret values are offset by one to allow popup return 0 == nothing
+                 setValue(ret - 1);
 diff --git a/Source/gui/NumberSelectorWithText.cpp b/Source/gui/NumberSelectorWithText.cpp
-index 1eb9d912..2741920f 100644
+index 1eb9d912..6a4fae07 100644
 --- a/Source/gui/NumberSelectorWithText.cpp
 +++ b/Source/gui/NumberSelectorWithText.cpp
 @@ -33,11 +33,15 @@ NumberSelectorWithText::NumberSelectorWithText(NumberSelector::Type p_type) : Nu
@@ -354,7 +417,7 @@ index 1eb9d912..2741920f 100644
 -			DBG(selected);
 -			setValue(selected);
 -		}
-+		PopupMenu::Options options{};
++		PopupMenu::Options options = PopupMenu::Options{}.withParentComponent(getTopLevelComponent());
 +		std::function<void(int)> cb = [&](int v) {
 +			int selected = 9999 - v;
 +			if (selected != 9999) {
@@ -366,48 +429,192 @@ index 1eb9d912..2741920f 100644
  	};
  
  	addAndMakeVisible(m_display);
+diff --git a/Source/gui/OdinFeels.h b/Source/gui/OdinFeels.h
+index 994e7292..b2473b86 100644
+--- a/Source/gui/OdinFeels.h
++++ b/Source/gui/OdinFeels.h
+@@ -12,6 +12,13 @@ public:
+ 		g.drawRect(0, 0, width, height);
+ 	}
+ 
++	PopupMenu::Options getOptionsForComboBoxPopupMenu(ComboBox &box, Label &label) override {
++		auto opts = LookAndFeel_V4::getOptionsForComboBoxPopupMenu(box, label);
++		if (auto *top = box.getTopLevelComponent())
++			opts = opts.withParentComponent(top);
++		return opts;
++	}
++
+ 	juce::Font getPopupMenuFont() override {
+ 		auto font             = LookAndFeel_V4::getPopupMenuFont();
+ 		const auto grid_scale = juce::jmap(float(ConfigFileManager::getInstance().getOptionGuiScale()), float(GuiScale::Z100), float(GuiScale::Z200), 0.7f, 1.2f);
 diff --git a/Source/gui/PatchBrowser.cpp b/Source/gui/PatchBrowser.cpp
-index 0fb667f5..432bca9a 100644
+index 0fb667f5..e73ee4ed 100644
 --- a/Source/gui/PatchBrowser.cpp
 +++ b/Source/gui/PatchBrowser.cpp
-@@ -144,7 +144,8 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -143,66 +143,68 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+ 		DBG("DELETE directory: " + m_soundbank_selector.getDirectory() + File::getSeparatorString() + p_string);
  		String absolute_path = m_soundbank_selector.getDirectory() + File::getSeparatorString() + p_string;
  
- 		if (AlertWindow::showOkCancelBox(
+-		if (AlertWindow::showOkCancelBox(
 -		        AlertWindow::WarningIcon, "Delete Category", "Are you sure you want to delete the Soundbank " + p_string + " and ALL the presets in it?", {}, {}, {})) {
-+		        AlertWindow::WarningIcon, "Delete Category", "Are you sure you want to delete the Soundbank " + p_string + " and ALL the presets in it?", {}, {}, {}, {})) {
-+
- 			File file_to_delete(absolute_path);
- 			if (file_to_delete.deleteRecursively()) {
- 				DBG("Directory was deleted!");
-@@ -169,7 +170,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+-			File file_to_delete(absolute_path);
+-			if (file_to_delete.deleteRecursively()) {
+-				DBG("Directory was deleted!");
+-
+-				//avoid segfault from pending mousedown on deleted browserentry every now and then
+-				//Time::waitForMillisecondCounter(20);
+-
+-				m_soundbank_selector.regenerateContent();
+-
+-				m_category_selector.setDirectory(m_soundbank_selector.getFirstSubDirectoryAndHighlightIt());
+-				m_patch_selector.setDirectory(m_category_selector.getFirstSubDirectoryAndHighlightIt());
+-
+-				m_soundbank_selector.positionEntries();
+-			} else {
+-				DBG("file was NOT deleted!");
+-			}
+-		}
++		juce::Component::SafePointer<PatchBrowser> safeThis(this);
++		AlertWindow::showOkCancelBox(
++		    AlertWindow::WarningIcon, "Delete Category",
++		    "Are you sure you want to delete the Soundbank " + p_string + " and ALL the presets in it?",
++		    {}, {}, nullptr,
++		    ModalCallbackFunction::create([safeThis, absolute_path](int result) {
++			    if (!result || !safeThis) return;
++			    File file_to_delete(absolute_path);
++			    if (file_to_delete.deleteRecursively()) {
++				    DBG("Directory was deleted!");
++				    safeThis->m_soundbank_selector.regenerateContent();
++				    safeThis->m_category_selector.setDirectory(safeThis->m_soundbank_selector.getFirstSubDirectoryAndHighlightIt());
++				    safeThis->m_patch_selector.setDirectory(safeThis->m_category_selector.getFirstSubDirectoryAndHighlightIt());
++				    safeThis->m_soundbank_selector.positionEntries();
++			    } else {
++				    DBG("file was NOT deleted!");
++			    }
++		    }));
+ 	};
+ 
+ 	m_category_selector.passDeleteToPatchBrowser = [&](String p_string) {
+ 		DBG("DELETE directory: " + m_category_selector.getDirectory() + File::getSeparatorString() + p_string);
  		String absolute_path = m_category_selector.getDirectory() + File::getSeparatorString() + p_string;
  
- 		if (AlertWindow::showOkCancelBox(
+-		if (AlertWindow::showOkCancelBox(
 -		        AlertWindow::WarningIcon, "Delete Category", "Are you sure you want to delete the category " + p_string + " and ALL the presets in it?", {}, {}, {})) {
-+		        AlertWindow::WarningIcon, "Delete Category", "Are you sure you want to delete the category " + p_string + " and ALL the presets in it?", {}, {}, {}, {})) {
- 			File file_to_delete(absolute_path);
- 			if (file_to_delete.deleteRecursively()) {
- 				DBG("DBG: Directory was deleted!");
-@@ -190,7 +191,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+-			File file_to_delete(absolute_path);
+-			if (file_to_delete.deleteRecursively()) {
+-				DBG("DBG: Directory was deleted!");
+-
+-				//avoid segfault from pending mousedown on deleted browserentry every now and then
+-				//Time::waitForMillisecondCounter(20);
+-
+-				m_category_selector.regenerateContent();
+-				m_patch_selector.setDirectory(m_category_selector.getFirstSubDirectoryAndHighlightIt());
+-				m_category_selector.positionEntries();
+-			} else {
+-				DBG("file was NOT deleted!");
+-			}
+-		}
++		juce::Component::SafePointer<PatchBrowser> safeThis(this);
++		AlertWindow::showOkCancelBox(
++		    AlertWindow::WarningIcon, "Delete Category",
++		    "Are you sure you want to delete the category " + p_string + " and ALL the presets in it?",
++		    {}, {}, nullptr,
++		    ModalCallbackFunction::create([safeThis, absolute_path](int result) {
++			    if (!result || !safeThis) return;
++			    File file_to_delete(absolute_path);
++			    if (file_to_delete.deleteRecursively()) {
++				    DBG("DBG: Directory was deleted!");
++				    safeThis->m_category_selector.regenerateContent();
++				    safeThis->m_patch_selector.setDirectory(safeThis->m_category_selector.getFirstSubDirectoryAndHighlightIt());
++				    safeThis->m_category_selector.positionEntries();
++			    } else {
++				    DBG("file was NOT deleted!");
++			    }
++		    }));
+ 	};
+ 
+ 	m_patch_selector.passDeleteToPatchBrowser = [&](String p_string) {
  		DBG("DELETE patch: " + m_patch_selector.getDirectory() + File::getSeparatorString() + p_string);
  		String absolute_path = m_patch_selector.getDirectory() + File::getSeparatorString() + p_string;
  
 -		if (AlertWindow::showOkCancelBox(AlertWindow::WarningIcon, "Delete Preset", "Are you sure you want to delete preset " + p_string + "?", {}, {}, {})) {
-+		if (AlertWindow::showOkCancelBox(AlertWindow::WarningIcon, "Delete Preset", "Are you sure you want to delete preset " + p_string + "?", {}, {}, {}, {})) {
- 			File file_to_delete(absolute_path);
- 			if (file_to_delete.deleteFile()) {
- 				DBG("file was deleted!");
-@@ -212,7 +213,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+-			File file_to_delete(absolute_path);
+-			if (file_to_delete.deleteFile()) {
+-				DBG("file was deleted!");
+-
+-				//avoid segfault from pending mousedown on deleted browserentry every now and then
+-				//Time::waitForMillisecondCounter(20);
+-
+-				m_patch_selector.regenerateContent();
+-			} else {
+-				DBG("file was NOT deleted!");
+-			}
+-		}
++		juce::Component::SafePointer<PatchBrowser> safeThis(this);
++		AlertWindow::showOkCancelBox(
++		    AlertWindow::WarningIcon, "Delete Preset",
++		    "Are you sure you want to delete preset " + p_string + "?",
++		    {}, {}, nullptr,
++		    ModalCallbackFunction::create([safeThis, absolute_path](int result) {
++			    if (!result || !safeThis) return;
++			    File file_to_delete(absolute_path);
++			    if (file_to_delete.deleteFile()) {
++				    DBG("file was deleted!");
++				    safeThis->m_patch_selector.regenerateContent();
++			    } else {
++				    DBG("file was NOT deleted!");
++			    }
++		    }));
+ 	};
+ 
+ 	m_patch_selector.onCreateNewFile = [&](String p_string) {
+@@ -211,23 +213,29 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+ 		File file_to_write(p_string + ".odin");
  
  		//check whether file already exists
- 		if (file_to_write.existsAsFile()) {
+-		if (file_to_write.existsAsFile()) {
 -			if (!(AlertWindow::showOkCancelBox(AlertWindow::WarningIcon, "Preset already exists!", "Are you sure you want to overwrite it?", {}, {}, {}))) {
-+			if (!(AlertWindow::showOkCancelBox(AlertWindow::WarningIcon, "Preset already exists!", "Are you sure you want to overwrite it?", {}, {}, {}, {}))) {
- 				//user selected cancel
- 				return;
+-				//user selected cancel
+-				return;
++		auto doSave = [this, file_to_write, p_string]() mutable {
++			FileOutputStream file_stream(file_to_write);
++			if (file_stream.openedOk()) {
++				savePatchInOpenedFileStream(file_stream);
++				DBG("Wrote above patch to " + p_string + ".odin");
++				m_patch_selector.regenerateContent();
++				m_patch_selector.getSubDirectoryAndHighlightItFromName(p_string);
++
++				const auto soundbank = m_soundbank_selector.getSelectedEntry();
++				const auto category  = m_category_selector.getSelectedEntry();
++				const auto patch     = m_patch_selector.getSelectedEntry();
++				writeSelectedEntriesToValueTree(soundbank, category, patch);
  			}
-@@ -238,7 +239,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+-		}
+-		FileOutputStream file_stream(file_to_write);
+-		if (file_stream.openedOk()) {
+-			savePatchInOpenedFileStream(file_stream);
+-			DBG("Wrote above patch to " + p_string + ".odin");
+-			m_patch_selector.regenerateContent();
+-			m_patch_selector.getSubDirectoryAndHighlightItFromName(p_string);
+-
+-			const auto soundbank = m_soundbank_selector.getSelectedEntry();
+-			const auto category  = m_category_selector.getSelectedEntry();
+-			const auto patch     = m_patch_selector.getSelectedEntry();
+-			writeSelectedEntriesToValueTree(soundbank, category, patch);
++		};
++		if (file_to_write.existsAsFile()) {
++			AlertWindow::showOkCancelBox(
++			    AlertWindow::WarningIcon, "Preset already exists!", "Are you sure you want to overwrite it?",
++			    {}, {}, nullptr,
++			    ModalCallbackFunction::create([doSave](int result) mutable {
++				    if (result) doSave();
++			    }));
++		} else {
++			doSave();
+ 		}
+ 	};
+ 
+@@ -238,7 +246,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  		//check whether directory already exists
  		if (dir_to_create.isDirectory()) {
@@ -416,7 +623,7 @@ index 0fb667f5..432bca9a 100644
  			return;
  		}
  		if (dir_to_create.createDirectory()) {
-@@ -256,7 +257,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -256,7 +264,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  		//check whether directory already exists
  		if (dir_to_create.isDirectory()) {
@@ -425,16 +632,39 @@ index 0fb667f5..432bca9a 100644
  			return;
  		}
  		if (dir_to_create.createDirectory()) {
-@@ -299,7 +300,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -298,16 +306,22 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+ 				ConfigFileManager::getInstance().saveDataToFile();
  
  				//check whether file already exists
- 				if (file_to_write.existsAsFile()) {
+-				if (file_to_write.existsAsFile()) {
 -					if (!(AlertWindow::showOkCancelBox(AlertWindow::WarningIcon, "File already exists!", "Are you sure you want to overwrite it?", {}, {}, {}))) {
-+					if (!(AlertWindow::showOkCancelBox(AlertWindow::WarningIcon, "File already exists!", "Are you sure you want to overwrite it?", {}, {}, {}, {}))) {
- 						//user selected cancel
- 						return;
+-						//user selected cancel
+-						return;
++				auto doWrite = [this, file_to_write]() mutable {
++					FileOutputStream file_stream(file_to_write);
++					if (file_stream.openedOk()) {
++						savePatchInOpenedFileStream(file_stream);
++						m_patch_selector.regenerateContent();
  					}
-@@ -318,7 +319,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+-				}
+-				FileOutputStream file_stream(file_to_write);
+-				if (file_stream.openedOk()) {
+-					savePatchInOpenedFileStream(file_stream);
+-					m_patch_selector.regenerateContent();
++				};
++				if (file_to_write.existsAsFile()) {
++					AlertWindow::showOkCancelBox(
++					    AlertWindow::WarningIcon, "File already exists!", "Are you sure you want to overwrite it?",
++					    {}, {}, nullptr,
++					    ModalCallbackFunction::create([doWrite](int result) mutable {
++						    if (result) doWrite();
++					    }));
++				} else {
++					doWrite();
+ 				}
+ 			}
+ 		});
+@@ -318,7 +332,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  	m_soundbank_selector.onExport = [&](String p_directory) {
  		File soundbank_file(m_category_selector.getDirectory());
  		if (!soundbank_file.isDirectory()) {
@@ -443,16 +673,72 @@ index 0fb667f5..432bca9a 100644
  		}
  
  		auto suggested_dir = ConfigFileManager::getInstance().getOptionSoundbankDir();
-@@ -343,7 +344,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -342,35 +356,38 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+ 				ConfigFileManager::getInstance().saveDataToFile();
  
  				//check whether file already exists
- 				if (file_to_write.existsAsFile()) {
+-				if (file_to_write.existsAsFile()) {
 -					if (!(AlertWindow::showOkCancelBox(AlertWindow::WarningIcon, "File already exists!", "Are you sure you want to overwrite it?", {}, {}, {}))) {
-+					if (!(AlertWindow::showOkCancelBox(AlertWindow::WarningIcon, "File already exists!", "Are you sure you want to overwrite it?", {}, {}, {}, {}))) {
- 						//user selected cancel
- 						return;
- 					}
-@@ -389,7 +390,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+-						//user selected cancel
+-						return;
+-					}
+-				}
+-
+-				File soundbank_file_lambda(m_category_selector.getDirectory());
+-				DBG(soundbank_file_lambda.getFullPathName() + " to");
+-				DBG(file_to_write.getFullPathName());
+-				//DBG("name:" + soundbank_file.getFileName());
+-
+-				FileOutputStream file_stream(file_to_write);
+-				if (file_stream.openedOk() && soundbank_file_lambda.exists()) {
+-
+-					ZipFile::Builder zip_builder;
+-
+-					auto sub_folders = soundbank_file_lambda.findChildFiles(File::TypesOfFileToFind::findDirectories, false);
+-					for (int sub_index = 0; sub_index < sub_folders.size(); ++sub_index) {
+-						auto preset_files = sub_folders[sub_index].findChildFiles(File::TypesOfFileToFind::findFiles, false, "*.odin");
+-						for (int preset_index = 0; preset_index < preset_files.size(); ++preset_index) {
+-							//DBG(preset_files[preset_index].getFullPathName());
+-							zip_builder.addFile(preset_files[preset_index], 5, preset_files[preset_index].getRelativePathFrom(soundbank_file_lambda));
++				auto doExport = [this, file_to_write]() mutable {
++					File soundbank_file_lambda(m_category_selector.getDirectory());
++					DBG(soundbank_file_lambda.getFullPathName() + " to");
++					DBG(file_to_write.getFullPathName());
++
++					FileOutputStream file_stream(file_to_write);
++					if (file_stream.openedOk() && soundbank_file_lambda.exists()) {
++
++						ZipFile::Builder zip_builder;
++
++						auto sub_folders = soundbank_file_lambda.findChildFiles(File::TypesOfFileToFind::findDirectories, false);
++						for (int sub_index = 0; sub_index < sub_folders.size(); ++sub_index) {
++							auto preset_files = sub_folders[sub_index].findChildFiles(File::TypesOfFileToFind::findFiles, false, "*.odin");
++							for (int preset_index = 0; preset_index < preset_files.size(); ++preset_index) {
++								zip_builder.addFile(preset_files[preset_index], 5, preset_files[preset_index].getRelativePathFrom(soundbank_file_lambda));
++							}
+ 						}
+-					}
+ 
+-					zip_builder.writeToStream(file_stream, nullptr);
++						zip_builder.writeToStream(file_stream, nullptr);
+ 
+-					DBG("saved " + file_to_write.getFullPathName());
++						DBG("saved " + file_to_write.getFullPathName());
++					}
++				};
++				if (file_to_write.existsAsFile()) {
++					AlertWindow::showOkCancelBox(
++					    AlertWindow::WarningIcon, "File already exists!", "Are you sure you want to overwrite it?",
++					    {}, {}, nullptr,
++					    ModalCallbackFunction::create([doExport](int result) mutable {
++						    if (result) doExport();
++					    }));
++				} else {
++					doExport();
+ 				}
+ 			}
+ 		});
+@@ -389,7 +406,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  		File move_target(p_directory + File::getSeparatorString() + p_new_name + ".odin");
  		if (move_target.existsAsFile()) {
@@ -461,7 +747,7 @@ index 0fb667f5..432bca9a 100644
  			                            "Preset already exists!",
  			                            "The preset you're trying to create already exists, please choose another name "
  			                            "or remove the other one.",
-@@ -417,7 +418,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -417,7 +434,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  		File move_target(p_directory + File::getSeparatorString() + p_new_name);
  		if (move_target.isDirectory()) {
@@ -470,7 +756,7 @@ index 0fb667f5..432bca9a 100644
  			                            "Category already exists!",
  			                            "The category you're trying to create already exists, please choose another name "
  			                            "or remove the other one.",
-@@ -450,7 +451,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -450,7 +467,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  		File move_target(p_directory + File::getSeparatorString() + p_new_name);
  		if (move_target.isDirectory()) {
@@ -479,7 +765,7 @@ index 0fb667f5..432bca9a 100644
  			                            "Soundbank already exists!",
  			                            "The soundbank you're trying to create already exists, please choose another name "
  			                            "or remove the other one.",
-@@ -483,7 +484,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -483,7 +500,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  		File move_target(target_absolute);
  		if (move_target.isDirectory()) {
@@ -488,7 +774,7 @@ index 0fb667f5..432bca9a 100644
  			                            "Category already exists!",
  			                            "The category you're trying to create already exists, please choose another name "
  			                            "or remove the other one.",
-@@ -512,7 +513,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -512,7 +529,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  		File move_target(m_category_selector.getDirectory() + File::getSeparatorString() + p_target_cat + File::getSeparatorString() + p_file + ".odin");
  
  		if (move_target.existsAsFile()) {
@@ -497,7 +783,7 @@ index 0fb667f5..432bca9a 100644
  			                            "Preset already exists!",
  			                            "The preset you're trying to create already exists, please choose another name "
  			                            "or remove the other one.",
-@@ -538,7 +539,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -538,7 +555,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  
  		File move_target(target_absolute);
  		if (move_target.isDirectory()) {
@@ -506,7 +792,7 @@ index 0fb667f5..432bca9a 100644
  			                            "Category already exists!",
  			                            "The category you're trying to create already exists, please choose another name "
  			                            "or remove the other one.",
-@@ -566,7 +567,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
+@@ -566,7 +583,7 @@ PatchBrowser::PatchBrowser(OdinAudioProcessor &p_processor, AudioProcessorValueT
  		File copy_target(m_category_selector.getDirectory() + File::getSeparatorString() + p_target_cat + File::getSeparatorString() + p_file + ".odin");
  
  		if (copy_target.existsAsFile()) {
@@ -515,7 +801,7 @@ index 0fb667f5..432bca9a 100644
  			                            "Preset already exists!",
  			                            "The preset you're trying to create already exists, please choose another name "
  			                            "or remove the other one.",
-@@ -610,7 +611,7 @@ void PatchBrowser::loadPatchFromOpenedFileStream(juce::FileInputStream &p_file_s
+@@ -610,7 +627,7 @@ void PatchBrowser::loadPatchFromOpenedFileStream(juce::FileInputStream &p_file_s
  	std::string version_string;
  	if (checkForBiggerVersion(p_file_stream, version_string)) {
  		//abort with icon
@@ -524,7 +810,7 @@ index 0fb667f5..432bca9a 100644
  		                            "Cannot load patch!",
  		                            "The bad news: You cannot load this patch, because you are on version " + ODIN_VERSION_STRING +
  		                                ".\nThe good news: The patch you're trying to load was created on version " + version_string +
-@@ -903,7 +904,7 @@ void PatchBrowser::loadPatchWithFileBrowserAndCopyToCategory(String p_directory)
+@@ -903,7 +920,7 @@ void PatchBrowser::loadPatchWithFileBrowserAndCopyToCategory(String p_directory)
  				ConfigFileManager::getInstance().saveDataToFile();
  
  				if (copy_target.existsAsFile()) {
@@ -534,7 +820,7 @@ index 0fb667f5..432bca9a 100644
  					                            "The preset you're trying to import already exists in this category, "
  					                            "please choose a different category name "
 diff --git a/Source/gui/PatchBrowserSelector.cpp b/Source/gui/PatchBrowserSelector.cpp
-index fef6b8a3..314589be 100644
+index fef6b8a3..b163e591 100644
 --- a/Source/gui/PatchBrowserSelector.cpp
 +++ b/Source/gui/PatchBrowserSelector.cpp
 @@ -139,7 +139,7 @@ void PatchBrowserSelector::paint(Graphics &g) {
@@ -552,7 +838,7 @@ index fef6b8a3..314589be 100644
  				m_entries.back()->onRightClick = [&, return_string, file_index]() {
 -					int selected = m_menu.show();
 -
-+					m_menu.showMenuAsync(PopupMenu::Options{}, [&](int selected) {
++					m_menu.showMenuAsync(PopupMenu::Options{}.withParentComponent(getTopLevelComponent()), [&](int selected) {
  					DBG_VAR(file_index);
  
  					if (selected == PATCH_BROWSER_MENU_ENTRY_DELETE) {
@@ -565,7 +851,7 @@ index fef6b8a3..314589be 100644
  				m_entries.back()->applyRenaming = [&](String p_old_name, String p_new_name) { applyRenamingSelector(getDirectory(), p_old_name, p_new_name); };
  			}
 diff --git a/Source/gui/SyncTimeSelector.cpp b/Source/gui/SyncTimeSelector.cpp
-index 3e9d73e2..684f8640 100644
+index 3e9d73e2..475a349c 100644
 --- a/Source/gui/SyncTimeSelector.cpp
 +++ b/Source/gui/SyncTimeSelector.cpp
 @@ -40,7 +40,7 @@ SyncTimeSelector::SyncTimeSelector(UIAssets::Indices p_asset) :
@@ -573,65 +859,134 @@ index 3e9d73e2..684f8640 100644
  	m_dropdown.addItem(130, "1 / 32T");
  
 -	m_display.onMouseDown = [&]() { setValuesFromDropdown(m_dropdown.show()); };
-+	m_display.onMouseDown = [&]() { m_dropdown.showMenuAsync({}, [&](auto code) { setValuesFromDropdown(code); }); };
++	m_display.onMouseDown = [&]() { m_dropdown.showMenuAsync(PopupMenu::Options{}.withParentComponent(getTopLevelComponent()), [&](auto code) { setValuesFromDropdown(code); }); };
  
  	m_dropdown.setLookAndFeel(&m_menu_feels);
  
 diff --git a/Source/gui/TuningComponent.cpp b/Source/gui/TuningComponent.cpp
-index 5bf443d6..93cb4d50 100644
+index 5bf443d6..1b17afea 100644
 --- a/Source/gui/TuningComponent.cpp
 +++ b/Source/gui/TuningComponent.cpp
-@@ -114,6 +114,7 @@ void TuningComponent::exportSCLFileWithFileBrowser() {
+@@ -113,34 +113,33 @@ void TuningComponent::exportSCLFileWithFileBrowser() {
+ 			    File file_to_write(file_name);
  
  			    //check whether file already exists
- 			    if (file_to_write.existsAsFile()) {
-+					/*
- 				    if (!(AlertWindow::showOkCancelBox(AlertWindow::WarningIcon,
- 				                                       "File already exists!",
- 				                                       "Are you sure you want to overwrite it?",
-@@ -123,6 +124,7 @@ void TuningComponent::exportSCLFileWithFileBrowser() {
- 					    //user selected cancel
- 					    return;
+-			    if (file_to_write.existsAsFile()) {
+-				    if (!(AlertWindow::showOkCancelBox(AlertWindow::WarningIcon,
+-				                                       "File already exists!",
+-				                                       "Are you sure you want to overwrite it?",
+-				                                       {},
+-				                                       {},
+-				                                       {}))) {
+-					    //user selected cancel
+-					    return;
++			    auto doWriteScl = [this, file_to_write]() mutable {
++				    ConfigFileManager::getInstance().saveDataToFile();
++				    ConfigFileManager::getInstance().setOptionTuningDir(
++				        file_to_write.getParentDirectory().getFullPathName());
++				    FileOutputStream file_stream(file_to_write);
++				    if (file_stream.openedOk()) {
++					    DBG("Writing tuning file to " << file_to_write.getFullPathName());
++					    file_stream.setPosition(0);
++					    file_stream << String(m_processor.m_tuning.scale.rawText);
++					    file_stream.flush();
++				    } else {
++					    AlertWindow::showMessageBoxAsync(
++					        AlertWindow::AlertIconType::WarningIcon,
++					        "Unable to save file!",
++					        "Please make sure you have proper write-permissions for the selected directory!");
  				    }
-+				    */
- 			    }
- 			    FileOutputStream file_stream(file_to_write);
- 
-@@ -137,7 +139,7 @@ void TuningComponent::exportSCLFileWithFileBrowser() {
- 				    file_stream.flush();
- 				    //savePatchInOpenedFileStream(file_stream);
+-			    }
+-			    FileOutputStream file_stream(file_to_write);
+-
+-			    ConfigFileManager::getInstance().saveDataToFile();
+-			    ConfigFileManager::getInstance().setOptionTuningDir(
+-			        file_to_write.getParentDirectory().getFullPathName());
+-
+-			    if (file_stream.openedOk()) {
+-				    DBG("Writing tuning file to " << file_to_write.getFullPathName());
+-				    file_stream.setPosition(0);
+-				    file_stream << String(m_processor.m_tuning.scale.rawText);
+-				    file_stream.flush();
+-				    //savePatchInOpenedFileStream(file_stream);
++			    };
++			    if (file_to_write.existsAsFile()) {
++				    AlertWindow::showOkCancelBox(
++				        AlertWindow::WarningIcon, "File already exists!",
++				        "Are you sure you want to overwrite it?",
++				        {}, {}, nullptr,
++				        ModalCallbackFunction::create([doWriteScl](int result) mutable {
++					        if (result) doWriteScl();
++				        }));
  			    } else {
 -				    AlertWindow::showMessageBox(
-+				    AlertWindow::showMessageBoxAsync(
- 				        AlertWindow::AlertIconType::WarningIcon,
- 				        "Unable to save file!",
- 				        "Please make sure you have proper write-permissions for the selected directory!");
-@@ -174,6 +176,7 @@ void TuningComponent::exportKBMFileWithFileBrowser() {
+-				        AlertWindow::AlertIconType::WarningIcon,
+-				        "Unable to save file!",
+-				        "Please make sure you have proper write-permissions for the selected directory!");
++				    doWriteScl();
+ 			    }
+ 		    }
+ 	    });
+@@ -173,33 +172,33 @@ void TuningComponent::exportKBMFileWithFileBrowser() {
+ 			    File file_to_write(file_name);
  
  			    //check whether file already exists
- 			    if (file_to_write.existsAsFile()) {
-+					/*
- 				    if (!(AlertWindow::showOkCancelBox(AlertWindow::WarningIcon,
- 				                                       "File already exists!",
- 				                                       "Are you sure you want to overwrite it?",
-@@ -183,6 +186,7 @@ void TuningComponent::exportKBMFileWithFileBrowser() {
- 					    //user selected cancel
- 					    return;
+-			    if (file_to_write.existsAsFile()) {
+-				    if (!(AlertWindow::showOkCancelBox(AlertWindow::WarningIcon,
+-				                                       "File already exists!",
+-				                                       "Are you sure you want to overwrite it?",
+-				                                       {},
+-				                                       {},
+-				                                       {}))) {
+-					    //user selected cancel
+-					    return;
++			    auto doWriteKbm = [this, file_to_write]() mutable {
++				    ConfigFileManager::getInstance().setOptionTuningDir(
++				        file_to_write.getParentDirectory().getFullPathName());
++				    ConfigFileManager::getInstance().saveDataToFile();
++				    FileOutputStream file_stream(file_to_write);
++				    if (file_stream.openedOk()) {
++					    DBG("Writing kbm mapping file to " << file_to_write.getFullPathName());
++					    file_stream.setPosition(0);
++					    file_stream << String(m_processor.m_tuning.keyboardMapping.rawText);
++					    file_stream.flush();
++				    } else {
++					    AlertWindow::showMessageBoxAsync(
++					        AlertWindow::AlertIconType::WarningIcon,
++					        "Unable to save file!",
++					        "Please make sure you have proper write-permissions for the selected directory!");
  				    }
-+				    */
- 			    }
- 			    FileOutputStream file_stream(file_to_write);
- 
-@@ -196,7 +200,7 @@ void TuningComponent::exportKBMFileWithFileBrowser() {
- 				    file_stream << String(m_processor.m_tuning.keyboardMapping.rawText);
- 				    file_stream.flush();
+-			    }
+-			    FileOutputStream file_stream(file_to_write);
+-
+-			    ConfigFileManager::getInstance().setOptionTuningDir(
+-			        file_to_write.getParentDirectory().getFullPathName());
+-			    ConfigFileManager::getInstance().saveDataToFile();
+-
+-			    if (file_stream.openedOk()) {
+-				    DBG("Writing kbm mapping file to " << file_to_write.getFullPathName());
+-				    file_stream.setPosition(0);
+-				    file_stream << String(m_processor.m_tuning.keyboardMapping.rawText);
+-				    file_stream.flush();
++			    };
++			    if (file_to_write.existsAsFile()) {
++				    AlertWindow::showOkCancelBox(
++				        AlertWindow::WarningIcon, "File already exists!",
++				        "Are you sure you want to overwrite it?",
++				        {}, {}, nullptr,
++				        ModalCallbackFunction::create([doWriteKbm](int result) mutable {
++					        if (result) doWriteKbm();
++				        }));
  			    } else {
 -				    AlertWindow::showMessageBox(
-+				    AlertWindow::showMessageBoxAsync(
- 				        AlertWindow::AlertIconType::WarningIcon,
- 				        "Unable to save file!",
- 				        "Please make sure you have proper write-permissions for the selected directory!");
-@@ -254,7 +258,7 @@ void TuningComponent::importKBMFromFileBrowser(String p_directory,
+-				        AlertWindow::AlertIconType::WarningIcon,
+-				        "Unable to save file!",
+-				        "Please make sure you have proper write-permissions for the selected directory!");
++				    doWriteKbm();
+ 			    }
+ 		    }
+ 	    });
+@@ -254,7 +253,7 @@ void TuningComponent::importKBMFromFileBrowser(String p_directory,
  		try {
  			kbm_from_file = Tunings::readKBMFile(file_name.toStdString());
  		} catch (...) {
@@ -640,7 +995,7 @@ index 5bf443d6..93cb4d50 100644
  			                            "Unable to read keyboard mapping!",
  			                            "Please make sure the file is a proper keyboard mapping file!");
  			return;
-@@ -297,7 +301,7 @@ void TuningComponent::importSCLFromFileBrowser(String p_directory,
+@@ -297,7 +296,7 @@ void TuningComponent::importSCLFromFileBrowser(String p_directory,
  		try {
  			scale_from_file = Tunings::readSCLFile(file_name.toStdString());
  		} catch (...) {
@@ -650,7 +1005,7 @@ index 5bf443d6..93cb4d50 100644
  			                            "Please make sure the file is a proper Scala file!");
  			return;
 diff --git a/Source/gui/WaveformSelectorComponent.cpp b/Source/gui/WaveformSelectorComponent.cpp
-index 858f10af..6d48b5f1 100644
+index 858f10af..8bdf8051 100644
 --- a/Source/gui/WaveformSelectorComponent.cpp
 +++ b/Source/gui/WaveformSelectorComponent.cpp
 @@ -36,7 +36,7 @@ WaveformSelectorComponent::WaveformSelectorComponent(bool p_buttons_right) : m_u
@@ -658,7 +1013,7 @@ index 858f10af..6d48b5f1 100644
  	m_down.onClick = [&]() { increment(); };
  
 -	m_display.onMouseDown = [&]() { setValue(m_menu.show()); };
-+	m_display.onMouseDown = [&]() { m_menu.showMenuAsync({}, [&](auto code) { setValue(code); }); };
++	m_display.onMouseDown = [&]() { m_menu.showMenuAsync(PopupMenu::Options{}.withParentComponent(getTopLevelComponent()), [&](auto code) { setValue(code); }); };
  
  	m_buttons_right = p_buttons_right;
  
