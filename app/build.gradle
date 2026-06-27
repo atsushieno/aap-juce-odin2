@@ -43,6 +43,7 @@ android {
         implementation libs.aap.ui.web
         implementation libs.aap.ui.compose
         implementation libs.aap.ui.compose.app
+        implementation libs.aap.js.controller
     }
 
     externalNativeBuild {
