@@ -8,6 +8,7 @@ android {
     compileSdk = libs.versions.android.compileSdk.get().toInteger()
 
     defaultConfig {
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         applicationId "org.androidaudioplugin.ports.juce.odin2"
         minSdk = libs.versions.android.minSdk.get().toInteger()
         targetSdk = libs.versions.android.targetSdk.get().toInteger()
@@ -37,6 +38,9 @@ android {
     }
 
     dependencies {
+        androidTestImplementation "androidx.test:runner:1.7.0"
+        androidTestImplementation "androidx.test:rules:1.7.0"
+        androidTestImplementation "junit:junit:4.13.2"
         implementation libs.androidx.core.ktx
         implementation libs.startup.runtime
         implementation libs.aap.core
